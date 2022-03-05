@@ -15,5 +15,9 @@ public interface userMapper {
 	memberVO selectUser(loginVO loginvo);
 
 	memberVO findUserid(@Param("username")String username,@Param("userphone")String userphone);
+
+	memberVO findUserpass(joinVO joinvo);
+
+	void changePassword(@Param("userid")String userid,@Param("passwordCode") String passwordCode);
 	
 }

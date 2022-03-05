@@ -52,7 +52,34 @@
 	AND
 		userphone=#{userphone}
 	]]>
-	
 	</select>
+	
+	<select id="findUserpass" resultType="ShoeKream.user.VO.memberVO">
+	<![CDATA[
+	SELECT
+		userid
+	FROM
+		sk_user
+	WHERE
+	 	username = #{username}
+	 And
+	 	userphone = #{userphone}
+	 And
+	 	userid = #{userid}
+	]]>
+
+	</select>
+	
+	<update id="changePassword">
+	<![CDATA[
+	UPDATE
+		sk_user
+	SET
+		userpass = #{passwordCode}
+	WHERE
+		userid = #{userid}
+	]]>
+	
+	</update>
 
 </mapper>

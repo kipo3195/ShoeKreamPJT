@@ -102,6 +102,35 @@ public class userController {
 		
 	}
 	
+	//비밀번호 찾기 페이지
+	@RequestMapping("/finduserpass")
+	public String finduserpass() throws Exception{
+		
+		return "member/finduserpass";
+	}
+	
+	//비밀번호 찾기 요청
+	@RequestMapping("/finduserpassRequest")
+	public ModelAndView finduserpassRequest(joinVO joinvo) throws Exception{
+		
+		memberVO member = userservice.findUserpass(joinvo);
+		
+		
+		//입력한 정보에 맞는 계정이 존재하지 않으면
+		if(member == null) {
+			ModelAndView mv = new ModelAndView("redirect:/finduserpass");
+			
+			//경고창에 출력할 메시지 추가해야함.
+			
+			return mv;
+		}
+			//일치하는 계정이 존재하면 view등록 및 비밀 번호 코드 전송
+			ModelAndView mv = new ModelAndView("member/insertpasscode");
+			userservice.SendaPasswordCode(joinvo);
+			
+		return mv;
+	}
+	
 
 	
 	
