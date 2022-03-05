@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+<head th:replace="layout/header::html-head">
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div th:replace="layout/header::header-nav-user"></div>
+<div th:replace="layout/header::header-nav-common"></div>
+
+<div th:if="${userid != null}" style="text-align: center">
+	<form action="ShoeKream/login">
+		<table class="container" style="border-collapse: separate;border-spacing: 0 15px;">
+			<tr>
+				<td><h2> 가입하신 고객님의 아이디는 아래와 같습니다</h2></td>
+				
+			</tr>
+			<tr>
+				<td><h4 th:text="${userid}"></h4></td>		
+			</tr>
+			<tr>
+				<td><input type="submit" value="로그인 하러가기" style="width: 250px"></td>
+			</tr>
+		</table>
+	</form>
+	
+</div>
+<div th:unless="${userid != null}">
+	<form action="finduserid">
+		<table class="container" style="border-collapse: separate;border-spacing: 0 15px;">
+			<tr>
+				<td><h2> 해당되는 정보와 일치하는 아이디를 찾을 수 없습니다.</h2></td>
+			</tr>
+			<tr>
+				<td><h4> 정보를 다시 확인하시고 입력해주세요.</h4></td>
+			</tr>
+			<tr>
+				<td><input type="submit" value="돌아가기" style="width: 250px"></td>
+			</tr>
+		</table>
+	</form>
+</div>
+
+<div th:replace="layout/footer::footer"></div>
+</body>
+</html>

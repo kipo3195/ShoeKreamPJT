@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head th:replace="layout/header::html-head">
+</head>
+<body>
+<div th:replace="layout/header::header-nav-user"></div>
+<div th:replace="layout/header::header-nav-common"></div>
+
+<div style="text-align: center">
+<form action="/joinRequest" method="post">
+	<table class="container" style="border-collapse: separate;border-spacing: 0 15px;">
+		<tr>
+			<td><h1>회원가입</h1></td>
+		</tr>
+	
+		<tr>
+			<td width="250">
+				<h5>이메일 주소</h5>
+				<input type="text" placeholder="예) ShoeKream@naver.com" style="width:250px;" required="required" autocomplete="off" id="userid" name="userid">
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<h5>비밀번호 입력</h5>
+				<input type="password" id="userpass" name="userpass" style="width:250px" placeholder="영문, 특수문자 포함 8 ~ 12자">
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<h5>비밀번호 입력확인</h5>
+				<input type="password" id="userpass1" name="userpass1" style="width:250px">
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<h5>이 름</h5>
+				<input type="text"  style="width:250px;" required="required" autocomplete="off" id="username" name="username" >
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<h5>전화번호</h5>
+				<input type="text"  style="width:250px;" required="required" autocomplete="off" id="userphone" name="userphone" placeholder="  -을 제외한 번호만 입력해주세요.">
+			</td>
+		</tr>
+		<tr>
+			 <td>
+			 	<input type="submit" value="회원가입"/>
+			 </td>
+		</tr>
+		
+	</table>
+</form>
+</div>
+
+   	<!-- footer 삽입 -->
+     <div th:replace="layout/footer::footer"> </div>  
+
+
+</body>
+</html>

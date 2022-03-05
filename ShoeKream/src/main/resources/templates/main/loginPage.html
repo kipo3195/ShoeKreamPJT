@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head th:replace="layout/header::html-head">
+</head>
+<body>
+<div th:replace="layout/header::header-nav-user"></div>
+<div th:replace="layout/header::header-nav-common"></div>
+
+<div style="text-align: center;">
+<form action="/loginRequest" method="post">
+	<table class="container" style="border-collapse: separate;border-spacing: 0 15px;">
+		<tr>
+			<td><h2>로그인</h2></td>
+		</tr>
+		
+		
+		<tr th:if="${memberCookieid != null}">
+			<td width="250">
+				<h4>이메일 주소</h4>
+				<input type="text" th:value="${memberCookieid}" style="width:250px;" required="required" autocomplete="off" id="userid" name="userid">
+			</td>
+		</tr>
+		
+		<tr th:unless="${memberCookieid != null}">
+			<td width="250">
+				<h4>이메일 주소</h4>
+				<input type="text" placeholder="예) ShoeKream@naver.com" style="width:250px;" required="required" autocomplete="off" id="userid" name="userid">
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<h4>비밀번호 입력</h4>
+				<input type="password" id="userpass" name="userpass" style="width:250px">
+			</td>
+		</tr>
+		
+		<tr>
+			 <td>
+			 	<input type="checkbox" name="idcookie"/> 아이디 저장
+			 </td>
+		</tr>
+	
+		<tr>
+			 <td>
+			 	<input type="submit" value="로그인"/>
+			 </td>
+		</tr>
+		
+	</table>
+</form>
+</div>
+
+<div class="container">
+	<ul  class="container" style="text-align: center;">
+		<li style="list-style: none;display: inline-block;"><a href="/finduserid" style="color: gray;text-decoration: none">이메일 찾기</a></li>
+		<li style="list-style: none;display: inline-block;"><a href="#" style="color: gray;text-decoration: none">비밀번호 찾기</a></li>
+	</ul>
+</div>
+
+
+<div style="text-align: center">
+	<table class="container" style="border-collapse: separate;border-spacing: 0 15px;">
+		<tr>
+			<td>
+				<input type="button" value="네이버로 로그인" style="width: 190px">
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="button" value="카카오로 로그인" style="width: 190px">
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="button" value="구글 계정으로 로그인" style="width: 190px">
+			</td>
+		</tr>
+	
+	</table>
+
+</div>
+
+   	<!-- footer 삽입 -->
+     <div th:replace="layout/footer::footer"> </div>  
+
+</body>
+</html>
