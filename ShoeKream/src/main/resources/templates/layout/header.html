@@ -25,7 +25,7 @@
    		<div th:if ="${session.member != null}">
 			    	<ul class="nav" style="justify-content: end">
 			    			<li class="nav-item">
-			    				<a class="nav-link" href="/ShoeKream/customer">고객센터</a>
+			    				<a class="nav-link" href="/ShoeKream/community">고객센터</a>
 			    			</li>
 			    			<li class="nav-item"><!-- 클릭시 마이페이지로 이동하기! -->
 			    				<a class="nav-link" href="#" th:text="${session.member.username}"></a>		    	
@@ -38,7 +38,7 @@
     	  <div th:unless ="${session.member != null}">
 			    	<ul class="nav" style="justify-content: end">
 			    			<li class="nav-item">
-			    				<a class="nav-link" href="/ShoeKream/customer">고객센터</a>
+			    				<a class="nav-link" href="/ShoeKream/community">고객센터</a>
 			    			</li>
 			    			<li class="nav-item">
 			    				<a class="nav-link" href="/ShoeKream/join">회원가입</a>

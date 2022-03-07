@@ -48,10 +48,10 @@ public class mainController {
 	}
 	
 	//고객센터
-	@GetMapping("ShoeKream/customer")
+	@GetMapping("ShoeKream/community")
 	public String CustomerPage() throws Exception{
 		
-		return "main/customerPage";
+		return "community/communityPage";
 	}
 	
 }

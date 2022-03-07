@@ -49,6 +49,8 @@ public class userController {
 			
 			session.setAttribute("member", null);
 			//rttr.addFlashAttribute("msg",false); 나중에 자바스크립트 활용해서 alert문구 만들때 활용하기
+			
+			return "redirect:/ShoeKream/login";
 		}else {
 			
 			// 쿠키 등록
