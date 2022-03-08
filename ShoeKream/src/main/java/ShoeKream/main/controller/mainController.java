@@ -1,15 +1,27 @@
 package ShoeKream.main.controller;
 
+import java.util.List;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+
+
+import ShoeKream.communityBoard.VO.communityBoardVO;
+import ShoeKream.communityBoard.service.communityBoardService;
+
 @Controller
 public class mainController {
+	
+	
 	
 	//메인페이지
 	@GetMapping("/ShoeKream")
@@ -47,11 +59,22 @@ public class mainController {
 		return "main/loginPage";
 	}
 	
-	//고객센터
+	
+	
+	@Autowired
+	private communityBoardService cbs;
+	//고객센터 페이지 이동
 	@GetMapping("ShoeKream/community")
-	public String CustomerPage() throws Exception{
+	public ModelAndView CustomerPage(HttpServletRequest req) throws Exception{
 		
-		return "community/communityPage";
+		ModelAndView mv = new ModelAndView("community/communityPage");
+		
+		List<communityBoardVO> list = cbs.selectboardList();
+
+		mv.addObject("list", list);
+		
+		return mv;
+	
 	}
 	
 }

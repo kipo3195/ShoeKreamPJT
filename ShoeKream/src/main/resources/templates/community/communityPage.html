@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="ko" xmlns:th="http://thymeleaf.org">
 
 	<head th:replace="layout/header::html-head"></head>
 
@@ -7,12 +7,86 @@
 <div th:replace="layout/header::header-nav-user"></div>
 <div th:replace="layout/header::header-nav-common"></div>
 
-<div th:replace="layout/boardnav::board-nav"></div>
 
+	<!-- 고객센터 nav -->
+	<div th:replace="layout/boardnav::board-nav"></div>
+	
+	<!-- 전송이 완료된 메시지가 있다면 출력 -->
+	<script th:inline="javascript">
+    
+    /*<![CDATA[*/
+    var msg = /*[[${msg}]]*/  "default";
+    if(msg != null){  	
+    alert(msg);
+    }
+    /*]]>*/
+    
+</script>
 
-커뮤니티 메인
+	
+	<!--  페이지에 따라 변경되는 section --> 
+
+		<div class="container" style="float:left; padding:30px; width:85%;border: 1px solid black;overflow: auto; " >
+			<h2 style="margin:20;">공지사항</h2>
+			<hr style="height:3px;background-color: #333;"/>
+			
+			<table class="board_list" style="border-collapse: separate;border-spacing: 0 13px;">
+				<colgroup>
+						<col width="170px"/>
+						<col width="550px"/>
+						<col width="50px"/>
+						<col width="150px"/>			
+				</colgroup>
+				<thead>
+						<tr>
+								<th scope="col">알림</th>
+								<th scope="col">제목</th>
+								<th scope="col"  style="text-align: center;">조회수</th>
+								<th scope="col"  style="text-align: center;">작성자</th>
+								<th scope="col" style="text-align: center;">작성일</th>
+						</tr>	
+						<!-- 불러올 목록이 없을때 처리 -->
+						<!-- <tr>
+								<td colspan="4">게시물이 존재하지 않습니다.</td>
+						</tr> -->
+						<!--  불러 올 게시물이 존재 할 때 처리 -->
+						<tr th:if="${#lists.size(list)} > 0" th:each="list : ${list}" >
+								<td th:text="${list.cbCategory}"></td>
+								<td class="title"><!--  게시물 상세보기 클릭 -->
+									<a href="/ShoeKream/noticeDetail?cbNo="
+									th:attrappend="href=${list.cbNo}"
+									th:text=${list.cbTitle}
+									style="text-decoration: none;color: gray;">
+									</a>
+								</td>
+								<td th:text="${list.cbhitCnt}" style="text-align: center;"></td>
+								<td th:text="${list.creatorId}"  style="text-align: center;"></td>
+								<!-- TODO 오늘 날짜가 지난 게시물이라면 날짜만 표기, 당일 게시글은 시간까지 표기해보기 -->
+								<td th:text="${#strings.replace(list.createdDatetime,'T',' ')}"></td> 
+						</tr>
+				</thead>	
+			
+					
+			</table>
+			
+				
+			<!-- 페이징 처리 -->
+			<div style="float:left;width:85%;border:1px solid  black; text-align: center;height: 15%;">
+					페이징 처리 나올 부분
+			</div>
+				
+			<!-- 관리자일때 만 보여지도록 처리 완료 0308-->
+			<div th:if="${session.member.username == 'admin'}" style="float:left;width:85%;border:1px solid  black;">
+						 <a href ="createNoticePage" style="text-decoration: none; color:gray" >글 쓰기</a>
+			</div>
+		
+		</div>
+	
+	
+	
+
 
    <!-- footer 삽입 -->
-     <div th:replace="layout/footer::footer"> </div>  
+     <footer th:replace="layout/footer::footer"> </footer>  
 </body>
 </html>

@@ -3,15 +3,25 @@
 
 	<head th:replace="layout/header::html-head"></head>
 
-</head>
 <body>
-	<div th:replace="layout/header::header-nav-user"></div>
-	<div th:replace="layout/header::header-nav-common"></div>
+<div th:replace="layout/header::header-nav-user"></div>
+<div th:replace="layout/header::header-nav-common"></div>
 
-<div th:replace="layout/boardnav::board-nav"></div>
-	묻고 답하기 메인
+
+	<!-- 고객센터 nav -->
+	<div th:replace="layout/boardnav::board-nav"></div>
 	
-	
-	<div th:replace="layout/footer::footer"> </div>  
+	<!--  페이지에 따라 변경되는 section --> 
+	<div style=" margin:0 auto;">
+		<div style="float:left; padding:30px; width:85%;border: 1px solid black; ">
+			<h2 style="margin:20;">묻고 답하기</h2>
+			<hr style="float:none;height:3px;background-color: #333;"/>
+			
+		</div>
+	</div>
+
+
+   <!-- footer 삽입 -->
+     <footer th:replace="layout/footer::footer"> </footer>  
 </body>
 </html>

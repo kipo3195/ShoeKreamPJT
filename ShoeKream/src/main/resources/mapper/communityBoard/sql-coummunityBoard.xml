@@ -5,5 +5,109 @@
 <mapper namespace="ShoeKream.communityBoard.mapper.communityBoardMapper">
 
 
+<select id="selectBoardList" resultType="ShoeKream.communityBoard.VO.communityBoardVO">
+
+<![CDATA[
 	
+	SELECT 
+		cb_no,
+		cb_category,
+		cb_title,
+		cb_hitcnt,
+		creator_id,
+		created_datetime
+	FROM 
+		sk_cb
+	WHERE 
+		deleted_yn = 'n'
+	ORDER BY cb_no DESC
+]]>
+
+</select>
+
+<insert id="insertNotice" parameterType="ShoeKream.communityBoard.VO.communityBoardVO" >
+
+<![CDATA[
+
+	INSERT INTO sk_cb
+		(
+		cb_title,
+		cb_contents,
+		cb_category,
+		created_datetime,
+		creator_id
+		)
+	VALUES
+		(
+		#{cbTitle},
+		#{cbContents},
+		#{cbCategory},
+		NOW(),
+		'admin'
+		)
+]]>
+</insert>
+
+
+<select id="selectNoticeDetail" parameterType="int" resultType="ShoeKream.communityBoard.VO.communityBoardVO" >
+
+	<![CDATA[
+			SELECT
+				cb_no,
+				cb_category,
+				cb_title,
+				cb_contents,
+				created_datetime,
+				updated_datetime,
+				cb_hitcnt
+			FROM
+					sk_cb
+			WHERE
+				cb_no=#{cbNo} 
+			]]>
+</select>
+
+
+<update id="addnoticeHitCnt" parameterType="int">
+	<![CDATA[
+	UPDATE 
+		sk_cb
+	SET
+		 cb_hitcnt = cb_hitcnt + 1
+	WHERE
+		cb_no = #{cbNo}
+	]]>
+
+</update>
+
+<delete id="deleteNotice" parameterType="int">
+	<![CDATA[
+	DELETE 
+	FROM 
+		sk_cb
+	WHERE
+		cb_no = #{cbNo}
+	
+	]]>
+
+</delete>
+
+<update id="updateNotice" parameterType="ShoeKream.communityBoard.VO.communityBoardVO">
+
+<![CDATA[
+UPDATE sk_cb
+SET 
+	cb_title = #{cbTitle}, 
+	cb_category = #{cbCategory},
+	cb_contents = #{cbContents},
+	updated_datetime = NOW()
+WHERE
+	cb_no = #{cbNo}
+	
+
+]]>
+
+
+</update>
+
 </mapper>
