@@ -35,24 +35,28 @@
 					</tr>
 					<tr>
 						<td></td>
-						<td>
+							<td>
 							<!-- 관리자에게만 노출 되는 수정하기와 삭제하기 -->
-							<div th:switch="${session.member.username}">
-								<input type="button" value="수정하기" style="width:100px;background-color:#28D308;color:white" onclick="detail_click('update')">
-								<input type="button" value="삭제하기" style="width:100px;background-color:#F11A44;" onclick="detail_click('delete')">
-								<input type="button" value="목록으로" style="width:100px;background-color:#0439CA;color:white" onclick="detail_click('main')">
-							    게시물 최종 수정일 <h7 th:text="${cbvo.updatedDatetime}"></h7>
-							</div>
-						</td>
-						<td>
 							<div th:if="${session.member == null}">
-							<input type="button" value="목록으로" style="width:100px;background-color:#0439CA;color:white" onclick="detail_click('main')">
-						    게시물 최종 수정일 <h7 th:text="${cbvo.updatedDatetime}"></h7>						
-							</div>
+												<input type="button" value="목록으로" style="width:100px;background-color:#0439CA;color:white" onclick="detail_click('main')">
+												    게시물 최종 수정일 <h7 th:text="${cbvo.updatedDatetime}"></h7>
+										</div>
+							<div th:if="${session.member != null}">
+								  <div th:switch="${session.member.username}">
+								  		<div th:case="admin">
+												<input type="button" value="목록으로" style="width:100px;background-color:#0439CA;color:white" onclick="detail_click('main')">
+												<input type="button" value="수정하기" style="width:100px;background-color:#28D308;color:white" onclick="detail_click('update')">
+												<input type="button" value="삭제하기" style="width:100px;background-color:#F11A44;" onclick="detail_click('delete')">
+						    					게시물 최종 수정일 <h7 th:text="${cbvo.updatedDatetime}"></h7>	
+						  		  		</div>
+						  		  		<span th:case="*">
+											    <input type="button" value="목록으로" style="width:100px;background-color:#0439CA;color:white" onclick="detail_click('main')">
+						  		  		</span>
+									</div>
+								</div>
 						</td>
 					</tr>
 				</table>
-		
 			
 	</div>
 	

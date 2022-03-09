@@ -26,7 +26,7 @@
 	
 	<!--  페이지에 따라 변경되는 section --> 
 
-		<div class="container" style="float:left; padding:30px; width:85%;border: 1px solid black;overflow: auto; " >
+		<div class="container" style="float:left; padding:30px; width:85%;border: 1px solid black;height:auto; " >
 			<h2 style="margin:20;">공지사항</h2>
 			<hr style="height:3px;background-color: #333;"/>
 			
@@ -71,18 +71,23 @@
 			
 				
 			<!-- 페이징 처리 -->
-			<div style="float:left;width:85%;border:1px solid  black; text-align: center;height: 15%;">
-					페이징 처리 나올 부분
+			<div style="float:left;width:85%	; text-align: center;height: 15%;">
+			
+				<< <  1  2  3  4  5  > >>
+		
+		
+		
+		
 			</div>
 			<!-- 관리자일때 만 보여지도록 처리 수정완료! 0309-->
 			<div th:if="${session.member == null}">
 			</div>
 			<div th:unless="${session.member == null}" >
-				<div th:switch="${session.member.username}" style="float:left;width:85%;border:1px solid  black;">
-							 <span th:case="admin"><a href ="createNoticePage" style="text-decoration: none; color:gray" >글 쓰기</a></span>
+				<div th:switch="${session.member.username}" style="float:left;width:85%;">
+							 <span th:case="admin"><a href ="createNoticePage" style="text-decoration: none; color:gray" >공지사항 작성하기</a></span>
 							 <span th:case="*"></span>
 				</div>
-			</div>
+			 </div>
 		</div>
 
    <!-- footer 삽입 -->
