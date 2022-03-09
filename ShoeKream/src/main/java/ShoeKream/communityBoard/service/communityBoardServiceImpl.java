@@ -18,9 +18,9 @@ public class communityBoardServiceImpl implements communityBoardService {
 	
 	
 	@Override
-	public List<communityBoardVO> selectboardList()throws Exception {
+	public List<communityBoardVO> selectboardList(int startPage)throws Exception {
 
-		List<communityBoardVO> list = cbm.selectBoardList();
+		List<communityBoardVO> list = cbm.selectBoardList(startPage);
 		
 		return list;
 	}
@@ -71,6 +71,14 @@ public class communityBoardServiceImpl implements communityBoardService {
 		
 		cbm.addnoticeHitCnt(cbNo);
 		
+	}
+
+
+
+	@Override
+	public int totalCommunityBoardCount() throws Exception {
+		int count = cbm.totalCommunityBoardCount();
+		return count;
 	}
 	
 	

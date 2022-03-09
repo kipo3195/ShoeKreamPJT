@@ -9,7 +9,7 @@ import ShoeKream.communityBoard.VO.communityBoardVO;
 
 public interface communityBoardService {
 
-	List<communityBoardVO> selectboardList() throws Exception;
+	List<communityBoardVO> selectboardList(int startPage) throws Exception;
 
 	Integer createNotice(communityBoardVO cbvo) throws Exception;
 
@@ -20,5 +20,7 @@ public interface communityBoardService {
 	Integer updateNotice(communityBoardVO cbv)throws Exception;
 
 	void addnoticeHitCnt(int cbNo)throws Exception;
+
+	int totalCommunityBoardCount()throws Exception;
 
 }

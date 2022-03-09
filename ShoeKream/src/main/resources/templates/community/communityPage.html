@@ -73,9 +73,11 @@
 			<!-- 페이징 처리 -->
 			<div style="float:left;width:85%	; text-align: center;height: 15%;">
 			
-				<< <  1  2  3  4  5  > >>
-		
-		
+				<a th:href="@{/ShoeKream/community(page=${pm.startPage})}">1</a>
+				<a th:href="@{/ShoeKream/community(page=2)}">2</a>
+				<a th:href="@{/ShoeKream/community(page=2)}">2</a>
+				
+			<!--  0310 여기서부터 시작 반복문 부터 돌려! -->
 		
 		
 			</div>
@@ -91,6 +93,6 @@
 		</div>
 
    <!-- footer 삽입 -->
-     <footer th:replace="layout/footer::footer"> </footer>  
+    <!--  <footer th:replace="layout/footer::footer"> </footer>   -->
 </body>
 </html>

@@ -5,7 +5,7 @@
 <mapper namespace="ShoeKream.communityBoard.mapper.communityBoardMapper">
 
 
-<select id="selectBoardList" resultType="ShoeKream.communityBoard.VO.communityBoardVO">
+<select id="selectBoardList" parameterType="int" resultType="ShoeKream.communityBoard.VO.communityBoardVO">
 
 <![CDATA[
 	
@@ -21,6 +21,8 @@
 	WHERE 
 		deleted_yn = 'n'
 	ORDER BY cb_no DESC
+	LIMIT #{startPage}, 10
+	
 ]]>
 
 </select>
@@ -110,4 +112,10 @@ WHERE
 
 </update>
 
+
+<select id="totalCommunityBoardCount" resultType="int">
+SELECT count(*)
+FROM sk_cb
+
+</select>
 </mapper>

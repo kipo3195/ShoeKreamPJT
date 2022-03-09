@@ -11,11 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 
 
 import ShoeKream.communityBoard.VO.communityBoardVO;
+import ShoeKream.communityBoard.paging.Criteria;
+import ShoeKream.communityBoard.paging.PageMaker;
 import ShoeKream.communityBoard.service.communityBoardService;
 
 @Controller
@@ -65,16 +69,41 @@ public class mainController {
 	private communityBoardService cbs;
 	//고객센터 페이지 이동
 	@GetMapping("ShoeKream/community")
-	public ModelAndView CustomerPage(HttpServletRequest req) throws Exception{
+	public ModelAndView CustomerPage(HttpServletRequest req,@RequestParam(value="page",required = false)String page) throws Exception{
 		
 		ModelAndView mv = new ModelAndView("community/communityPage");
 		
-		List<communityBoardVO> list = cbs.selectboardList();
+		
+		int startPage;
+		if(page == null) {
+			// 고객센터 메인페이지 처음 접근시
+			 startPage = 1;
+		}else {
+			// 페이지 요청
+			 startPage = Integer.parseInt(page);
+		}
+		
+		System.out.println("startPage : "+ startPage);
+		
+		//페이징 처리 
+		int totalCount = cbs.totalCommunityBoardCount(); //현재의 모든 게시물의 수 파악
 
+		Criteria cri = new Criteria(startPage,10); // startPage 변경시 list를 가져올 쿼리의 Limit값을 변경시키기위함
+		
+		PageMaker pm = new PageMaker(cri,totalCount); 
+		System.out.println("pm : "+pm);
+				
+		mv.addObject("pm",pm);
+		
+		//2를 입력받았다면 10번째 부터, 10개를 넣어줘야함. limit 할것 = cri.getPageStart
+		List<communityBoardVO> list = cbs.selectboardList(cri.getPageStart());
+		
 		mv.addObject("list", list);
+
 		
 		return mv;
 	
 	}
+	
 	
 }
