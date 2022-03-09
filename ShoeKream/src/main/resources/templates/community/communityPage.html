@@ -74,17 +74,16 @@
 			<div style="float:left;width:85%;border:1px solid  black; text-align: center;height: 15%;">
 					페이징 처리 나올 부분
 			</div>
-				
-			<!-- 관리자일때 만 보여지도록 처리 완료 0308-->
-			<div th:if="${session.member.username == 'admin'}" style="float:left;width:85%;border:1px solid  black;">
-						 <a href ="createNoticePage" style="text-decoration: none; color:gray" >글 쓰기</a>
+			<!-- 관리자일때 만 보여지도록 처리 수정완료! 0309-->
+			<div th:if="${session.member == null}">
 			</div>
-		
+			<div th:unless="${session.member == null}" >
+				<div th:switch="${session.member.username}" style="float:left;width:85%;border:1px solid  black;">
+							 <span th:case="admin"><a href ="createNoticePage" style="text-decoration: none; color:gray" >글 쓰기</a></span>
+							 <span th:case="*"></span>
+				</div>
+			</div>
 		</div>
-	
-	
-	
-
 
    <!-- footer 삽입 -->
      <footer th:replace="layout/footer::footer"> </footer>  
