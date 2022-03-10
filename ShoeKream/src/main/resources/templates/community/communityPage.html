@@ -26,7 +26,7 @@
 	
 	<!--  페이지에 따라 변경되는 section --> 
 
-		<div class="container" style="float:left; padding:30px; width:85%;border: 1px solid black;height:auto; " >
+		<div class="container" style="float:left; width:85%;height:auto;padding-top: 60px;padding-left: 10px" >
 			<h2 style="margin:20;">공지사항</h2>
 			<hr style="height:3px;background-color: #333;"/>
 			
@@ -71,22 +71,51 @@
 			
 				
 			<!-- 페이징 처리 -->
-			<div style="float:left;width:85%	; text-align: center;height: 15%;">
+			<!-- 맨 앞, 이전 -->
+			<div style="margin:20px 0;">
+			<div style="float:left; width:300px;padding-left: 150px" >
+					<ul style="text-decoration: none;text-align: center;">
+					<li th:if="${pm.first == true}" style="list-style-type: none;float:left;margin-left:40px;margin-right: 30px; ">
+						<a th:href="@{/ShoeKream/community(page=1)}" style="text-decoration: none;font-size: 15pt;color:black;">&lt;&lt;</a>
+					</li>
+					<li th:if="${pm.prev == true}" style="list-style-type: none;float:left;">
+						<a th:href="@{/ShoeKream/community(page=${pm.startPage}-${pm.displayPageNum})}" style="text-decoration: none;font-size: 15pt;color:black;" >&lt;</a>
+					</li>
+				</ul>
+			</div>
 			
-				<a th:href="@{/ShoeKream/community(page=${pm.startPage})}">1</a>
-				<a th:href="@{/ShoeKream/community(page=2)}">2</a>
-				<a th:href="@{/ShoeKream/community(page=2)}">2</a>
-				
-			<!--  0310 여기서부터 시작 반복문 부터 돌려! -->
-		
-		
+			<!-- 페이지 숫자-->
+			<div th:each="num: ${#numbers.sequence({pm.startPage},{pm.endPage})}" style="float:left;">
+				<ul>
+					<li style="list-style-type: none;float:left" >
+						<a id="pageNum" style="text-decoration:none;font-size: 15pt;font-weight: bold;color: #DAD6D6;"
+							th:text="${num}"
+							th:href="@{/ShoeKream/community(page=${num})}">
+						</a>
+					</li>
+				</ul>
+			</div>
+
+
+			
+			<!-- 다음, 맨 뒤 -->
+			<div style="float:left; width:200px;text-align: left;" >
+				<ul style="text-decoration: none">
+					<li th:if="${pm.next == true}" style="list-style-type: none;float:left; margin-right: 30px">
+						 <a th:href="@{/ShoeKream/community(page=${pm.startPage}+${pm.displayPageNum})}" style="text-decoration: none;font-size: 15pt;color:black;">&gt;</a>
+					</li>
+					<li th:if="${pm.last == true}" style="list-style-type: none;float:left;">
+						<a th:href="@{/ShoeKream/community(page=${pm.maxPage})}" style="text-decoration: none;font-size: 15pt;color:black;">&gt;&gt;</a>
+					</li>
+				</ul>
+			</div>
 			</div>
 			<!-- 관리자일때 만 보여지도록 처리 수정완료! 0309-->
 			<div th:if="${session.member == null}">
 			</div>
 			<div th:unless="${session.member == null}" >
-				<div th:switch="${session.member.username}" style="float:left;width:85%;">
-							 <span th:case="admin"><a href ="createNoticePage" style="text-decoration: none; color:gray" >공지사항 작성하기</a></span>
+				<div th:switch="${session.member.username}" style="float:left;width:85%;margin:10px 0 0 0;">
+							 <span th:case="admin"><a href ="createNoticePage" style="text-decoration: none; color:gray;" >공지사항 작성하기</a></span>
 							 <span th:case="*"></span>
 				</div>
 			 </div>

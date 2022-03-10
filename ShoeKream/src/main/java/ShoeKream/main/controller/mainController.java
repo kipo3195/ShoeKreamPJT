@@ -83,7 +83,6 @@ public class mainController {
 			 startPage = Integer.parseInt(page);
 		}
 		
-		System.out.println("startPage : "+ startPage);
 		
 		//페이징 처리 
 		int totalCount = cbs.totalCommunityBoardCount(); //현재의 모든 게시물의 수 파악
@@ -91,7 +90,6 @@ public class mainController {
 		Criteria cri = new Criteria(startPage,10); // startPage 변경시 list를 가져올 쿼리의 Limit값을 변경시키기위함
 		
 		PageMaker pm = new PageMaker(cri,totalCount); 
-		System.out.println("pm : "+pm);
 				
 		mv.addObject("pm",pm);
 		
@@ -100,7 +98,6 @@ public class mainController {
 		
 		mv.addObject("list", list);
 
-		
 		return mv;
 	
 	}
