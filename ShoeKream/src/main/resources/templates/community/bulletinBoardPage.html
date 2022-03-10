@@ -10,15 +10,69 @@
 
 	
 <div th:replace="layout/boardnav::board-nav"></div>
+
+	<script th:inline="javascript">
+	  /*<![CDATA[*/
+    var msg = /*[[${msg}]]*/  "default";
+    if(msg != null){  	
+    alert(msg);
+    }
+    /*]]>*/
+	
+	</script>
+
 	<!--  페이지에 따라 변경되는 section --> 
-	<div style=" margin:0 auto;">
-		<div style="float:left; padding:30px; width:85%;border: 1px solid black; ">
+	<div class="container" style="float:left; width:85%;height:auto;padding-top: 60px;padding-left: 10px" >
 			<h2 style="margin:20;">자유게시판</h2>
 			<hr style="float:none;height:3px;background-color: #333;"/>
 			
-		</div>
+			<table class="board_list" style="border-collapse: separate;border-spacing: 0 13px;">
+			<colgroup>
+						<col width="150px"/>
+						<col width="550px"/>
+						<col width="50px"/>
+						<col width="150px"/>			
+						<col width="200px"/>			
+				</colgroup>
+				<thead>
+						<tr>
+								<th scope="col"  style="text-align: center;">구분</th>
+								<th scope="col" style=" padding-left: 50px;">제목</th>
+								<th scope="col"  style="text-align: center;">조회수</th>
+								<th scope="col"  style="text-align: center;">작성자</th>
+								<th scope="col" style="padding-left: 61.5px">작성일</th>
+								<th scope="col"  style="text-align: center;">공감</th>
+						</tr>	
+						<tr th:if="${#lists.size(list)} > 0" th:each="list : ${list}" >
+								<td th:text="${list.bbCategory}" style="text-align: center"></td>
+								<td class="title"><!--  게시물 상세보기 클릭 -->
+									<a href="/ShoeKream/bulletinDetail?bbNo="
+									th:attrappend="href=${list.bbNo}"
+									th:text=${list.bbTitle}
+									style="text-decoration: none;color: gray;margin-left:20px">
+									</a>
+								</td>
+								<td th:text="${list.bbhitCnt}" style="text-align: center;"></td>
+								<td th:text="${list.creatorname}"  style="text-align: center;"></td>
+								<!-- TODO 오늘 날짜가 지난 게시물이라면 날짜만 표기, 당일 게시글은 시간까지 표기해보기 -->
+								<td th:text="${#strings.replace(list.createdDatetime,'T',' ')}"></td> 
+								<td th:text="${list.likeCnt}" style="text-align: center"></td>
+								<!-- 하트 버튼 만들기 -->
+						</tr>
+						
+				</thead>
+			</table>
+
+			<div th:if="${session.member == null}">
+			</div>
+			<div th:unless="${session.member == null}" >
+				<div th:switch="${session.member.username}" style="float:left;width:85%;margin:10px 0 0 0;">
+							 <span th:case="*"><a href ="createBulletinPage" style="text-decoration: none; color:gray;" >글쓰기</a></span>
+				</div>
+			 </div>
+			
 	</div>
 	
- <footer th:replace="layout/footer::footer"> </footer>  
+<!--  <footer th:replace="layout/footer::footer"> </footer>   -->
 </body>
 </html>

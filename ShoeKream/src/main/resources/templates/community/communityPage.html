@@ -31,16 +31,17 @@
 			<hr style="height:3px;background-color: #333;"/>
 			
 			<table class="board_list" style="border-collapse: separate;border-spacing: 0 13px;">
+
 				<colgroup>
-						<col width="170px"/>
+						<col width="150px"/>
 						<col width="550px"/>
 						<col width="50px"/>
 						<col width="150px"/>			
 				</colgroup>
 				<thead>
 						<tr>
-								<th scope="col">알림</th>
-								<th scope="col">제목</th>
+								<th scope="col" style="text-align: center">알림</th>
+								<th scope="col" style="padding-left:50px">제목</th>
 								<th scope="col"  style="text-align: center;">조회수</th>
 								<th scope="col"  style="text-align: center;">작성자</th>
 								<th scope="col" style="text-align: center;">작성일</th>
@@ -51,12 +52,12 @@
 						</tr> -->
 						<!--  불러 올 게시물이 존재 할 때 처리 -->
 						<tr th:if="${#lists.size(list)} > 0" th:each="list : ${list}" >
-								<td th:text="${list.cbCategory}"></td>
+								<td th:text="${list.cbCategory}" style="text-align: center"></td>
 								<td class="title"><!--  게시물 상세보기 클릭 -->
 									<a href="/ShoeKream/noticeDetail?cbNo="
 									th:attrappend="href=${list.cbNo}"
 									th:text=${list.cbTitle}
-									style="text-decoration: none;color: gray;">
+									style="text-decoration: none;color: gray;margin-left:20px">
 									</a>
 								</td>
 								<td th:text="${list.cbhitCnt}" style="text-align: center;"></td>

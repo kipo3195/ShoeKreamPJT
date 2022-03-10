@@ -4,12 +4,29 @@
 <body>
 	
 	<div th:fragment="board-nav" style=" width: 15%; height: 180px;float:left; padding-top: 30px;padding-left: 10px">
-	<nav >
+	<nav>
 		<ul>
 			<li style="list-style: none;margin:10px 0;"><h2>고객센터</h2></li>
-			<li style="list-style: none;margin:8px 0;"><a href=/ShoeKream/community style="text-decoration: none; color:gray;font-size: 13pt;margin-left: 5px" >공지사항</a></li>
-			<li style="list-style: none;margin:8px 0;"><a href=/ShoeKream/bulletinBoardPage style="text-decoration: none; color:gray;font-size: 13pt;margin-left: 5px">자유게시판</a></li>
-			<li style="list-style: none;margin:8px 0;"><a href=/ShoeKream/qnaBoardPage style="text-decoration: none; color:gray;font-size: 13pt;margin-left: 5px">묻고 답하기</a></li>
+			<li th:if="${string == 'notice'}" style="list-style: none;margin:8px 0;">
+				<a href=/ShoeKream/community style="text-decoration: none; color:black;font-size: 15pt;margin-left: 5px;font-weight: bold;" >공지사항</a>
+			</li>
+			<li th:unless="${string == 'notice'}" style="list-style: none;margin:8px 0;">
+				<a href=/ShoeKream/community style="text-decoration: none; color:gray;font-size: 15pt;margin-left: 5px" >공지사항</a>
+			</li>
+			
+			<li th:if="${string == 'bulletin'}" style="list-style: none;margin:8px 0;">
+				<a href=/ShoeKream/bulletinBoardPage style="text-decoration: none; color:black;font-size: 15pt;margin-left: 5px;font-weight:bold" >자유게시판</a>
+			</li>
+			<li th:unless="${string == 'bulletin'}" style="list-style: none;margin:8px 0;">
+				<a href=/ShoeKream/bulletinBoardPage style="text-decoration: none; color:gray;font-size: 15pt;margin-left: 5px" >자유게시판</a>
+			</li>
+			
+			<li th:if="${string == 'qna'}" style="list-style: none;margin:8px 0;">
+				<a href=/ShoeKream/qnaBoardPage style="text-decoration: none; color: black;font-size: 15pt;margin-left: 5px; font-weight: bold">묻고 답하기</a>
+			</li>
+			<li th:unless="${string == 'qna'}" style="list-style: none;margin:8px 0;">
+				<a href=/ShoeKream/qnaBoardPage style="text-decoration: none; color: gray;font-size: 15pt;margin-left: 5px; ">묻고 답하기</a>
+			</li>
 		</ul>
 	</nav>
 	</div>

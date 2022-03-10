@@ -45,7 +45,7 @@
 		#{cbContents},
 		#{cbCategory},
 		NOW(),
-		'admin'
+		#{creatorId}
 		)
 ]]>
 </insert>
@@ -118,4 +118,108 @@ SELECT count(*)
 FROM sk_cb
 
 </select>
+
+
+<insert id="insertBulletin" parameterType="ShoeKream.communityBoard.VO.bulletinBoardVO">
+
+<![CDATA[
+INSERT INTO 
+	sk_bb(
+		bb_title,
+		bb_contents,
+		bb_category,
+		creator_id,
+		creator_name,
+		created_datetime
+	)VALUES(
+		#{bbTitle},
+		#{bbContents},
+		#{bbCategory},
+		#{creatorId},
+		#{creatorname},
+		NOW()	
+	)
+]]>
+</insert>
+
+<select id="selectBulletin" resultType="ShoeKream.communityBoard.VO.bulletinBoardVO">
+
+<![CDATA[
+
+SELECT
+		bb_no,
+		bb_category,
+		bb_contents,
+		bb_title,
+		bb_hitcnt,
+		bb_likecnt,
+		creator_id,
+		creator_name,
+		created_datetime
+	FROM 
+		sk_bb
+	WHERE 
+		deleted_yn = 'n'
+	ORDER BY bb_no DESC
+]]>
+
+</select>
+
+<select id="selectBulletinDetail" parameterType="int" resultType="ShoeKream.communityBoard.VO.bulletinBoardVO">
+
+<![CDATA[
+			SELECT
+				bb_no,
+				bb_category,
+				bb_title,
+				bb_contents,
+				creator_id,
+				bb_likecnt,
+				created_datetime,
+				updated_datetime,
+				bb_hitcnt
+			FROM
+					sk_bb
+			WHERE
+				bb_no=#{bbNo} 
+			]]>
+
+</select>
+
+<delete id="deleteBulletin" parameterType="int" >
+	DELETE FROM  
+		sk_bb
+	WHERE 
+		bb_no = #{bbNo}	
+</delete>
+
+
+<update id="updateBulletin" parameterType="ShoeKream.communityBoard.VO.bulletinBoardVO">
+
+<![CDATA[
+UPDATE 
+	sk_bb
+SET
+	bb_category = #{bbCategory},
+	bb_title = #{bbTitle},
+	bb_contents = #{bbContents},
+	updated_datetime = NOW()
+WHERE
+   bb_no = #{bbNo}
+]]>		 
+
+
+</update>
+
+<update id="addBulletinHitCnt">
+
+<![CDATA[
+	UPDATE sk_bb
+	SET bb_hitcnt = bb_hitcnt+1
+	WHERE bb_no = #{bbNo}
+]]>
+
+</update>
+
+
 </mapper>

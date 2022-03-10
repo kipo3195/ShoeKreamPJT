@@ -12,31 +12,34 @@
 	<div th:replace="layout/boardnav::board-nav"></div>
 	
 	<div class="container" style="float:left; padding:30px; width:85%;border: 1px solid black; " >
-			<h2 style="margin:20;">공지사항 작성 페이지</h2>
+			<h2 style="margin:20;">자유게시판 글 작성 페이지</h2>
 			<hr style="height:3px;background-color: #333;"/>
 			
-			<form action="createNoticeRequest" method="post">
+			<form action="createBulletinRequest" method="post">
 				<table style="border-collapse: separate;border-spacing: 0 15px;">
 					<tr>
 						<td>카테고리 선택 : </td>
 						<td>
-							<select name="cbCategory" id="cbCategory">
-								<option selected="selected">공지</option>
-								<option>이벤트 발표</option>
-								<option>쇼룸/전시 안내</option>
+							<select name="bbCategory" id="bbCategory">
+								<option selected="selected">자유게시판</option>
+								<option>후기</option>
+								<option>기타 잡담</option>
 							</select>
 						</td>
 					</tr>
 					<tr>
 						<td>제목 : </td>
-						<td> <input type="text" style="width: 871px;" placeholder="공지글의 제목을 입력하세요." required="required" autocomplete="off" name="cbTitle" id="cbTitle"></td>
+						<td> <input type="text" style="width: 871px;" placeholder="글의 제목을 입력하세요." required="required" autocomplete="off" name="bbTitle" id="bbTitle"></td>
 					</tr>				
 					<tr>	
 						<td>내용 : </td>					
-						<td> <textarea rows="14" cols="100" placeholder="내용을 입력하세요." style="overflow:visible;" required="required" autocomplete="off" name="cbContents" id="cbContents"></textarea></td>
+						<td> <textarea rows="14" cols="100" placeholder="내용을 입력하세요." style="overflow:visible;" required="required" autocomplete="off" name="bbContents" id="bbContents"></textarea></td>
 					</tr>
 					<tr>
-						<td><input type="hidden" id="creatorId" name="creatorId" th:value="${session.member.username}"></td>
+						<td>
+								<input type="hidden" id="creatorname" name="creatorname" th:value="${session.member.username}">
+								<input type="hidden" id="creatorId" name="creatorId" th:value="${session.member.userid}">
+						</td>
 						<td><input type="submit" value="작성 완료" style="width:200px"></td>
 					</tr>
 				</table>

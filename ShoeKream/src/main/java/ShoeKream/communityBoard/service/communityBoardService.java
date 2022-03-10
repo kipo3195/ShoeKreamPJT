@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import ShoeKream.communityBoard.VO.bulletinBoardVO;
 import ShoeKream.communityBoard.VO.communityBoardVO;
 
 
@@ -22,5 +23,17 @@ public interface communityBoardService {
 	void addnoticeHitCnt(int cbNo)throws Exception;
 
 	int totalCommunityBoardCount()throws Exception;
+
+	Integer createBulletin(bulletinBoardVO bbvo) throws Exception;
+
+	List<bulletinBoardVO> selectBulletinList() throws Exception;
+
+	bulletinBoardVO bulletinDetailRequest(int bbNo)throws Exception;
+
+	int deleteBulletin(int bbNo)throws Exception;
+
+	Integer updateBulletin(bulletinBoardVO bbvo)throws Exception;
+
+	void addBulletinHitCnt(int bbNo)throws Exception;
 
 }

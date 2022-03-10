@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ShoeKream.communityBoard.VO.bulletinBoardVO;
 import ShoeKream.communityBoard.VO.communityBoardVO;
 import ShoeKream.communityBoard.mapper.communityBoardMapper;
 
@@ -26,9 +27,6 @@ public class communityBoardServiceImpl implements communityBoardService {
 	}
 
 
-
-
-
 	@Override
 	public Integer createNotice(communityBoardVO cbvo) throws Exception {
 		
@@ -37,7 +35,6 @@ public class communityBoardServiceImpl implements communityBoardService {
 		return result;
 		
 	}
-	
 	
 	@Override 
 	public communityBoardVO noticeDetailRequest(int cbNo) throws Exception {
@@ -80,6 +77,51 @@ public class communityBoardServiceImpl implements communityBoardService {
 		int count = cbm.totalCommunityBoardCount();
 		return count;
 	}
+
+
+	@Override
+	public Integer createBulletin(bulletinBoardVO bbvo) throws Exception {
+		Integer result = cbm.insertBulletin(bbvo);
+		return result;
+	}
+
+
+	@Override
+	public List<bulletinBoardVO> selectBulletinList() throws Exception {
+		List<bulletinBoardVO> list = cbm.selectBulletin();
+		return list;
+	}
+
+
+	@Override
+	public bulletinBoardVO bulletinDetailRequest(int bbNo) throws Exception {
+		bulletinBoardVO bbvo = cbm.selectBulletinDetail(bbNo);
+		return bbvo;
+	}
+
+
+	@Override
+	public int deleteBulletin(int bbNo) throws Exception {
+		
+		return cbm.deleteBulletin(bbNo);
+		
+	}
+
+
+	@Override
+	public Integer updateBulletin(bulletinBoardVO bbvo) throws Exception {
+		
+		
+		return cbm.updateBulletin(bbvo);
+	}
+
+
+	@Override
+	public void addBulletinHitCnt(int bbNo) throws Exception {
+		
+		cbm.addBulletinHitCnt(bbNo);
+		
+	}
 	
 	
 	
@@ -88,6 +130,8 @@ public class communityBoardServiceImpl implements communityBoardService {
 	
 	
 	
+	
+
 	
 	
 	

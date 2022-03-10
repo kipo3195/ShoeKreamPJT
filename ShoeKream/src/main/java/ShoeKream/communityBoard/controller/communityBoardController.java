@@ -1,6 +1,9 @@
 package ShoeKream.communityBoard.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.server.Session;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ShoeKream.communityBoard.VO.bulletinBoardVO;
 import ShoeKream.communityBoard.VO.communityBoardVO;
 import ShoeKream.communityBoard.service.communityBoardService;
 
@@ -23,17 +27,115 @@ public class communityBoardController {
 	
 	// 자유 게시판
 	@GetMapping("/ShoeKream/bulletinBoardPage")
-	public String bulletinBoardPage() throws Exception{
+	public ModelAndView bulletinBoardPage() throws Exception{
+		ModelAndView mv = new ModelAndView("community/bulletinBoardPage");
 		
-		return "community/bulletinBoardPage";
+		String string = "bulletin";
+		mv.addObject("string", string);
+		
+		List<bulletinBoardVO> list = cbs.selectBulletinList();
+		
+		System.out.println(list);
+		mv.addObject("list", list);
+		return mv;
+	}
+	//  자유 게시판 글쓰기 페이지 
+	@GetMapping("/ShoeKream/createBulletinPage")
+	public String createBulletinPage()throws Exception{
+		
+		return "community/createBulletinPage";
 	}
 	
+	//자유 게시판 글쓰기 요청 
+	@PostMapping("/ShoeKream/createBulletinRequest")
+	public String createBulletinRequest(RedirectAttributes rttr, bulletinBoardVO bbvo) throws Exception{
+
+		System.out.println("bbvo : "+bbvo);
+		Integer result = cbs.createBulletin(bbvo);
+		System.out.println(result);
+		String msg = "";
+	
+		if(result != 1) {
+			msg = "알수 없는 이유로 게시글 등록에 실패했습니다.";
+			rttr.addFlashAttribute("msg", msg);
+			return "redirect:/ShoeKream/createBulletPage";
+		}else {
+			//작성 성공
+			msg = "게시글 등록에 성공하였습니다.";
+			rttr.addFlashAttribute("msg", msg);
+			return "redirect:/ShoeKream/bulletinBoardPage";
+			
+		}
+
+	}
+	
+	//자유게시판 상세페이지
+	@GetMapping("/ShoeKream/bulletinDetail")
+	public ModelAndView bulletinDetail(@RequestParam("bbNo")int bbNo) throws Exception {
+		ModelAndView mv = new ModelAndView("community/bulletinDetailPage");
+		
+		cbs.addBulletinHitCnt(bbNo);
+		
+		bulletinBoardVO bbvo = cbs.bulletinDetailRequest(bbNo);
+		
+		mv.addObject("bbvo", bbvo);
+		
+		return mv;
+		
+	}
+	// 자유게시판 삭제
+	@GetMapping("/ShoeKream/deleteBulletin")
+	public ModelAndView deleteBulletinRequest(@RequestParam int bbNo)throws Exception{
+		
+		Integer result = cbs.deleteBulletin(bbNo);
+		
+		ModelAndView mv = new ModelAndView("redirect:/ShoeKream/bulletinBoardPage");
+		
+		return mv;
+		
+	
+	}
+	
+	//자유게시판 수정
+	@GetMapping("/ShoeKream/updateBulletin")
+	public ModelAndView updateBulletinRequest(@RequestParam int bbNo)throws Exception{
+		ModelAndView mv = new ModelAndView("community/bulletinUpdatePage");
+		
+		bulletinBoardVO bbvo = cbs.bulletinDetailRequest(bbNo);
+		mv.addObject("bbvo", bbvo);
+		
+		
+		return mv;
+	}
+	
+	//자유게시판 게시물 수정 요청
+	@PostMapping("/ShoeKream/updateBulletinRequest")
+	public String updateBulletinRequest(bulletinBoardVO bbvo,RedirectAttributes rttr) throws Exception{
+		
+		
+		Integer result = cbs.updateBulletin(bbvo);
+		
+		String msg ;
+		
+		if(result == 1) {
+			msg = "정상적으로 수정이 완료 되었습니다.";
+			rttr.addFlashAttribute("msg",msg);
+		}else {
+			msg = "비 정상적인 이유로 수정이 불가 합니다.";
+		}
+		
+		return "redirect:/ShoeKream/bulletinBoardPage";
+	}
 	
 	//묻고 답하기 게시판
 	@GetMapping("/ShoeKream/qnaBoardPage")
-	public String qnaBoardPage() throws Exception{
-		
-		return "community/qnaBoardPage";
+	public ModelAndView qnaBoardPage() throws Exception{
+		ModelAndView mv = new ModelAndView("community/qnaBoardPage");
+		String string ="qna";
+		mv.addObject("string", string);
+
+			
+		return mv;
 	}
 	
 	//공지사항 글 작성

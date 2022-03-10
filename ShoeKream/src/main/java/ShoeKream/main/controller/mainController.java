@@ -72,7 +72,8 @@ public class mainController {
 	public ModelAndView CustomerPage(HttpServletRequest req,@RequestParam(value="page",required = false)String page) throws Exception{
 		
 		ModelAndView mv = new ModelAndView("community/communityPage");
-		
+		String string = "notice";
+		mv.addObject("string", string);
 		
 		int startPage;
 		if(page == null) {
@@ -82,6 +83,7 @@ public class mainController {
 			// 페이지 요청
 			 startPage = Integer.parseInt(page);
 		}
+		
 		
 		
 		//페이징 처리 
@@ -97,6 +99,7 @@ public class mainController {
 		List<communityBoardVO> list = cbs.selectboardList(cri.getPageStart());
 		
 		mv.addObject("list", list);
+		
 
 		return mv;
 	

@@ -12,31 +12,31 @@
 	<div th:replace="layout/boardnav::board-nav"></div>
 	
 	<div class="container" style="float:left; padding:30px; width:85%;border: 1px solid black; " >
-			<h2 style="margin:20;">공지사항 수정 페이지</h2>
+			<h2 style="margin:20;">자유게시판 수정 페이지</h2>
 			<hr style="height:3px;background-color: #333;"/>
 			
-			<form action="updateNoticeRequest" method="post">
+			<form action="updateBulletinRequest" method="post">
 				<table style="border-collapse: separate;border-spacing: 0 15px;">
 					<tr>
 						<td> 카테고리 선택 : </td>
 						<td>
-							<select id="cbCategory" name="cbCategory">
-								<option selected="selected" th:text="${cbvo.cbCategory}"></option>
-								<option>이벤트발표</option>
-								<option>쇼룸/전시 안내</option>	
+							<select id="bbCategory" name="bbCategory">
+								<option selected="selected" th:text="${bbvo.bbCategory}"></option>
+								<option>후기</option>
+								<option>기타 잡담</option>	
 							</select>	
 						</td>
 					</tr>
 					<tr>
 						<td>제목 : </td>
-						<td> <input type="text" style="width: 871px;" th:value="${cbvo.cbTitle}"name="cbTitle" id="cbTitle"  autocomplete="off"></td>
+						<td> <input type="text" style="width: 871px;" name="bbTitle" id="bbTitle"  autocomplete="off" th:value="${bbvo.bbTitle}"></td>
 					</tr>				
 					<tr>	
 						<td>내용 : </td>					
-						<td> <textarea rows="14" cols="100"  name="cbContents" id="cbContents" th:text="${cbvo.cbContents}"autocomplete="off"></textarea></td>
+						<td> <textarea rows="14" cols="100" name="bbContents" id="bbContents" autocomplete="off" th:text="${bbvo.bbContents}"></textarea></td>
 					</tr>
 					<tr>
-						<td><input type="hidden" th:value="${cbvo.cbNo}" id="cbNo" name="cbNo"></td>
+						<td><input type="hidden" th:value="${bbvo.bbNo}" id="bbNo" name="bbNo"></td>
 						<td><input type="submit" value="작성 완료" style="width:200px"></td>
 					</tr>
 					
@@ -50,17 +50,17 @@
 	
 	/*![CDATA[*/
 		
-		var cbNo =/*[[${cbvo.cbNo}]]*/
+		var bbNo =/*[[${bbvo.bbNo}]]*/
 	
 		function detail_click(s){
 			if(s == 'delete'){
 				if(confirm("정말로 삭제하시겠습니까?")){
-					location.href= "deleteNotice?cbNo="+cbNo;
+					location.href= "deleteBulletin?bbNo="+bbNo;
 					alert('삭제완료!')
 				}
 			}else if(s == 'update'){
 				if(confirm("수정 페이지로 이동하시겠습니까?")){
-					location.href= "updateNotice?cbNo="+cbNo;
+					location.href= "updateBulletin?bbNo="+bbNo;
 				}
 				
 			}else{
