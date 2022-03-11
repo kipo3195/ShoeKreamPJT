@@ -87,8 +87,8 @@ public class communityBoardServiceImpl implements communityBoardService {
 
 
 	@Override
-	public List<bulletinBoardVO> selectBulletinList() throws Exception {
-		List<bulletinBoardVO> list = cbm.selectBulletin();
+	public List<bulletinBoardVO> selectBulletinList(int startPage) throws Exception {
+		List<bulletinBoardVO> list = cbm.selectBulletin(startPage);
 		return list;
 	}
 
@@ -122,10 +122,22 @@ public class communityBoardServiceImpl implements communityBoardService {
 		cbm.addBulletinHitCnt(bbNo);
 		
 	}
+
+
+	@Override
+	public int totalBulletinBoardCount() throws Exception {
+
+		
+		return cbm.totalBulletinBoardCount();
+	}
+
+
+
 	
 	
 	
 	
+
 	
 	
 	

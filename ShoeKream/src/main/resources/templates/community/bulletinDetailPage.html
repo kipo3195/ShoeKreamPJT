@@ -46,11 +46,13 @@
 									<input type="button" value="목록으로" style="width:100px;background-color:#0439CA;color:white" onclick="detail_click('main')">
 										<input type="button" value="수정하기" style="width:100px;background-color:#28D308;color:white" onclick="detail_click('update')">
 										<input type="button" value="삭제하기" style="width:100px;background-color:#F11A44;" onclick="detail_click('delete')">
-										게시물 최종 수정일 <h7 th:text="${bbvo.updatedDatetime}"></h7>
+										게시물 최종 수정일 <h7 th:text="${bbvo.updatedDatetime}"></h7> 
+										<input type="button" value="추천하기" style="margin-left: 30px"><!-- 여기서부터 구현! -->
 								</div>
 								 <div th:if="${session.member.username != 'admin' and session.member.userid != bbvo.creatorId}">
 									<input type="button" value="목록으로" style="width:100px;background-color:#0439CA;color:white" onclick="detail_click('main')">
 									게시물 최종 수정일 <h7 th:text="${bbvo.updatedDatetime}"></h7>
+									 <input type="button" value="추천하기" style="margin-left: 30px">
 								</div> 
 								</div>
 						</td>

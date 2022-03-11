@@ -27,7 +27,7 @@ public interface communityBoardMapper {
 
 	Integer insertBulletin(bulletinBoardVO bbvo)throws Exception;
 
-	List<bulletinBoardVO> selectBulletin()throws Exception;
+	List<bulletinBoardVO> selectBulletin(int startPage)throws Exception;
 
 	bulletinBoardVO selectBulletinDetail(@Param("bbNo")int bbNo)throws Exception;
 
@@ -37,5 +37,6 @@ public interface communityBoardMapper {
 
 	void addBulletinHitCnt(int bbNo) throws Exception;
 
+	int totalBulletinBoardCount() throws Exception;
 
 }

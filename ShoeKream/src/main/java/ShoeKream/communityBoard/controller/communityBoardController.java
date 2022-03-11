@@ -7,8 +7,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.server.Session;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,6 +19,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ShoeKream.communityBoard.VO.bulletinBoardVO;
 import ShoeKream.communityBoard.VO.communityBoardVO;
+import ShoeKream.communityBoard.paging.Criteria;
+import ShoeKream.communityBoard.paging.PageMaker;
 import ShoeKream.communityBoard.service.communityBoardService;
 
 @Controller
@@ -27,16 +32,32 @@ public class communityBoardController {
 	
 	// 자유 게시판
 	@GetMapping("/ShoeKream/bulletinBoardPage")
-	public ModelAndView bulletinBoardPage() throws Exception{
+	public ModelAndView bulletinBoardPage(@RequestParam(value="page",required = false)String page) throws Exception{
 		ModelAndView mv = new ModelAndView("community/bulletinBoardPage");
 		
 		String string = "bulletin";
 		mv.addObject("string", string);
 		
-		List<bulletinBoardVO> list = cbs.selectBulletinList();
+		int totalCnt = cbs.totalBulletinBoardCount();
+		int startPage;
 		
-		System.out.println(list);
+		if(page == null) {
+			startPage = 1;
+		}else {
+			startPage = Integer.parseInt(page);
+		}
+		
+		Criteria cri = new Criteria(startPage,10); // 요청받는 페이지로 변경해주기 page변수 
+		
+		PageMaker pm = new PageMaker(cri, totalCnt);
+
+		List<bulletinBoardVO> list = cbs.selectBulletinList(cri.getPageStart());
+		
 		mv.addObject("list", list);
+		
+		mv.addObject("pm", pm);
+		
+		
 		return mv;
 	}
 	//  자유 게시판 글쓰기 페이지 
@@ -125,6 +146,27 @@ public class communityBoardController {
 		}
 		
 		return "redirect:/ShoeKream/bulletinBoardPage";
+	}
+	
+	//첫 비동기통신 성공!! 0311
+	@GetMapping("/ShoeKream/clickLikeCnt/{bbno}")
+	public ResponseEntity<Object> clickLikeCnt(
+			@PathVariable("bbno")String bbno,
+			@RequestParam("userid")String userid) throws Exception{
+		
+		ResponseEntity<Object> entity;
+		
+		System.out.println("bbno : "+bbno);
+		System.out.println("userid : "+userid);
+		
+		
+		try {
+			entity = new ResponseEntity<>(null,HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+
+		return entity;
 	}
 	
 	//묻고 답하기 게시판

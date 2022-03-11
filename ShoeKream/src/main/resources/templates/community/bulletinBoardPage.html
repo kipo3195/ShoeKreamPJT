@@ -41,7 +41,7 @@
 								<th scope="col"  style="text-align: center;">조회수</th>
 								<th scope="col"  style="text-align: center;">작성자</th>
 								<th scope="col" style="padding-left: 61.5px">작성일</th>
-								<th scope="col"  style="text-align: center;">공감</th>
+								<td><img th:src="@{/images/love.png}" style="width: 25px;height:25px"></img></td>
 						</tr>	
 						<tr th:if="${#lists.size(list)} > 0" th:each="list : ${list}" >
 								<td th:text="${list.bbCategory}" style="text-align: center"></td>
@@ -57,12 +57,88 @@
 								<!-- TODO 오늘 날짜가 지난 게시물이라면 날짜만 표기, 당일 게시글은 시간까지 표기해보기 -->
 								<td th:text="${#strings.replace(list.createdDatetime,'T',' ')}"></td> 
 								<td th:text="${list.likeCnt}" style="text-align: center"></td>
-								<!-- 하트 버튼 만들기 -->
+								<td th:if="${session.member != null}"  >
+										<div class="here">
+											<img th:src="@{/images/emptyHeart.png}" style="width: 25px;height:25px;cursor:pointer" 	th:value="${list.bbNo}" th:id="'likeCnt'+${list.bbNo}"  class="clickevent">
+										</div>
+											<input type="hidden" th:value="${session.member.userid}" id="userid">
+								</td>
 						</tr>
-						
 				</thead>
 			</table>
+			 
+			<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+			<script>
+				
+					//태그 내부에서 Id값으로 지정하고 "#bbNO"로 가져올려고하니 반복하는 가장 위에것만 선택되었다. 
+					//그래서 class로 대체했고, for each로 반복하는 것 중 click한 것의 속성  즉, this속성에 해당하는 value값만 가져오기 위해 this 를 사용하는 것이다.
 
+					$(".clickevent").click(function (){ 
+					var bbno = $(this).attr('value');               //반복되는 리스트 중 현재 게시물의 번호를 가져온
+					var userid = $('#userid').attr('value');		// 현재 로그인된 세션의  id를 가져온다.
+					var c = $(this).attr('id');								// 좋아요 버튼을 올리고 db에 반영을 한뒤, 모든 td의 클래스나 id에 적용하는 것이 아닌, 현재 내가 접근한 td의 이미지만 변경하기 위해서 가져온 값이다.
+					
+					$.ajax({
+						type:"get",
+						url:"/ShoeKream/clickLikeCnt/"+bbno,
+						dataType:"text",
+						data : {
+							bbno : bbno,
+							userid : userid
+						},success : function(data){
+							if(data =='y'){
+								document.getElementById(c).src="/images/fullHeart.png";
+							}else{
+								document.getElementById(c).src="/images/emptyHeart.png";
+							}
+						},error: function(data){
+							alert(data);
+						}
+					});
+				});
+				
+				
+			</script>
+			
+			
+		<div style="margin:20px 0;">
+			<div style="float:left; width:300px;padding-left: 150px" >
+					<ul style="text-decoration: none;text-align: center;">
+					<li th:if="${pm.first == true}" style="list-style-type: none;float:left;margin-left:40px;margin-right: 30px; ">
+						<a th:href="@{/ShoeKream/bulletinBoardPage(page=1)}" style="text-decoration: none;font-size: 15pt;color:black;">&lt;&lt;</a>
+					</li>
+					<li th:if="${pm.prev == true}" style="list-style-type: none;float:left;">
+						<a th:href="@{/ShoeKream/bulletinBoardPage(page=${pm.startPage}-${pm.displayPageNum})}" style="text-decoration: none;font-size: 15pt;color:black;" >&lt;</a>
+					</li>
+				</ul>
+			</div>
+			
+			<!-- 페이지 숫자-->
+			<div th:each="num: ${#numbers.sequence({pm.startPage},{pm.endPage})}" style="float:left;">
+				<ul>
+					<li style="list-style-type: none;float:left" >
+						<a id="pageNum" style="text-decoration:none;font-size: 15pt;font-weight: bold;color: #DAD6D6;"
+							th:text="${num}"
+							th:href="@{/ShoeKream/bulletinBoardPage(page=${num})}">
+						</a>
+					</li>
+				</ul>
+			</div>
+
+			<!-- 다음, 맨 뒤 -->
+			<div style="float:left; width:200px;text-align: left;" >
+				<ul style="text-decoration: none">
+					<li th:if="${pm.next == true}" style="list-style-type: none;float:left; margin-right: 30px">
+						 <a th:href="@{/ShoeKream/bulletinBoardPage(page=${pm.startPage}+${pm.displayPageNum})}" style="text-decoration: none;font-size: 15pt;color:black;">&gt;</a>
+					</li>
+					<li th:if="${pm.last == true}" style="list-style-type: none;float:left;">
+						<a th:href="@{/ShoeKream/bulletinBoardPage(page=${pm.maxPage})}" style="text-decoration: none;font-size: 15pt;color:black;">&gt;&gt;</a>
+					</li>
+				</ul>
+			</div>
+			</div>
+			
+			<!-- 로그인 했을때만 보임 -->
 			<div th:if="${session.member == null}">
 			</div>
 			<div th:unless="${session.member == null}" >

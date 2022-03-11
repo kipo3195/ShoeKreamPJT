@@ -161,6 +161,7 @@ SELECT
 	WHERE 
 		deleted_yn = 'n'
 	ORDER BY bb_no DESC
+	LIMIT #{startPage},10
 ]]>
 
 </select>
@@ -211,15 +212,30 @@ WHERE
 
 </update>
 
-<update id="addBulletinHitCnt">
+<update id="addBulletinHitCnt" parameterType="int">
 
 <![CDATA[
-	UPDATE sk_bb
-	SET bb_hitcnt = bb_hitcnt+1
-	WHERE bb_no = #{bbNo}
+	UPDATE
+		sk_bb
+	SET
+		bb_hitcnt = bb_hitcnt +1
+	WHERE
+		bb_no = #{bbNo}
 ]]>
 
 </update>
+
+
+<select id="totalBulletinBoardCount" resultType="int">
+	<![CDATA[
+		SELECT count(*)
+		FROM sk_bb
+	]]>
+</select>
+
+
+
+
 
 
 </mapper>

@@ -26,7 +26,7 @@ public interface communityBoardService {
 
 	Integer createBulletin(bulletinBoardVO bbvo) throws Exception;
 
-	List<bulletinBoardVO> selectBulletinList() throws Exception;
+	List<bulletinBoardVO> selectBulletinList(int startPage) throws Exception;
 
 	bulletinBoardVO bulletinDetailRequest(int bbNo)throws Exception;
 
@@ -35,5 +35,8 @@ public interface communityBoardService {
 	Integer updateBulletin(bulletinBoardVO bbvo)throws Exception;
 
 	void addBulletinHitCnt(int bbNo)throws Exception;
+
+	int totalBulletinBoardCount()throws Exception;
+
 
 }
