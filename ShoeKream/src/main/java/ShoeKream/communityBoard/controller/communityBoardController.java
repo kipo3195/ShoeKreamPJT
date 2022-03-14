@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ShoeKream.communityBoard.VO.bbReplyVO;
 import ShoeKream.communityBoard.VO.bulletinBoardVO;
 import ShoeKream.communityBoard.VO.communityBoardVO;
 import ShoeKream.communityBoard.paging.Criteria;
 import ShoeKream.communityBoard.paging.PageMaker;
 import ShoeKream.communityBoard.service.communityBoardService;
+import antlr.debug.NewLineEvent;
 
 @Controller
 public class communityBoardController {
@@ -92,14 +94,33 @@ public class communityBoardController {
 	
 	//자유게시판 상세페이지
 	@GetMapping("/ShoeKream/bulletinDetail")
-	public ModelAndView bulletinDetail(@RequestParam("bbNo")int bbNo) throws Exception {
+	public ModelAndView bulletinDetail(
+			@RequestParam("bbNo")int bbNo,
+			@RequestParam(value = "Rpage",required = false)String Rpage) throws Exception {
 		ModelAndView mv = new ModelAndView("community/bulletinDetailPage");
 		
 		cbs.addBulletinHitCnt(bbNo);
-		
 		bulletinBoardVO bbvo = cbs.bulletinDetailRequest(bbNo);
+
+		//페이징처리 
+		int totalCount = cbs.totalBboardReplyCount(bbNo);
+			
+		int startPage;
+		if(Rpage == null) {
+			startPage = 1;
+		}else {
+			startPage = Integer.parseInt(Rpage);
+		}
+		Criteria cri = new Criteria(startPage, 5);		
 		
+		PageMaker pm = new PageMaker(cri, totalCount);
+		
+		//댓글
+		List<bbReplyVO> ReplyList= cbs.selectReplyList(cri.getPageStart(),bbNo);
+		
+		mv.addObject("brlist", ReplyList);
 		mv.addObject("bbvo", bbvo);
+		mv.addObject("pm", pm);
 		
 		return mv;
 		
@@ -160,6 +181,8 @@ public class communityBoardController {
 		System.out.println("userid : "+userid);
 		
 		
+		
+		
 		try {
 			entity = new ResponseEntity<>(null,HttpStatus.OK);
 		}catch(Exception e){
@@ -168,6 +191,84 @@ public class communityBoardController {
 
 		return entity;
 	}
+	
+	//자유게시판 댓글 작성
+	@PostMapping("/ShoeKream/bulletinDetail/writeReply")
+	public ResponseEntity<Object> writeReply(
+			bbReplyVO bbrvo)throws Exception{
+		
+		int result = cbs.writeReply(bbrvo);
+
+		ResponseEntity<Object> entity;
+		try {
+			entity = new ResponseEntity<>(result,HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+		
+	}
+	// 자유게시판 댓글 삭제
+	@GetMapping("/ShoeKream/bulletinDetail/deleteReply")
+	public ResponseEntity<Object>writeReply(
+			@RequestParam("bcNo")int bcNo) throws Exception{
+		
+		
+		int result = cbs.deleteReply(bcNo);
+		
+		ResponseEntity<Object> entity;
+		
+		try {
+			entity = new ResponseEntity<>(result,HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+		
+	}
+	// 자유게시판 댓글 수정
+	@GetMapping("/ShoeKream/bulletinDetail/updateReply")
+	public ResponseEntity<Object>updateReply(
+			@RequestParam("bcNo")int bcNo) throws Exception{
+		
+		
+		bbReplyVO bbrvo = cbs.selectReply(bcNo);
+		
+		System.out.println(bbrvo);
+		ResponseEntity<Object> entity;
+		
+		try {
+			entity = new ResponseEntity<>(bbrvo,HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+		
+	}
+	
+	//자유게시판 댓글 수정요청
+	@PostMapping("/ShoeKream/bulletinDetail/updateReplyRequest")
+	public ResponseEntity<Object> updateReplyRequest(
+			bbReplyVO bbrvo)throws Exception{
+		
+		ResponseEntity<Object> entity ;
+		
+		int result = cbs.updateReplyRequest(bbrvo);
+		
+		try {
+			entity = new ResponseEntity<>(result,HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+		
+		
+	}
+	
+	
 	
 	//묻고 답하기 게시판
 	@GetMapping("/ShoeKream/qnaBoardPage")

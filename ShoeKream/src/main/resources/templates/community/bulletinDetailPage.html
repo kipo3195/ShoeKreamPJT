@@ -47,7 +47,7 @@
 										<input type="button" value="수정하기" style="width:100px;background-color:#28D308;color:white" onclick="detail_click('update')">
 										<input type="button" value="삭제하기" style="width:100px;background-color:#F11A44;" onclick="detail_click('delete')">
 										게시물 최종 수정일 <h7 th:text="${bbvo.updatedDatetime}"></h7> 
-										<input type="button" value="추천하기" style="margin-left: 30px"><!-- 여기서부터 구현! -->
+										<input type="button" value="추천하기" style="margin-left: 30px">
 								</div>
 								 <div th:if="${session.member.username != 'admin' and session.member.userid != bbvo.creatorId}">
 									<input type="button" value="목록으로" style="width:100px;background-color:#0439CA;color:white" onclick="detail_click('main')">
@@ -58,6 +58,89 @@
 						</td>
 					</tr>
 				</table>
+						<div style="border: 1px solid black">
+								<table>
+									<thead>
+										<tr>
+											<th style="border:1px solid black;padding-left: 30px;padding-top: 20px;width: 900px;" colspan="2"><h2>자유게시판 댓글 창</h2></th>										
+										</tr>
+										<tr>
+											<td style="width: 150px;border: 1px solid black;text-align: center;">닉네임</td>
+											<td style="width: 350px;border: 1px solid black;text-align: center;">내용</td>
+											<td style="width: 100px;border: 1px solid black;text-align: center;">공감 수</td>
+											<td style="width: 200px;border: 1px solid black;text-align: center;">작성시간</td>
+											<td style="width: 100px;border: 1px solid black;text-align: center;">삭제/수정</td>
+										</tr>
+									</thead>
+									<tbody>
+									<tr  th:if="${#lists.size(brlist)}>0" th:each="list : ${brlist}" style="border: 1px solid black;height:40px;">
+											<td style="font-size: 12px" th:text="${list.creatorName}"></td>
+											<td style="font-size: 12px" th:text="${list.bcContents}" ></td>	
+											<td>공감</td><!-- 공감 이미지와 공감 수 비동기 처리 -->			
+											<td style="font-size: 12px;" th:text="${list.updatedDatetime}"></td>		
+											<td th:if="${session.member != null and session.member.username == list.creatorName }">
+												<input type="button" id="commentUpdate" value="수정" th:onclick="'commentUpdate('+${list.bcNo}+');'">
+												<input type="button" id="commentDelete" value="삭제" th:onclick="'commentDelete('+${list.bcNo}+');'">
+												<input type="hidden" class="bcNo" th:value="${list.bcNo}" th:id="bnNo+${list.bcNo}">
+											</td>
+											<td th:if="${session.member != null and session.member.username != list.creatorName }">로그인o주인x</td>
+											<td th:if="${session.member == null}">로그인x</td>
+										</tr>
+										
+										<!-- 댓글 페이징 처리 -->
+										<tr  style="border: 1px solid black;height:40px;">
+											<td colspan="5" th:if="${pm !=  null}">
+											<table>
+												<tr>
+													<td style="text-align: right;" width="175px" height="20px">
+														<p th:if="${pm.first == true}"><a th:href="@{/ShoeKream/bulletinDetail/(bbNo=${bbvo.bbNo},Rpage=1)}" style="text-decoration:  none;color:gray;">&lt;&lt;</a></p>
+													</td>
+													<td style="text-align: right;" width="100px" height="20px">
+														<p th:if="${pm.prev == true}"><a th:href="@{/ShoeKream/bulletinDetail/(bbNo=${bbvo.bbNo},Rpage=${pm.startPage}-${pm.displayPageNum})}"  style="text-decoration:  none;color:gray;">&lt;</a></p>
+													</td>
+													<td style="padding-left: 100px;font-size: 17pt;" width="550px" height="20px">
+														<p th:each="num : ${#numbers.sequence({pm.startPage},{pm.endPage})}" style="float: left;margin-right: 60px" >
+														<a th:href="@{/ShoeKream/bulletinDetail/(bbNo=${bbvo.bbNo},Rpage=${num})}" th:text="${num}"  style="text-decoration: none;color:gray;">
+														</a>
+														</p>
+													</td>
+													<td width="100px" height="20px" >
+														<p th:if="${pm.next == true}"><a th:href="@{/ShoeKream/bulletinDetail/(bbNo=${bbvo.bbNo},Rpage=${pm.startPage}+${pm.displayPageNum})}"  style="text-decoration:  none;color:gray;">&gt;</a></p>
+													</td>
+													<td  width="175px" height="20px" >
+														<p th:if="${pm.last == true}"><a th:href="@{/ShoeKream/bulletinDetail/(bbNo=${bbvo.bbNo},Rpage=${pm.maxPage})}"  style="text-decoration:  none;color:gray;">&gt;&gt;</a></p>
+													</td>
+												</tr>
+											</table>
+											</td>
+										</tr>
+									</tbody>									
+									<tfoot id="commentBox" >
+										<tr th:if="${session.member != null}" >
+												<td>
+													<p th:text="${session.member.username}" id="username" th:value="${session.member.username}"></p>
+													<input type="hidden" th:value="${bbvo.bbNo}" id="bbNo">
+												</td>
+												<td>
+													<textarea rows="3" cols="80" placeholder="최대 100자까지 작성가능합니다." id="bbcomment" ></textarea>
+												</td>						
+												<td align="center">
+													<input type="button" value="작성하기" onclick="commentWrite()" id="commentWriteBtn">
+												</td>	
+										</tr>
+											<tr th:if="${session.member == null}"style="border: 1px solid black;height:100px;">
+												<td>
+												</td>
+												<td>
+													<textarea rows="3" cols="80" placeholder="댓글 작성은 로그인 후에 가능합니다." readonly="readonly"></textarea>
+												</td>						
+												<td align="center">
+													<input type="button" value="작성하기" disabled="disabled">
+												</td>	
+										</tr>
+									</tfoot>
+								</table>
+						</div>
 			
 	</div>
 	
@@ -87,9 +170,149 @@
 	}
 		
 	/*]]*/
+	</script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script>
+	
+    	//댓글 등록
+	function commentWrite(){
+		
+    	var creatorName =$("#username").attr("value");
+    	var bcContents = $('#bbcomment').val();
+    	var bbNo = $("#bbNo").attr("value");
+           
+            
+        if (bbcomment.length < 2){
+        	alert("최소 2글자 이상은 작성해야 합니다.");
+        	return;
+        }
+        if (bbcomment.length > 100){
+        	alert("최대 100자 까지작성 가능합니다.");
+      		return;
+        }
+        
+      	var data = {creatorName,bcContents,bbNo};
+		
+      	$.ajax({
+      		url:'/ShoeKream/bulletinDetail/writeReply',
+      		datatype : 'json',
+      		type : 'post',
+      		data : data ,
+      		success : function (result){
+      			if(result == 1){
+      				alert("댓글이 성공적으로 등록되었습니다.");
+      				location.reload();
+      			}else{
+      				alert("알수 없는 이유로 댓글 요청이 실패 하였습니다.");
+      			}
+      		}
+      	});
+	}
+	
+	
+		//댓글 수정
+	function commentUpdate(bcNo){
+		alert("수정하기 클릭");
+		var str = "";
+			$.ajax({
+				url:'/ShoeKream/bulletinDetail/updateReply',
+				datatype:'json',
+				type:'get',
+				data:{
+					bcNo:bcNo
+				},success:function(result){
+					if(result != null){
+					
+					var bcNo= result.bcNo;
+					var bcContents = result.bcContents;
+					var creatorName= result.creatorName;
+					
+					console.log(bcContents);
+					str += "<tr>";
+					str += "<td>";
+					str +=	"<p id='username' value='"+creatorName+"'>"
+					str += creatorName;
+					str += "</p>";
+					str +=	"<input type='hidden' value='"+bcNo+"' id='bcNo'>";
+					str += "</td>";
+					str += "<td>";
+					str +=	"<textarea rows='3' cols='80'  id='bcContents' >";
+					str += bcContents;
+					str += "</textarea>";
+					str += "</td>";					
+					str += "<td align='center'>";
+					str +=	"<input type='button' value='수정하기' onclick='commentUpdateRequest()' id='commentWriteRequest' >";
+					str += "</td>";
+					str += "</tr>";
+
+					$("#commentBox").html(str);
+					}else{
+						alert("수정하기 요청 실패");
+					}
+					
+				}
+					
+				})
+				
+		};
+		
+		//댓글 수정 요청
+		function commentUpdateRequest(){
+			
+			var creatorName = $("#username").attr("value");
+			var bcContents = $("#bcContents").val();
+			var bcNo = $("#bcNo").attr("value");
+			
+			var data = {creatorName,bcContents,bcNo};
+			
+			$.ajax({
+			url : '/ShoeKream/bulletinDetail/updateReplyRequest',
+			method:'post',
+			datatype:'json',
+			data : data,
+			success:function(result){
+				
+				if(result == 1){
+					alert("댓글수정 완료");
+					location.reload();
+				}else{
+					alert("알수 없는 이유로 댓글 수정에 실패 하였습니다.");
+				}
+				
+			}
+				
+			});
+			
+		};
+		
+		//댓글 삭제
+	function commentDelete(bcNo){
+		$.ajax({
+			url:'/ShoeKream/bulletinDetail/deleteReply',
+			datatype : 'json',
+			type:'get',
+			data : {
+				bcNo: bcNo
+			},
+			success:function(result){
+				if(result == 1 ){
+				 	alert("댓글이 정상적으로삭제 되었습니다.")
+				 	location.reload();
+				}else{
+					alert("정상적이지 않은 이유로 삭제가 실패 하였습니다.");
+				}
+			}
+		})
+		
+		
+	}
+	
+	
 	
 	</script>
 	
+	
+
 	
 	
    <!-- footer 삽입 -->

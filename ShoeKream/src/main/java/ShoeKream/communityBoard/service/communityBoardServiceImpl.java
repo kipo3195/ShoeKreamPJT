@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ShoeKream.communityBoard.VO.bbReplyVO;
 import ShoeKream.communityBoard.VO.bulletinBoardVO;
 import ShoeKream.communityBoard.VO.communityBoardVO;
 import ShoeKream.communityBoard.mapper.communityBoardMapper;
@@ -131,6 +132,61 @@ public class communityBoardServiceImpl implements communityBoardService {
 		return cbm.totalBulletinBoardCount();
 	}
 
+
+	@Override
+	public int writeReply(bbReplyVO bbrvo) throws Exception {
+
+		return cbm.writeReply(bbrvo);
+		
+	}
+
+
+	@Override
+	public List<bbReplyVO> selectReplyList(int StartPage,int bbNo) throws Exception {
+
+		List<bbReplyVO> ReplyList = cbm.selectBReplyList(StartPage,bbNo);
+		
+		return ReplyList;
+	}
+
+
+	@Override
+	public int deleteReply(int bcNo) throws Exception {
+		
+		return cbm.deleteReply(bcNo);
+	}
+
+
+	@Override
+	public bbReplyVO selectReply(int bcNo) throws Exception {
+		
+		return cbm.selectReply(bcNo);
+	}
+
+
+	@Override
+	public int updateReplyRequest(bbReplyVO bbrvo) throws Exception {
+		
+		return cbm.updateReplyRequest(bbrvo);
+	}
+
+
+	@Override
+	public int totalBboardReplyCount(int bbNo) throws Exception {
+		
+		return cbm.totalBboardReplyCount(bbNo);
+	}
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
 
 
 	

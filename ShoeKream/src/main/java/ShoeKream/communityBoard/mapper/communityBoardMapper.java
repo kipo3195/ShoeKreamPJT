@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import ShoeKream.communityBoard.VO.bbReplyVO;
 import ShoeKream.communityBoard.VO.bulletinBoardVO;
 import ShoeKream.communityBoard.VO.communityBoardVO;
 
@@ -38,5 +39,17 @@ public interface communityBoardMapper {
 	void addBulletinHitCnt(int bbNo) throws Exception;
 
 	int totalBulletinBoardCount() throws Exception;
+
+	int writeReply(bbReplyVO bbrvo) throws Exception;
+
+	List<bbReplyVO> selectBReplyList(@Param("StartPage")int StartPage,@Param("bbNo")int bbNo)throws Exception;
+
+	int deleteReply(@Param("bcNo")int bcNo)throws Exception;
+
+	bbReplyVO selectReply(@Param("bcNo")int bcNo)throws Exception;
+
+	int updateReplyRequest(bbReplyVO bbrvo)throws Exception;
+
+	int totalBboardReplyCount(@Param("bbNo")int bbNo)throws Exception;
 
 }

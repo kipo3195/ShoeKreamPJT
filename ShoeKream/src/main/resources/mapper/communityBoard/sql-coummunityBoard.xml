@@ -233,8 +233,102 @@ WHERE
 	]]>
 </select>
 
+<insert id="writeReply" parameterType="ShoeKream.communityBoard.VO.bbReplyVO">
+
+<![CDATA[
+	INSERT INTO sk_b_comment(
+	bc_contents,
+	bc_boardno,
+	updated_datetime,
+	creator_name
+	)VALUES(
+	#{bcContents},
+	#{bbNo},
+	NOW(),
+	#{creatorName}
+	);
+]]>
+</insert>
 
 
+<select id="selectBReplyList" parameterType="int" resultType="ShoeKream.communityBoard.VO.bbReplyVO">
+<![CDATA[
+SELECT
+		bc_no,
+		bc_contents,
+		creator_name,
+		updated_datetime
+FROM
+		sk_b_comment
+WHERE
+		bc_boardno = #{bbNo}
+AND
+		delete_yn = 'n'
+ORDER BY bc_no DESC
+Limit #{StartPage} ,5
+]]>
+
+
+</select>
+
+<update id="deleteReply" parameterType="int">
+
+<![CDATA[
+UPDATE sk_b_comment
+SET delete_yn = 'y'
+WHERE
+bc_no = #{bcNo}
+
+]]>
+
+
+</update>
+
+
+<select id="selectReply" parameterType="int" resultType="ShoeKream.communityBoard.VO.bbReplyVO">
+
+<![CDATA[
+SELECT 
+	bc_no,
+	bc_contents,
+	bc_boardno,
+	creator_name
+FROM sk_b_comment
+WHERE
+bc_no = #{bcNo}
+	
+]]>
+
+</select>
+
+<update id="updateReplyRequest" parameterType="ShoeKream.communityBoard.VO.bbReplyVO">
+<![CDATA[
+UPDATE 
+		sk_b_comment
+SET 
+		bc_contents = #{bcContents}
+WHERE 
+		bc_no = #{bcNo}
+
+]]>
+
+
+</update>
+
+
+<select id="totalBboardReplyCount" parameterType="int" resultType="int">
+
+<![CDATA[
+SELECT count(*)
+FROM 
+	sk_b_comment
+WHERE 
+	bc_boardno = #{bbNo}
+AND
+	delete_yn = 'n'
+]]>
+
+</select>
 
 
 
