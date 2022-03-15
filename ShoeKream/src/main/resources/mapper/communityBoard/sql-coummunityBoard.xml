@@ -330,6 +330,77 @@ AND
 
 </select>
 
+<select id="likeState" resultType="int">
+<![CDATA[
+SELECT count(*)
+FROM 
+	sk_likecnt
+WHERE
+	userid = #{userid}
+AND
+	likeBoardNo = #{bbno}
+]]>
+
+
+</select>
+
+<insert id="firstClickLike">
+<![CDATA[
+INSERT INTO sk_likecnt(
+userid,
+likeBoardNo
+)VALUES(
+#{userid},
+#{bbno}
+)
+]]>
+
+</insert>
+
+<select id="likeStateRequest" resultType="String">
+
+<![CDATA[
+SELECT
+	 stateFlag
+FROM 
+	sk_likecnt
+WHERE
+	userid = #{userid}
+AND
+	likeBoardNo = #{bbno}
+
+]]>
+
+</select>
+
+<update id="changeYtoN">
+<![CDATA[
+UPDATE 
+	sk_likecnt
+SET
+	stateFlag = 'n'
+WHERE
+	userid = #{userid}
+AND
+	likeBoardNo = #{bbno}
+]]>
+</update>
+
+<update id="changeNtoY">
+<![CDATA[
+UPDATE 
+	sk_likecnt
+SET
+	stateFlag = 'y'
+WHERE
+	userid = #{userid}
+AND
+	likeBoardNo = #{bbno}
+	
+]]>
+
+</update>
+
 
 
 </mapper>

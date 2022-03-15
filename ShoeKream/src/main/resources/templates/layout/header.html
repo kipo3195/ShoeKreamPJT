@@ -27,9 +27,12 @@
 			    			<li class="nav-item">
 			    				<a class="nav-link" href="/ShoeKream/community">고객센터</a>
 			    			</li>
-			    			<li class="nav-item"><!-- 클릭시 마이페이지로 이동하기! -->
-			    				<a class="nav-link" href="#" th:text="${session.member.username}"></a>		    	
-			    			</li>			    						
+			    			<li class="nav-item" th:if="${session.member.username == 'admin'}"><!-- 클릭시 마이페이지로 이동하기! -->
+			    				<a class="nav-link" href="/ShoeKream/adminMain" th:text="${session.member.username}"></a>		    	<!-- 관리자 -->
+			    			</li>		
+			    			<li class="nav-item" th:if="${session.member.username != 'admin'}">
+			    				<a class="nav-link" href="#" th:text="${session.member.username}"></a>		    		<!-- 일반회원 -->
+			    			</li>			    				    						
 			    			<li class="nav-item">
 			    				<a class="nav-link" href="/logoutRequest">로그아웃</a>		    	
 			    			</li>		

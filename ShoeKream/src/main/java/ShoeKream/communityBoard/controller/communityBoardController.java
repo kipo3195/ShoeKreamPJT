@@ -180,6 +180,9 @@ public class communityBoardController {
 		System.out.println("bbno : "+bbno);
 		System.out.println("userid : "+userid);
 		
+		String flag= cbs.clickLike(bbno,userid);
+		
+		System.out.println("flag : "+flag);
 		
 		
 		

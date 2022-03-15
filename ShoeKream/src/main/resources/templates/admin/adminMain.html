@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+  
+    <head th:replace="layout/header::html-head"> <!--thymeleaf를 이용한 html head 삽입 -->
+    </head>
+    
+    <body>
+    		  <div th:replace="layout/header::header-nav-user"></div>  <!-- thymeleaf를 이용한 header-nav-user 삽입 -->
+     		  <div th:replace="layout/header::header-nav-common"></div>  
+	<section>
+	
+	<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+	
+	<!-- 제품 등록 완료 메시지 출력 -->
+	<script th:inline="javascript">
+    /*<![CDATA[*/
+    var msg = /*[[${msg}]]*/  "default";
+    if(msg != null){  	
+    alert(msg);
+    }
+    /*]]>*/
+	</script>
+	
+	<div class="container" style="border: 1px solid black;height: 700px;">
+		<header style="height: 100px;">
+			<h1 style="padding-top: 25px;">관리자 메인 페이지</h1>
+			<hr width="25%" >
+			
+		</header>
+		<nav style="border: 1px solid black;height:  600px;width: 220px;float: left;">
+		<ul style="padding-left: 0;padding-top:5px;margin-left: 10px;">
+			<li style="list-style-type: none;">- 제품 관리</li>
+			<li style="list-style-type: none;">
+				<a href="/ShoeKream/admin/ProductRegist">제품 등록</a>
+			</li>
+			<li style="list-style-type: none;">
+				<a href="#">제품 조회/삭제</a>
+			</li>
+			<li style="list-style-type: none;">- 게시물 관리</li>
+			<li style="list-style-type: none;">
+				<a href="/ShoeKream/admin/luxuryBoard">luxury Product Board 관리</a>
+			</li>
+			<li style="list-style-type: none;">
+				<a href="/ShoeKream/admin/shoesBoard">Shoes Product Board 관리</a>
+			</li>
+			<li style="list-style-type: none;">- 회원 관리</li>
+			<li style="list-style-type: none;">기타 기능</li>
+			<li style="list-style-type: none;">기타 기능</li>
+			<li style="list-style-type: none;">기타 기능</li>
+		</ul>
+		
+		</nav>	
+		<article style="border: 1px solid black; height:600px;width: 1050px;float: left;">
+		
+		</article>
+	
+	</div>
+	
+	
+	
+	
+	
+	</section>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC  "-//mybatis.org//DTD Mapper 3.0//EN"
+				"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ShoeKream.admin.mapper.adminMapper">
+
+<insert id="productRegist" parameterType="ShoeKream.admin.VO.ProductVO">
+
+<![CDATA[
+	INSERT INTO sk_Product(
+	p_brand,
+	p_product,
+	p_intro,
+	p_price,
+	p_category,
+	p_classcode,
+	created_datetime	
+	)VALUES(
+	#{pBrand},
+	#{pProduct},
+	#{pIntro},
+	#{pPrice},
+	#{pCategory},
+	#{pClassCode},
+	NOW()
+	)
+
+]]>
+
+</insert>
+
+<select id="searchProduct" parameterType="int" resultType="ShoeKream.admin.VO.ProductVO">
+
+<![CDATA[
+SELECT 
+	p_no,
+	p_brand,
+	p_product,
+	p_intro,
+	p_price,
+	p_category,
+	p_classcode,
+	on_sale
+FROM	
+	sk_Product
+WHERE
+	p_no = #{pno}
+	
+]]>
+
+</select>
+
+<insert id="pBoardRegistRequest" parameterType="ShoeKream.admin.VO.luxBoardVO" >
+
+INSERT INTO sk_lux_board(
+	luxb_no,
+	luxb_brand,
+	luxb_product,
+	luxb_intro,
+	luxb_price,
+	luxb_category,
+	luxb_classcode,
+	created_datetime,
+	luxb_thumbnailimg,
+	luxb_img1,
+	luxb_img2,
+	on_sale,
+	p_no
+)VALUES(
+	 #{luxbNo},
+	 #{luxbBrand},
+	 #{luxbProduct},
+	 #{luxbIntro},
+	 #{luxbPrice},
+	 #{luxbCategory},
+	 #{luxbClassCode},
+	 NOW(),
+	 #{luxbThumbnailImg},
+	 #{luxbImg1},
+	 #{luxbImg2},
+	 #{onSale},
+	 #{pNo}
+)
+
+
+
+
+
+</insert>
+
+
+</mapper>

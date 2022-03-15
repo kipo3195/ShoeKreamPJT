@@ -123,6 +123,37 @@ public class communityBoardServiceImpl implements communityBoardService {
 		cbm.addBulletinHitCnt(bbNo);
 		
 	}
+	
+	
+	
+	@Override
+	public String clickLike(String bbno, String userid) throws Exception {
+		
+	int result = cbm.likeState(bbno,userid);
+	
+	if(result == 0) {
+		//처음 눌림
+		cbm.firstClickLike(bbno,userid);
+		return cbm.likeStateRequest(bbno, userid);
+	}
+	
+		String resultYorN = cbm.likeStateRequest(bbno, userid);	
+		
+		System.out.println(resultYorN);
+		
+		if(resultYorN == "y") {
+			cbm.changeYtoN(bbno, userid);
+			resultYorN = cbm.likeStateRequest(bbno, userid);	
+			System.out.println("바꾸고나서:"+resultYorN);
+		}else {
+			cbm.changeNtoY(bbno, userid);
+			resultYorN = cbm.likeStateRequest(bbno, userid);	
+			System.out.println("바꾸고나서:"+resultYorN);
+		}
+
+		
+		return "";
+	}
 
 
 	@Override

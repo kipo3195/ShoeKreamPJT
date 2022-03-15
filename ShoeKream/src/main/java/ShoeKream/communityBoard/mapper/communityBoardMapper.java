@@ -52,4 +52,14 @@ public interface communityBoardMapper {
 
 	int totalBboardReplyCount(@Param("bbNo")int bbNo)throws Exception;
 
+	int likeState(@Param("bbno")String bbno,@Param("userid")String userid)throws Exception;
+
+	void firstClickLike(@Param("bbno")String bbno,@Param("userid") String userid)throws Exception;
+
+	String likeStateRequest(@Param("bbno")String bbno,@Param("userid") String userid)throws Exception;
+
+	void changeYtoN(@Param("bbno")String bbno,@Param("userid") String userid)throws Exception;
+	
+	void changeNtoY(@Param("bbno")String bbno,@Param("userid") String userid)throws Exception;
+
 }

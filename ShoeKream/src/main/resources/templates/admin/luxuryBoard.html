@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+  
+    <head th:replace="layout/header::html-head"> <!--thymeleaf를 이용한 html head 삽입 -->
+    </head>
+    
+    <body>
+ 
+			  <div th:replace="layout/header::header-nav-user"></div>  <!-- thymeleaf를 이용한 header-nav-user 삽입 -->
+			  
+	<!-- 게시글 등록 완료 메시지 출력 -->
+	<script th:inline="javascript">
+    /*<![CDATA[*/
+    var msg = /*[[${msg}]]*/  "default";
+    if(msg != null){  	
+    alert(msg);
+    }
+    /*]]>*/
+	</script>
+
+    	
+        <!-- Section  완성본 03 /15-->
+        <section class="py-5" style="border: 1px solid black">
+       <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="container"><a class="btn btn-outline-dark mt-auto" href="/ShoeKream/admin/luxuryBoardWrite">글쓰기</a></div>
+        </div>
+            <div class="container px-4 px-lg-5 mt-5" style="border: 1px solid black">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" style="border: 1px solid black">
+
+
+               <!-- 카드 -->
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." style="height: 245px"/>
+                            <!-- Product details-->
+                            <div  style="height: 75px;">
+                                <div>
+                                    <!-- Brand name-->
+                                    <h5 style="font-size: 11pt;text-decoration: underline;padding-left: 2px;">BrandName</h5>
+                                </div>
+                                <div style="font-size: 10pt;padding-left: 2px;">
+                                <!-- Product name -->
+                                이 제품의 설명이 들어갈 부분입니다.
+                                이 제품의 설명이 들어갈 부분입니다.
+                                이 제품의 설명이 들어갈 부분입니다.
+                                최대 60자 까지 가능합니다..
+                                </div>
+                            </div>
+                            <div style="height: 20px;">
+                            	<!-- Product price-->
+                             <h6 style="font-size: 15px;font-weight: bold;padding-top: 6px;padding-left: 2px;">4.000.000원</h6>
+                            </div>
+                             <div style="height: 10px;color: gray;padding-left: 2px;padding-top: 2px;">
+                            	<!-- Product price-->
+                             <p style="font-size: 8px;">즉시구매가<p>
+                            </div>
+                            <!-- Product actions-->
+                           <!--  <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
+                            </div> -->
+                        </div>
+                    </div>
+                    
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." style="height: 245px"/>
+                            <!-- Product details-->
+                            <div  style="height: 80px;">
+                                <div>
+                                    <!-- Brand name-->
+                                    <h5 style="font-size: 11pt;text-decoration: underline;padding-left: 2px;">BrandName</h5>
+                                </div>
+                                <div style="font-size: 10pt;padding-left: 2px;">
+                                <!-- Product name -->
+                                이 제품의 설명이 들어갈 부분입니다.
+                               
+                                최대 60자 까지 가능합니다..
+                                </div>
+                            </div>
+                            <div style="height: 20px;">
+                            	<!-- Product price-->
+                             <h6 style="font-size: 15px;font-weight: bold;padding-top: 5px;padding-left: 2px;">4.000.000원</h6>
+                            </div>
+                             <div style="height: 10px;margin: 0 0;color: gray;padding-left: 2px;">
+                            	<!-- Product price-->
+                             <p style="font-size: 9px;">즉시구매가<p>
+                            </div>
+                            <!-- Product actions-->
+                           <!--  <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
+                            </div> -->
+                        </div>
+                    </div>
+                    
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." style="height: 245px"/>
+                            <!-- Product details-->
+                            <div  style="height: 80px;">
+                                <div>
+                                    <!-- Brand name-->
+                                    <h5 style="font-size: 11pt;text-decoration: underline;padding-left: 2px;">BrandName</h5>
+                                </div>
+                                <div style="font-size: 10pt;padding-left: 2px;">
+                                <!-- Product name -->
+                                이 제품의 설명이 들어갈 부분입니다.
+                                이 제품의 설명이 들어갈 부분입니다.
+                                이 제품의 설명이 들어갈 부분입니다.
+                                최대 60자 까지 가능합니다..
+                                </div>
+                            </div>
+                            <div style="height: 20px;">
+                            	<!-- Product price-->
+                             <h6 style="font-size: 15px;font-weight: bold;padding-top: 5px;padding-left: 2px;">4.000.000원</h6>
+                            </div>
+                             <div style="height: 10px;margin: 0 0;color: gray;padding-left: 2px;">
+                            	<!-- Product price-->
+                             <p style="font-size: 9px;">즉시구매가<p>
+                            </div>
+                            <!-- Product actions-->
+                           <!--  <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
+                            </div> -->
+                        </div>
+                    </div>
+                    
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." style="height: 245px"/>
+                            <!-- Product details-->
+                            <div  style="height: 80px;">
+                                <div>
+                                    <!-- Brand name-->
+                                    <h5 style="font-size: 11pt;text-decoration: underline;padding-left: 2px;">BrandName</h5>
+                                </div>
+                                <div style="font-size: 10pt;padding-left: 2px;">
+                                <!-- Product name -->
+                                이 제품의 설명이 들어갈 부분입니다.
+                                이 제품의 설명이 들어갈 부분입니다.
+                                이 제품의 설명이 들어갈 부분입니다.
+                                최대 60자 까지 가능합니다..
+                                </div>
+                            </div>
+                            <div style="height: 20px;">
+                            	<!-- Product price-->
+                             <h6 style="font-size: 15px;font-weight: bold;padding-top: 5px;padding-left: 2px;">4.000.000원</h6>
+                            </div>
+                             <div style="height: 10px;margin: 0 0;color: gray;padding-left: 2px;">
+                            	<!-- Product price-->
+                             <p style="font-size: 9px;">즉시구매가<p>
+                            </div>
+                            <!-- Product actions-->
+                           <!--  <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
+                            </div> -->
+                        </div>
+                    </div>
+                    
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." style="height: 245px"/>
+                            <!-- Product details-->
+                            <div  style="height: 80px;">
+                                <div>
+                                    <!-- Brand name-->
+                                    <h5 style="font-size: 11pt;text-decoration: underline;padding-left: 2px;">BrandName</h5>
+                                </div>
+                                <div style="font-size: 10pt;padding-left: 2px;">
+                                <!-- Product name -->
+                                이 제품의 설명이 들어갈 부분입니다.
+                                이 제품의 설명이 들어갈 부분입니다.
+                                이 제품의 설명이 들어갈 부분입니다.
+                                최대 60자 까지 가능합니다..
+                                </div>
+                            </div>
+                            <div style="height: 20px;">
+                            	<!-- Product price-->
+                             <h6 style="font-size: 15px;font-weight: bold;padding-top: 5px;padding-left: 2px;">4.000.000원</h6>
+                            </div>
+                             <div style="height: 10px;margin: 0 0;color: gray;padding-left: 2px;">
+                            	<!-- Product price-->
+                             <p style="font-size: 9px;">즉시구매가<p>
+                            </div>
+                            <!-- Product actions-->
+                           <!--  <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
+                            </div> -->
+                        </div>
+                    </div>
+                    
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." style="height: 245px"/>
+                            <!-- Product details-->
+                            <div  style="height: 80px;">
+                                <div>
+                                    <!-- Brand name-->
+                                    <h5 style="font-size: 11pt;text-decoration: underline;padding-left: 2px;">BrandName</h5>
+                                </div>
+                                <div style="font-size: 10pt;padding-left: 2px;">
+                                <!-- Product name -->
+                                이 제품의 설명이 들어갈 부분입니다.
+                                이 제품의 설명이 들어갈 부분입니다.
+                                이 제품의 설명이 들어갈 부분입니다.
+                                최대 60자 까지 가능합니다..
+                                </div>
+                            </div>
+                            <div style="height: 20px;">
+                            	<!-- Product price-->
+                             <h6 style="font-size: 15px;font-weight: bold;padding-top: 5px;padding-left: 2px;">4.000.000원</h6>
+                            </div>
+                             <div style="height: 10px;margin: 0 0;color: gray;padding-left: 2px;">
+                            	<!-- Product price-->
+                             <p style="font-size: 9px;">즉시구매가<p>
+                            </div>
+                            <!-- Product actions-->
+                           <!--  <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
+                            </div> -->
+                        </div>
+                    </div>
+                    
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." style="height: 245px"/>
+                            <!-- Product details-->
+                            <div  style="height: 80px;">
+                                <div>
+                                    <!-- Brand name-->
+                                    <h5 style="font-size: 11pt;text-decoration: underline;padding-left: 2px;">BrandName</h5>
+                                </div>
+                                <div style="font-size: 10pt;padding-left: 2px;">
+                                <!-- Product name -->
+                                이 제품의 설명이 들어갈 부분입니다.
+                                이 제품의 설명이 들어갈 부분입니다.
+                                이 제품의 설명이 들어갈 부분입니다.
+                                최대 60자 까지 가능합니다..
+                                </div>
+                            </div>
+                            <div style="height: 20px;">
+                            	<!-- Product price-->
+                             <h6 style="font-size: 15px;font-weight: bold;padding-top: 5px;padding-left: 2px;">4.000.000원</h6>
+                            </div>
+                             <div style="height: 10px;margin: 0 0;color: gray;padding-left: 2px;">
+                            	<!-- Product price-->
+                             <p style="font-size: 9px;">즉시구매가<p>
+                            </div>
+                            <!-- Product actions-->
+                           <!--  <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
+                            </div> -->
+                        </div>
+                    </div>
+                    
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." style="height: 245px"/>
+                            <!-- Product details-->
+                            <div  style="height: 80px;">
+                                <div>
+                                    <!-- Brand name-->
+                                    <h5 style="font-size: 11pt;text-decoration: underline;padding-left: 2px;">BrandName</h5>
+                                </div>
+                                <div style="font-size: 10pt;padding-left: 2px;">
+                                <!-- Product name -->
+                                이 제품의 설명이 들어갈 부분입니다.
+                                이 제품의 설명이 들어갈 부분입니다.
+                                이 제품의 설명이 들어갈 부분입니다.
+                                최대 60자 까지 가능합니다..
+                                </div>
+                            </div>
+                            <div style="height: 20px;">
+                            	<!-- Product price-->
+                             <h6 style="font-size: 15px;font-weight: bold;padding-top: 5px;padding-left: 2px;">4.000.000원</h6>
+                            </div>
+                             <div style="height: 10px;margin: 0 0;color: gray;padding-left: 2px;">
+                            	<!-- Product price-->
+                             <p style="font-size: 9px;">즉시구매가<p>
+                            </div>
+                            <!-- Product actions-->
+                           <!--  <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
+                            </div> -->
+                        </div>
+                    </div>
+                    
+                    
+                   
+                    
+                    
+                    
+                    
+                </div>
+            </div>
+          <div>
+            <!-- 페이징 처리 -->
+           
+           			 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">더 보기</a></div>
+                      </div>
+            </div>
+            
+            
+        </section>
+       
+
+       
+      
+    </body>
+</html>

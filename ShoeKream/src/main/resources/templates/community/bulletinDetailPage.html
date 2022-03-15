@@ -65,11 +65,11 @@
 											<th style="border:1px solid black;padding-left: 30px;padding-top: 20px;width: 900px;" colspan="2"><h2>자유게시판 댓글 창</h2></th>										
 										</tr>
 										<tr>
-											<td style="width: 150px;border: 1px solid black;text-align: center;">닉네임</td>
-											<td style="width: 350px;border: 1px solid black;text-align: center;">내용</td>
-											<td style="width: 100px;border: 1px solid black;text-align: center;">공감 수</td>
-											<td style="width: 200px;border: 1px solid black;text-align: center;">작성시간</td>
-											<td style="width: 100px;border: 1px solid black;text-align: center;">삭제/수정</td>
+											<th style="width: 150px;border: 1px solid black;text-align: center;">닉네임</th>
+											<th style="width: 350px;border: 1px solid black;text-align: center;">내용</th>
+											<th style="width: 100px;border: 1px solid black;text-align: center;">공감 수</th>
+											<th style="width: 200px;border: 1px solid black;text-align: center;">작성시간</th>
+											<th style="width: 100px;border: 1px solid black;text-align: center;">삭제/수정</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -77,14 +77,14 @@
 											<td style="font-size: 12px" th:text="${list.creatorName}"></td>
 											<td style="font-size: 12px" th:text="${list.bcContents}" ></td>	
 											<td>공감</td><!-- 공감 이미지와 공감 수 비동기 처리 -->			
-											<td style="font-size: 12px;" th:text="${list.updatedDatetime}"></td>		
+											<td style="font-size: 12px;text-align: center;" th:text="${list.updatedDatetime}" ></td>		
 											<td th:if="${session.member != null and session.member.username == list.creatorName }">
 												<input type="button" id="commentUpdate" value="수정" th:onclick="'commentUpdate('+${list.bcNo}+');'">
 												<input type="button" id="commentDelete" value="삭제" th:onclick="'commentDelete('+${list.bcNo}+');'">
 												<input type="hidden" class="bcNo" th:value="${list.bcNo}" th:id="bnNo+${list.bcNo}">
 											</td>
-											<td th:if="${session.member != null and session.member.username != list.creatorName }">로그인o주인x</td>
-											<td th:if="${session.member == null}">로그인x</td>
+											<td th:if="${session.member != null and session.member.username != list.creatorName }" style="text-align: center;">권한 없음</td>
+											<td th:if="${session.member == null}" style="text-align: center;">권한 없음</td>
 										</tr>
 										
 										<!-- 댓글 페이징 처리 -->
@@ -316,6 +316,6 @@
 	
 	
    <!-- footer 삽입 -->
-     <!-- <footer th:replace="layout/footer::footer"> </footer>   -->
+<!--       <footer th:replace="layout/footer::footer"> </footer>    -->
 </body>
 </html>

@@ -50,6 +50,8 @@ public interface communityBoardService {
 	int updateReplyRequest(bbReplyVO bbrvo)throws Exception;
 
 	int totalBboardReplyCount(int bbNo)throws Exception;
+
+	String clickLike(String bbno, String userid)throws Exception;
 	
 
 
