@@ -41,7 +41,7 @@
 								<th scope="col"  style="text-align: center;">조회수</th>
 								<th scope="col"  style="text-align: center;">작성자</th>
 								<th scope="col" style="padding-left: 61.5px">작성일</th>
-								<td><img th:src="@{/images/love.png}" style="width: 25px;height:25px"></img></td>
+								<td><img th:src="@{/images/common/love.png}" style="width: 25px;height:25px"></img></td>
 						</tr>	
 						<tr th:if="${#lists.size(list)} > 0" th:each="list : ${list}" >
 								<td th:text="${list.bbCategory}" style="text-align: center"></td>
@@ -56,10 +56,10 @@
 								<td th:text="${list.creatorname}"  style="text-align: center;"></td>
 								<!-- TODO 오늘 날짜가 지난 게시물이라면 날짜만 표기, 당일 게시글은 시간까지 표기해보기 -->
 								<td th:text="${#strings.replace(list.createdDatetime,'T',' ')}"></td> 
-								<td th:text="${list.likeCnt}" style="text-align: center"></td>
+								<td th:text="${list.likeCnt}" style="text-align: center" th:id="'likecount'+${list.bbNo}"></td>
 								<td th:if="${session.member != null}"  >
-										<div class="here">
-											<img th:src="@{/images/emptyHeart.png}" style="width: 25px;height:25px;cursor:pointer" 	th:value="${list.bbNo}" th:id="'likeCnt'+${list.bbNo}"  class="clickevent">
+										<div class="here"  >
+											<img th:src="@{/images/common/emptyHeart.png}" style="width: 25px;height:25px;cursor:pointer" 	th:value="${list.bbNo}" th:id="'likeCnt'+${list.bbNo}"  class="clickevent">
 										</div>
 											<input type="hidden" th:value="${session.member.userid}" id="userid">
 								</td>
@@ -77,6 +77,9 @@
 					var bbno = $(this).attr('value');               //반복되는 리스트 중 현재 게시물의 번호를 가져온
 					var userid = $('#userid').attr('value');		// 현재 로그인된 세션의  id를 가져온다.
 					var c = $(this).attr('id');								// 좋아요 버튼을 올리고 db에 반영을 한뒤, 모든 td의 클래스나 id에 적용하는 것이 아닌, 현재 내가 접근한 td의 이미지만 변경하기 위해서 가져온 값이다.
+					var b = "likecount"+bbno;
+					
+					// 숫자 업데이트 해주기;
 					
 					
 					var str = "";
@@ -88,15 +91,12 @@
 							bbno : bbno,
 							userid : userid
 						},success : function(data){
-							if(data =='y'){
-								document.getElementById(c).src="/images/fullHeart.png";
-								
-								
-							}else{
-								document.getElementById(c).src="/images/emptyHeart.png";
-							}
-							
-							
+						
+						if(data == 'y'){
+							document.getElementById(c).setAttribute('src','/images/common/fullHeart.png');
+						}else{
+							document.getElementById(c).setAttribute('src','/images/common/emptyHeart.png');
+						}
 							
 						},error: function(data){
 							alert(data);

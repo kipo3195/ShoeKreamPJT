@@ -1,7 +1,13 @@
 package ShoeKream.admin.service;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import ShoeKream.admin.VO.ProductVO;
 import ShoeKream.admin.VO.luxBoardVO;
@@ -31,8 +37,9 @@ public class adminServiceImpl implements adminService{
 	@Override
 	public int pBoardRegistRequest(luxBoardVO lbvo) throws Exception {
 		
-		int result = am.pBoardRegistRequest(lbvo);
 		
+		
+		int result = am.pBoardRegistRequest(lbvo);
 		
 		
 		return result;

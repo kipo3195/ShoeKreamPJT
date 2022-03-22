@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+  
+    <head th:replace="layout/header::html-head"> <!--thymeleaf를 이용한 html head 삽입 -->
+    </head>
+    
+    <body>
+    		  <div th:replace="layout/header::header-nav-user"></div>  <!-- thymeleaf를 이용한 header-nav-user 삽입 -->
+     		  <div th:replace="layout/header::header-nav-common"></div>  
+	<section>
+	
+	<div class="container" style="height: 830px;">
+		<header style="height: 100px;">
+			<h1 style="padding-top: 25px;">제품 상세 페이지</h1>
+			<hr width="25%" >
+			
+		</header>
+		<article style="border: 1px solid black; height:700px;width: 50%;float: left;">
+			<img alt="...." th:src="@{/}+${lbvo.luxbThumbnailImg}"><!-- 이미지 경로 처리해야함 -->
+		</article>
+		<article style="height:700px;width: 50%;float: left;">
+			<div style="width:95%;height: 20%;margin-left: 20px;margin-top: 5px;">
+				<p th:text="${lbvo.luxbBrand}" style="font-size: 20pt;font-weight: bold;text-decoration: underline;"></p>
+				<h3 th:text="${lbvo.luxbIntro}" style="font-size: 16pt;"></h3>
+				<h6 th:text="${lbvo.luxbProduct}" style="font-size: 12pt;color: gray;"></h6>
+			</div>
+			<div style="width:95%;height:9%;margin-left: 20px;">
+				<table style="width: 100%;height: 100%">
+					<tr>
+						<td style="width: 50%">사이즈</td>
+						<td style="width: 50%;text-align: right;">XL, L, M</td>
+					</tr>
+				</table>
+			</div>
+			<div style="width:95%;height:25%;margin-left: 20px;">
+				<hr/>
+					<table style="width: 100%;height: 100%">
+					<tr>
+						<td style="width: 50%;" align="center">
+							<input type="button" style="width: 97%;height: 60%;color:white;background-color: #ef6d66;font-size: 19pt;border-radius: 10px 10px 10px 10px" value="구입하기">
+						</td>
+						<td style="width: 50%" align="center">
+							<input type="button" style="width: 97%;height: 60%;color:white;background-color: #09dc7d;font-size: 19pt;border-radius: 10px 10px 10px 10px" value="장바구니 담기">
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div style="width:95%;height:15%;margin-left: 20px;"align="center">
+				<input type="button" style="background-color: white; width: 98%;border-radius: 10px 10px 10px 10px;height: 95%;border: 1px solid gray;font-size: 15pt " value="관심상품 등록">
+			</div>
+			<div style="width:95%;height:35%;margin-left: 20px;">
+				<hr/>
+				<h3>상품 정보</h3>
+					<table>
+						<tr style="margin-left: 3px;">
+									<td style="width: 25%">모델번호</td>
+									<td style="width: 25%">발매가</td>
+									<td style="width: 25%;">제품 등록일</td>
+									<td style="width: 25%">게시글 수정일</td>
+						</tr>
+						<tr>
+									<td style="width: 25%" th:text="${lbvo.luxbClassCode}+${lbvo.pNo}"></td>
+									<td style="width: 25%" th:text="${lbvo.luxbPrice}"></td>
+									<td style="width: 25%" th:text="${lbvo.createdDatetime}"></td>
+									<td style="width: 25%" th:text="${lbvo.updatedDatetime}"></td>
+						</tr>
+						<tr>
+									<td style="width: 25%">&nbsp;</td>
+									<td style="width: 25%">&nbsp;</td>
+									<td style="width: 25%">&nbsp;</td>
+									<td style="width: 25%">&nbsp;</td>
+						</tr>
+					</table>
+				<hr/>
+			</div>
+		</article> 
+							<div th:if="${session.member == null}">
+							</div>
+							<div th:if="${session.member != null}">
+								  <div th:switch="${session.member.username}">
+								  		<div th:case="admin">
+												<input type="button" value="수정하기" style="width:100px;background-color:#28D308;color:white" th:onclick="'updateBoard('+${lbvo.luxbNo}+')'">
+												<input type="button" value="삭제하기" style="width:100px;background-color:#F11A44;" th:onclick="'deleteBoard('+${lbvo.luxbNo}+')'">
+						  		  		</div>
+						  		  		<span th:case="*">
+						  		  		</span>
+									</div>
+								</div>
+	</div>
+	</section>
+</body>
+
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type=>
+
+		// 게시판 삭제
+		function deleteBoard(luxbNo){
+			location.href="/ShoeKream/deleteMainBoard/"+luxbNo;
+			
+		}
+		// 게시판 수정
+		function updateBoard(luxbNo){
+			location.href="/ShoeKream/updateMainBoard/"+luxbNo;
+		}
+
+</script>
+
+</html>

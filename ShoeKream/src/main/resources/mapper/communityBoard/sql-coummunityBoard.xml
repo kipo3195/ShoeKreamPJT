@@ -330,76 +330,101 @@ AND
 
 </select>
 
+
 <select id="likeState" resultType="int">
 <![CDATA[
+
 SELECT count(*)
-FROM 
+FROM
 	sk_likecnt
 WHERE
-	userid = #{userid}
+	userid = #{userId}
 AND
-	likeBoardNo = #{bbno}
-]]>
+	likeBoardNo = #{bbNo}
 
+]]>
 
 </select>
 
-<insert id="firstClickLike">
+<insert id="firstClick">
+
 <![CDATA[
+
 INSERT INTO sk_likecnt(
-userid,
-likeBoardNo
+	userid,
+	likeBoardNo
 )VALUES(
-#{userid},
-#{bbno}
+	#{userId},
+	 #{bbNo}
 )
 ]]>
 
 </insert>
 
-<select id="likeStateRequest" resultType="String">
+
+<select id="nClick" resultType="String">
 
 <![CDATA[
-SELECT
-	 stateFlag
-FROM 
+
+SELECT stateFlag
+FROM
 	sk_likecnt
 WHERE
-	userid = #{userid}
+	userid = #{userId}
 AND
-	likeBoardNo = #{bbno}
+	likeBoardNo = #{bbNo}
 
 ]]>
+
 
 </select>
 
 <update id="changeYtoN">
-<![CDATA[
-UPDATE 
-	sk_likecnt
-SET
-	stateFlag = 'n'
+
+UPDATE sk_likecnt
+SET stateFlag ='n'
 WHERE
-	userid = #{userid}
+	userid = #{userId}
 AND
-	likeBoardNo = #{bbno}
-]]>
+	likeBoardNo = #{bbNo}
+
+
 </update>
 
 <update id="changeNtoY">
-<![CDATA[
-UPDATE 
-	sk_likecnt
-SET
-	stateFlag = 'y'
+
+UPDATE sk_likecnt
+SET stateFlag ='y'
 WHERE
-	userid = #{userid}
+	userid = #{userId}
 AND
-	likeBoardNo = #{bbno}
-	
-]]>
+	likeBoardNo = #{bbNo}
 
 </update>
+
+<update id="addlikecount" parameterType="int">
+
+UPDATE sk_bb
+SET 
+	bb_likecnt = bb_likecnt+1
+WHERE
+	bb_no = #{bbNo}
+
+</update>
+
+
+<update id="minuslikecount" parameterType="int">
+
+UPDATE sk_bb
+SET 
+	bb_likecnt = bb_likecnt-1
+WHERE
+	bb_no = #{bbNo}
+
+</update>
+
+
+
 
 
 

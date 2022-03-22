@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC  "-//mybatis.org//DTD Mapper 3.0//EN"
+				"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ShoeKream.main.mapper.mainMapper">
+
+
+<select id="selectMain" resultType="ShoeKream.admin.VO.luxBoardVO">
+<![CDATA[
+SELECT 
+		luxb_no,
+		luxb_brand,
+		luxb_product,
+		luxb_intro,
+		luxb_price,
+		luxb_category,
+		luxb_classcode,
+		created_datetime,
+		updated_datetime,
+		luxb_thumbnailimg,
+		luxb_img1,
+		luxb_img2,
+		deleteyn,
+		p_no,
+		on_sale
+FROM 
+		sk_lux_board
+WHERE
+		deleteyn = 'n'
+ORDER BY luxb_no DESC
+LIMIT 0,4
+]]>
+
+</select>
+<select id="selectLuxBoard" parameterType="int" resultType="ShoeKream.admin.VO.luxBoardVO">
+
+SELECT 
+		luxb_no,
+		luxb_brand,
+		luxb_product,
+		luxb_intro,
+		luxb_price,
+		luxb_category,
+		luxb_classcode,
+		created_datetime,
+		updated_datetime,
+		luxb_thumbnailimg,
+		luxb_img1,
+		luxb_img2,
+		deleteyn,
+		p_no,
+		on_sale
+FROM 
+		sk_lux_board
+WHERE
+		luxb_no = #{luxbNo}
+
+</select>
+
+<update id="deleteBoard">
+UPDATE sk_lux_board
+SET deleteyn = 'y'
+WHERE
+luxb_no = #{luxbNo}
+
+</update>
+
+
+<update id="updateBoard" parameterType="ShoeKream.admin.VO.luxBoardVO">
+
+<![CDATA[
+UPDATE sk_lux_board
+SET 
+luxb_brand =#{luxbBrand},
+luxb_product   =#{luxbProduct},
+luxb_intro =#{luxbIntro},
+luxb_price =#{luxbPrice},
+luxb_category =#{luxbCategory},
+luxb_classcode =#{luxbClassCode},
+updated_datetime = NOW()
+WHERE
+luxb_no = #{luxbNo}
+
+]]>
+
+
+
+</update>
+
+<select id="totalBoardCount">
+
+<![CDATA[
+SELECT count(*)
+FROM sk_lux_board
+]]>
+
+</select>
+
+
+<select id="addLuxBoard" resultType="ShoeKream.admin.VO.luxBoardVO">
+
+<![CDATA[
+SELECT 
+		luxb_no,
+		luxb_brand,
+		luxb_product,
+		luxb_intro,
+		luxb_price,
+		luxb_category,
+		luxb_classcode,
+		created_datetime,
+		updated_datetime,
+		luxb_thumbnailimg,
+		luxb_img1,
+		luxb_img2,
+		deleteyn,
+		p_no,
+		on_sale
+FROM 
+		sk_lux_board
+WHERE
+		deleteyn = 'n'
+ORDER BY luxb_no DESC
+LIMIT #{i},4
+]]>
+
+
+</select>
+</mapper>

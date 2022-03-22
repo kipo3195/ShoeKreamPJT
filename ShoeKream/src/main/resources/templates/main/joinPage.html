@@ -8,6 +8,18 @@
 <div th:replace="layout/header::header-nav-common"></div>
 
 <div style="text-align: center">
+
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+    var msg = /*[[${msg}]]*/  "default";
+    if(msg != null){  	
+    alert(msg);
+    }
+    /*]]>*/
+	</script>
+
+
+
 <form action="/joinRequest" method="post">
 	<table class="container" style="border-collapse: separate;border-spacing: 0 15px;">
 		<tr>
@@ -17,7 +29,7 @@
 		<tr>
 			<td width="250">
 				<h5>이메일 주소</h5>
-				<input type="text" placeholder="예) ShoeKream@naver.com" style="width:250px;" required="required" autocomplete="off" id="userid" name="userid">
+				<input type="email" placeholder="예) ShoeKream@naver.com" style="width:250px;" required="required" autocomplete="off" id="userid" name="userid">
 			</td>
 		</tr>
 		
@@ -30,13 +42,13 @@
 		<tr>
 			<td>
 				<h5>비밀번호 입력확인</h5>
-				<input type="password" id="userpass1" name="userpass1" style="width:250px">
+				<input type="password" id="userpass1" name="userpass1" style="width:250px" placeholder="비밀번호 재입력">
 			</td>
 		</tr>
 		<tr>
 			<td>
 				<h5>이 름</h5>
-				<input type="text"  style="width:250px;" required="required" autocomplete="off" id="username" name="username" >
+				<input type="text"  style="width:250px;" required="required" autocomplete="off" id="username" name="username" placeholder="예) 홍길동">
 			</td>
 		</tr>
 		<tr>

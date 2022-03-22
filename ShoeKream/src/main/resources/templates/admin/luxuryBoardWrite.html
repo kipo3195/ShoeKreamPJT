@@ -19,7 +19,7 @@
 			<h2 style="margin:20;">제품 게시물 등록 페이지</h2>
 			<hr style="height:3px;background-color: #333;"/>
 			
-			<form action="/ShoeKream/admin/pBoardRegistRequest" method="post">
+			<form action="/ShoeKream/admin/pBoardRegistRequest" method="post" enctype="multipart/form-data">
 				<table style="border-collapse: separate;border-spacing: 0 15px;">
 				<thead>
 				</thead>
@@ -62,15 +62,15 @@
 							  </tr>	
 						       <tr>
 							    	<td>썸네일 이미지 :</td>
-							    	<td><input type="text" style="width: 350px;">&nbsp;<input type="button" value="찾아보기"></td>
+							    	<td><input type="file" style="width: 350px;" name="files" multiple="multiple"></td>
 						       </tr>
 						       <tr>
-							    	<td>상품 이미지 1 : </td>
-							    	<td><input type="text" style="width: 350px;">&nbsp;<input type="button" value="찾아보기"></td>
+							    	<td>상품 이미지1 :</td>
+							    	<td><input type="file" style="width: 350px;" name="files" multiple="multiple"></td>
 						  	  </tr>
 						  	    <tr>
-							    	<td>상품 이미지 2 : </td>
-							    	<td><input type="text" style="width: 350px;">&nbsp;<input type="button" value="찾아보기"></td>
+							    	<td>상품 이미지2 :</td>
+							    	<td><input type="file" style="width: 350px;" name="files" multiple="multiple"></td>
 						  	  </tr>
 					</tbody>
 					<tfoot>

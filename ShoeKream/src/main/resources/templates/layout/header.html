@@ -31,7 +31,7 @@
 			    				<a class="nav-link" href="/ShoeKream/adminMain" th:text="${session.member.username}"></a>		    	<!-- 관리자 -->
 			    			</li>		
 			    			<li class="nav-item" th:if="${session.member.username != 'admin'}">
-			    				<a class="nav-link" href="#" th:text="${session.member.username}"></a>		    		<!-- 일반회원 -->
+			    				<a class="nav-link" href="/ShoeKream/myPage" th:text="${session.member.username}"></a>		    		<!-- 일반회원 -->
 			    			</li>			    				    						
 			    			<li class="nav-item">
 			    				<a class="nav-link" href="/logoutRequest">로그아웃</a>		    	
@@ -75,7 +75,7 @@
                         </li>
                     </ul>
                     <form class="d-flex">
-                        <button class="btn btn-outline-dark" type="submit">
+                        <button class="btn btn-outline-dark" type="submit" onclick="CartButton()">
                             <i class="bi-cart-fill me-1"></i>
                             Cart
                             <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
@@ -89,5 +89,13 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="bootstrap/js/scripts.js"></script>
+        
+        <script>
+        
+        function CartButton(){
+        	
+        	
+        }
+        </script>
 </body>
 </html>

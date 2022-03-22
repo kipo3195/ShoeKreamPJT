@@ -124,35 +124,37 @@ public class communityBoardServiceImpl implements communityBoardService {
 		
 	}
 	
-	
-	
+
+
 	@Override
-	public String clickLike(String bbno, String userid) throws Exception {
+	public String clickLikeimg(int bbNo, String userId) throws Exception {
 		
-	int result = cbm.likeState(bbno,userid);
+	int result	= cbm.likeState(bbNo,userId);
 	
+	//처음으로 좋아요 이미지클릭
 	if(result == 0) {
-		//처음 눌림
-		cbm.firstClickLike(bbno,userid);
-		return cbm.likeStateRequest(bbno, userid);
+		int rst = cbm.firstClick(bbNo,userId);
+		cbm.addlikecount(bbNo);
+		System.out.println("현재 y니까 count 증가");
+		return "y";
 	}
 	
-		String resultYorN = cbm.likeStateRequest(bbno, userid);	
-		
-		System.out.println(resultYorN);
-		
-		if(resultYorN == "y") {
-			cbm.changeYtoN(bbno, userid);
-			resultYorN = cbm.likeStateRequest(bbno, userid);	
-			System.out.println("바꾸고나서:"+resultYorN);
-		}else {
-			cbm.changeNtoY(bbno, userid);
-			resultYorN = cbm.likeStateRequest(bbno, userid);	
-			System.out.println("바꾸고나서:"+resultYorN);
-		}
+	String rst = cbm.nClick(bbNo,userId);
 
+	if(rst.equals("y")) {
+		System.out.println("현재 y니까 n으로변경 하면서 count 감소");
+		cbm.changeYtoN(bbNo,userId);
+		cbm.minuslikecount(bbNo);
 		
-		return "";
+	}else {
+		System.out.println("현재 n니까 y으로변경 count 증가");
+		cbm.changeNtoY(bbNo,userId);
+		cbm.addlikecount(bbNo);
+	}
+	
+	String returnValue =  cbm.nClick(bbNo, userId);
+	return 	returnValue;
+	
 	}
 
 

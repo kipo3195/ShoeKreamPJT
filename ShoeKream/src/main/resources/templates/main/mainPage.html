@@ -5,6 +5,15 @@
     </head>
     
     <body>
+    
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+    var msg = /*[[${msg}]]*/  "default";
+    if(msg != null){  	
+    alert(msg);
+    }
+    /*]]>*/
+	</script>
  
 			  <div th:replace="layout/header::header-nav-user"></div>  <!-- thymeleaf를 이용한 header-nav-user 삽입 -->
      		  <div th:replace="layout/header::header-nav-common"></div>  
@@ -14,242 +23,148 @@
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-white">
                     <h1 class="display-4 fw-bolder">ShoeKream</h1> <!-- 사이트 메인 제목 -->
-                    <p class="lead fw-normal text-white-50 mb-0">With a luxury shoe reseller</p>
+                    <p class="lead fw-normal text-white-50 mb-0">With a luxury products reseller</p>
                 </div>
             </div>
         </header>
         <!-- Section  완성본 03 /15-->
-        <section class="py-5">
+        <section class="py-5" id ="section">
             <div class="container px-4 px-lg-5 mt-5">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-               
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." style="height: 250px"/>
-                            <!-- Product details-->
+                    <div class="col mb-5"  th:if="${#lists.size(list)}>0" th:each="list:${list}">
+                        <div class="card" style="height: 365px;cursor: pointer" th:id="${list.luxbNo}" th:onclick="'clickCard('+${list.luxbNo}+')'" >
+                            <!-- 제품 이미지-->
+                            <img class="card-img-top" alt="..." th:src="@{/}+${list.luxbThumbnailImg}" style="height: 250px"/>
+                            <!-- 제품 이름 소개 가격 들어가는 부분-->
                             <div  style="height: 80px;">
                                 <div>
-                                    <!-- Brand name-->
-                                    <h5 style="font-size: 11pt;text-decoration: underline;padding-left: 2px;">BrandName</h5>
+                                    <!--제품 브랜드-->
+                                    <h5 style="font-size: 11pt;text-decoration: underline;padding-left: 2px;font-weight:bold; " th:text="${list.luxbBrand}"></h5>
                                 </div>
-                                <div style="font-size: 10pt;padding-left: 2px;">
-                                <!-- Product name -->
-                                이 제품의 설명이 들어갈 부분입니다.
-                                이 제품의 설명이 들어갈 부분입니다.
-                                이 제품의 설명이 들어갈 부분입니다.
-                                최대 60자 까지 가능합니다..
+                                <!-- 제품 소개 -->
+                                <div style="font-size: 11pt;padding-left: 2px;" th:text="${list.luxbIntro}">
                                 </div>
                             </div>
                             <div style="height: 15px;">
-                            	<!-- Product price-->
-                             <p style="font-size: 15px;font-weight: bold;padding-top: 10px;padding-left: 2px;">4.000.000원<p>
-                            </div>
-                             <div style="height: 10px;margin: 0 0;padding-top: 14px;color: gray;padding-left: 2px;">
-                            	<!-- Product price-->
-                             <p style="font-size: 9px;">즉시구매가<p>
-                            </div>
-                            <!-- Product actions-->
-                           <!--  <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
-                            </div> -->
-                        </div>
-                    </div>
-                    
-                    
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Sale badge-->
-                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">hot</div>
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">Special Item</h5>
-                                    <!-- Product reviews-->
-                                    <div class="d-flex justify-content-center small text-warning mb-2">
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                    </div>
-                                    <!-- Product price-->
-                                    <span class="text-muted text-decoration-line-through">$20.00</span>
-                                    $18.00
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Sale badge-->
-                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">Sale Item</h5>
-                                    <!-- Product price-->
-                                    <span class="text-muted text-decoration-line-through">$50.00</span>
-                                    $25.00
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">Popular Item</h5>
-                                    <!-- Product reviews-->
-                                    <div class="d-flex justify-content-center small text-warning mb-2">
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                    </div>
-                                    <!-- Product price-->
-                                    $40.00
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Sale badge-->
-                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">Sale Item</h5>
-                                    <!-- Product price-->
-                                    <span class="text-muted text-decoration-line-through">$50.00</span>
-                                    $25.00
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">Fancy Product</h5>
-                                    <!-- Product price-->
-                                    $120.00 - $280.00
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Sale badge-->
-                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">Special Item</h5>
-                                    <!-- Product reviews-->
-                                    <div class="d-flex justify-content-center small text-warning mb-2">
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                    </div>
-                                    <!-- Product price-->
-                                    <span class="text-muted text-decoration-line-through">$20.00</span>
-                                    $18.00
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">Popular Item</h5>
-                                    <!-- Product reviews-->
-                                    <div class="d-flex justify-content-center small text-warning mb-2">
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                    </div>
-                                    <!-- Product price-->
-                                    $40.00
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
+                            	<!-- 제품 가격-->
+                             <p style="font-size: 15px;font-weight: bold;padding-left: 2px;"th:text="${list.luxbPrice}+'원'" ><p>
+                            </div>	
+                             <div style="height: 10px;color: gray;padding-left: 2px;">
+                            	<!-- 가격 내용-->
+                             <p style="font-size: 9px;padding-top: 2px;">즉시구매가<p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div>
-            <!-- 페이징 처리 -->
-            
-           			 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">더 보기</a></div>
-                            </div>
-            </div>
-            
             
         </section>
+            <div>
+            	<input type="hidden" id="pageFlag" name="pageFlag" th:value="${pageFlag}">
+            </div>
+            <!-- 페이징 처리 -->
+           <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                   <div class="text-center"><a class="btn btn-outline-dark mt-auto" onclick="addLuxBoard()">더 보기</a></div>
+          </div>
        
       <!-- footer 삽입 -->
      <div th:replace="layout/footer::footer"> </div>  
-       
+     
+     
+   						    <!-- Product actions 버튼 활용 -->
+                           <!--  <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
+                            </div> -->       
+                            
+                            
+        <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script>
+        
+        	//상세보기로 이동
+        	function clickCard(luxbNo){
+        	location.href="/ShoeKream/luxBoardDetail/"+luxbNo
+        		console.log(luxbNo);
+        		
+        	}
+        	
+        	//더보기 클릭시 - 페이징 처리 
+        	function addLuxBoard(){
+        		var pageFlag = document.getElementById('pageFlag').value;
+        		
+        		var str1 ="";
+        		var str ="";
+        		
+        	$.ajax({
+        		url:'/ShoeKream/addLuxBoard',
+        		datatype:'json',
+        		type:'get',
+        		data:{
+        			pageFlag:pageFlag
+        			
+        		},success : function(data){
+        			document.getElementById('pageFlag').setAttribute('value',data.pageFlag);
+        			console.log(data.list)
+        			
+        			// 이렇게 벽돌쌓기말고 할 수있는 방법이 없는지 다시생각 해보기
+        			
+        			if(data.list.length == 0){
+        				alert("더이상 표시할 게시물이 없습니다.");
+        			}else{
+        			
+        			
+        				 str1 += "<div class='container px-4 px-lg-5 mt-5'>";
+                         str1 += "<div id='cardSection' class='row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center'>";
+                         str1 += "</div>";
+                         str1 += "</div>";  			
+                         
+                         $("#section").append(str1);
+                         
+        			for(var i=0;i<data.list.length;i++){
+        				
+        				var luxbNo = data.list[i].luxbNo;
+        				var luxbBrand = data.list[i].luxbBrand;
+        				var luxbProduct = data.list[i].luxbProduct;
+        				var luxbIntro = data.list[i].luxbIntro;
+        				var luxbPrice = data.list[i].luxbPrice;
+        				var luxbThumbnailImg = data.list[i].luxbThumbnailImg;
+        			
+                         str += "<div class='col mb-5' >";
+                         str += "<div class='card' style='height: 365px;cursor: pointer' th:id='${list.luxbNo}' onclick='clickCard("+luxbNo+")' >";
+                         str += "<img class='card-img-top' alt='...' src='"+luxbThumbnailImg+"' style='height: 250px'/>"
+                         str += "<div  style='height: 80px;'>";
+                         str += "<div>";
+                         str +="<h5 style='font-size: 11pt;text-decoration: underline;padding-left: 2px;font-weight:bold;'>"+luxbBrand+"</h5>";
+                         str += "</div>";
+                         str +="<div>";
+                         str +="<h5  style='font-size: 11pt;padding-left: 2px;'>"+luxbIntro+"</h5>"
+                         str += "</div>";
+                         str += "</div>";
+                         str += "<div style='height: 15px;'>";
+                         str += "<p style='font-size: 15px;font-weight: bold;padding-left: 2px;'>"+luxbPrice+"원</p>";
+                         str += "</div>";
+    					 str += " <div style='height: 10px;color: gray;padding-left: 2px;'>";
+                         str += " <p style='font-size: 9px;padding-top: 2px;'>즉시구매가<p>";
+                         str += "</div>";
+                         console.log(str);
+                
+                         $("#cardSection").append(str);
+						str ="";                         
+	        				
+        			}
+        			}
+        		    
+        			
+        		}
+        		
+        		
+        		
+        		
+        	});       		
+        	
+        	}
+        
+        </script>                    
+                            
        
       
     </body>

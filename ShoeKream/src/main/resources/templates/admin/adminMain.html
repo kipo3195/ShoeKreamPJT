@@ -31,17 +31,17 @@
 		<ul style="padding-left: 0;padding-top:5px;margin-left: 10px;">
 			<li style="list-style-type: none;">- 제품 관리</li>
 			<li style="list-style-type: none;">
-				<a href="/ShoeKream/admin/ProductRegist">제품 등록</a>
+				<a href="#" onclick="productRegist()">제품 등록</a>
 			</li>
 			<li style="list-style-type: none;">
 				<a href="#">제품 조회/삭제</a>
 			</li>
 			<li style="list-style-type: none;">- 게시물 관리</li>
 			<li style="list-style-type: none;">
-				<a href="/ShoeKream/admin/luxuryBoard">luxury Product Board 관리</a>
+				<a href="#" onclick="luxuryBoard()">luxury Product Board 관리</a>
 			</li>
 			<li style="list-style-type: none;">
-				<a href="/ShoeKream/admin/shoesBoard">Shoes Product Board 관리</a>
+				<a href="#">Shoes Product Board 관리</a>
 			</li>
 			<li style="list-style-type: none;">- 회원 관리</li>
 			<li style="list-style-type: none;">기타 기능</li>
@@ -51,11 +51,139 @@
 		
 		</nav>	
 		<article style="border: 1px solid black; height:600px;width: 1050px;float: left;">
+			<div id="article">
+					<span style="margin-left: 50px;padding-top: 50px;font-size: 20pt">관리자 메인 페이지에오신것을 환영합니다</span>
+			</div>
 		
 		</article>
 	
 	</div>
 	
+	<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script>
+
+	function productRegist(){
+		str = "";
+		$.ajax({
+			url:'/ShoeKream/admin/ProductRegist',
+			datatype:'json',
+			type:'get',
+			success:function(){
+						
+						str += '<div class="container" style="padding-top:30px; width:95%;" >';
+						str += '<h2 style="margin:20;">제품 등록 페이지</h2>';
+						str += '<hr style="height:3px;background-color: #333;"/>';
+						str += '<form action="/ShoeKream/admin/productRegistRequest" method="post">';
+						str +=	'<table style="border-collapse: separate;border-spacing: 0 15px;">';
+						str += '<thead>';
+						str += '</thead>';
+						str += '<tbody>';
+						str += '  <tr>';
+						str += '  <td>카테고리 선택 : </td>';
+						str += '					    <td>';
+						str += '						    <select id="pCategory" name="pCategory">';
+						str += '							    <option selected="selected">상의</option>';
+						str += '							    <option>하의</option>';
+						str += '							    <option>가방</option>';
+						str += '							    <option>신발</option>';
+						str += '						    </select>';
+						str += '					    </td>';
+						str += '				  </tr>';
+						str += '				  	  <tr>';
+						str += '				    <td>분류코드 선택 : </td>';
+						str += '					    <td>';
+						str += '						    <select id="pClassCode" name="pClassCode">';
+						str += '						    <option selected="selected">[001]lux</option>';
+						str += '					    <option>[002]shoes</option>';
+						str += '			    </select>';
+						str += '		    </td>';
+						str += '	  </tr>';
+						str += '	  <tr>';
+						str += '			<td>제품 브랜드: </td>';
+						str += '			<td> <input type="text" style="width: 350px;" placeholder="제품 브랜드를 입력하세요." required="required" autocomplete="off" id="pBrand" name="pBrand"></td>';
+						str += '			  </tr>		';
+						str += '			    <tr>';
+						str += '					<td>제품 명: </td>';
+						str += '					<td> <input type="text" style="width: 350px;" placeholder="제품 명을 입력하세요." required="required" autocomplete="off" id="pProduct" name="pProduct"></td>';
+						str += '		  </tr>';			
+						str += '		   	   <tr>	';
+						str += '					<td> 제품 설명: </td>	';				
+						str += '					<td> <textarea rows="5" cols="60" placeholder="제품 설명을 입력하세요" style="overflow:visible;" required="required" autocomplete="off" id="pIntro" name="pIntro"></textarea></td>';
+						str += '		       </tr>';
+						str += '		       <tr>';
+						str += '					<td>판매 가액: </td>';
+						str += '					<td> <input type="text" style="width: 200px;" placeholder="               000.000.000 원" required="required" autocomplete="off" id="pPrice" name="pPrice" ></td>';
+						str += '			  </tr>	';
+						str += '</tbody>';
+						str += '	<tfoot>';
+						str += '			<tr>';
+						str += '				<td>';
+						str += '				</td>';
+						str += '			<td>';
+						str += '				<input type="submit" value="작성 완료" style="width:200px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp';
+						str += '				<input type="button" value="미리 보기" style="width:200px" onclick="preview()">';
+						str += '			</td>';
+						str += '			</tr>';
+						str += '	</tfoot>';
+						str += '	</table>';
+						str += '</form>';
+						str += '</div>';
+						  
+						$("#article").html(str);
+						
+					}
+				});
+				
+			}
+	
+	
+	function luxuryBoard(){
+
+				str = "";
+				$.ajax({
+					url:'/ShoeKream/admin/luxuryBoard',
+					datatype:'json',
+					type:'get',
+					success:function(){
+					str+=	'<table style="border: 1px solid black;height: 350px;width: 55%; margin-left: 50px;margin-top: 50px;">';
+					str+=	'<tr>'
+					str+=		'<th style="font-size: 18pt" colspan="2">전체 게시글 수 : 현재 서비스 준비중입니다.</th>';
+					str+=	'</tr>';
+					str+=	'<tr>';
+					str+=			'<th style="font-size: 18pt" colspan="2">현재 보여지는 게시글 수 : 현재 서비스 준비중입니다.</th>';
+					str+=	'</tr>';
+					str+=	'<tr>';
+					str+=		'<th style="font-size: 18pt" colspan="2">댓글 많은 게시글 : 현재 서비스 준비중입니다.</th>';
+					str+=	'</tr>';
+					str+=	'<tr>';
+					str+=		'<th style="font-size: 18pt" colspan="2">좋아요가 많은 게시글 : 현재 서비스 준비중입니다.</th>';
+					str+=	'</tr>';
+					str+=	'<tr>';
+					str+=			'<th style="font-size: 18pt"><a href="/ShoeKream/admin/luxuryBoardWrite" style="text-decoration:none;">게시글 작성</a></th>';
+					str+=	'</tr>';
+					str+=	'<tr>';
+					str+=			'<th style="font-size: 18pt">게시글 찾기</th>';
+					str+= 			'<td><input type="text" placeholder="게시글의 번호, 제품의 이름" ></input><input type="button" value="찾기" onclick="searchLuxBoard()"></input></td>';
+					str+=	'</tr>';
+					str+= '</table>';
+				
+					   $("#article").html(str);
+				}
+			
+			});	
+			
+		}
+	
+	function preview(){
+		alert("서비스 준비중 입니다.");
+	}
+	
+	function searchLuxBoard(){
+		alert("서비스 준비중 입니다.");
+	}
+	
+	</script>
+
 	
 	
 	

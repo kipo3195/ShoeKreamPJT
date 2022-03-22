@@ -64,7 +64,7 @@
 	<table class="container" style="border-collapse: separate;border-spacing: 0 15px;">
 		<tr>
 			<td>
-				<input type="button" value="네이버로 로그인" style="width: 190px">
+				<input type="button" value="네이버로 로그인" style="width: 190px"  onclick="naverLogin()">
 			</td>
 		</tr>
 		<tr>
@@ -84,6 +84,12 @@
 
    	<!-- footer 삽입 -->
      <div th:replace="layout/footer::footer"> </div>  
+     
+     <script>
+     function naverLogin(){
+    	 alert("현재 서비스 준비중 입니다.");
+     }
+     </script>
 
 </body>
 </html>

@@ -7,11 +7,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ShoeKream.admin.VO.ProductVO;
 import ShoeKream.admin.VO.luxBoardVO;
+import ShoeKream.admin.common.FileUtils;
 import ShoeKream.admin.service.adminService;
 
 @Controller
@@ -29,9 +31,16 @@ public class adminController {
 	
 	//제품 등록 페이지
 	@GetMapping("/ShoeKream/admin/ProductRegist")
-	public String productRegistPage() throws Exception{
+	public ResponseEntity<Object> productRegistPage() throws Exception{
+		ResponseEntity<Object> entity;
 		
-		return "admin/productRegist";
+		try {
+			entity = new ResponseEntity<>(null,HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
 	}
 	
 	//제품 등록 요청
@@ -52,7 +61,7 @@ public class adminController {
 		return "redirect:/ShoeKream/adminMain";
 	}
 	
-	//게시판 등록 전 상품 코드 검색
+	//게시판 등록 전 상품 코드 검색 -ajax
 	@GetMapping("/ShoeKream/admin/SearchProduct")
 	public ResponseEntity<Object> searchProduct(
 			@RequestParam("pno")int pno) throws Exception{
@@ -71,16 +80,20 @@ public class adminController {
 	
 	//lux 게시판 등록 처리
 	@PostMapping("/ShoeKream/admin/pBoardRegistRequest")
-	public ModelAndView pBoardRegistRequest(luxBoardVO lbvo,RedirectAttributes rttr)throws Exception{
-		ModelAndView mv = new ModelAndView("redirect:/ShoeKream/admin/luxuryBoard");
+	public ModelAndView pBoardRegistRequest(luxBoardVO lbvo,RedirectAttributes rttr,MultipartHttpServletRequest mhsr)throws Exception{
+		ModelAndView mv = new ModelAndView("redirect:/ShoeKream/adminMain");
 		String msg ;
-		int result = as.pBoardRegistRequest(lbvo);
+		
+		//이미지 파일 넘겨받기 작업
+		FileUtils fileUtils = new FileUtils();
+		int result = as.pBoardRegistRequest(fileUtils.parseFile(lbvo, mhsr));
 		
 		
 		if(result == 1) {
 			msg ="게시글 등록에 성공했습니다.";
 		}else {
 			msg ="알수 없는 이유로 게시글 등록에 실패 했습니다.";
+			
 		}
 		rttr.addFlashAttribute("msg", msg);
 			
@@ -89,17 +102,23 @@ public class adminController {
 	
 	//luxury Product Board
 	@GetMapping("/ShoeKream/admin/luxuryBoard")
-	public ModelAndView luxuryProductPage()throws Exception{
+	public ResponseEntity<Object> luxuryProductPage()throws Exception{
 		
-		ModelAndView mv = new ModelAndView("admin/luxuryBoard");
+		ResponseEntity<Object> entity;
 		
-		return mv;
+		try {
+			entity = new ResponseEntity<>(null,HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+
 	}
 	
 	//luxury Product  Board 글 작성
 	@GetMapping("/ShoeKream/admin/luxuryBoardWrite")
 	public String luxuryProductWritePage()throws Exception{
-		
 		
 		return "admin/luxuryBoardWrite";
 	}

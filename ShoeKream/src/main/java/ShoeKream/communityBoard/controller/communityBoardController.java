@@ -169,7 +169,7 @@ public class communityBoardController {
 		return "redirect:/ShoeKream/bulletinBoardPage";
 	}
 	
-	//첫 비동기통신 성공!! 0311
+	// 좋아요 로직 마무리
 	@GetMapping("/ShoeKream/clickLikeCnt/{bbno}")
 	public ResponseEntity<Object> clickLikeCnt(
 			@PathVariable("bbno")String bbno,
@@ -177,17 +177,18 @@ public class communityBoardController {
 		
 		ResponseEntity<Object> entity;
 		
-		System.out.println("bbno : "+bbno);
-		System.out.println("userid : "+userid);
+		System.out.println("컨트롤러 bbno : "+bbno);
+		System.out.println("컨트롤러 userid : "+userid);
 		
-		String flag= cbs.clickLike(bbno,userid);
+		int bbNo = Integer.parseInt(bbno);
 		
-		System.out.println("flag : "+flag);
+		String flag= cbs.clickLikeimg(bbNo,userid);
 		
 		
+		System.out.println("현재 확인중인 flag : "+flag);
 		
 		try {
-			entity = new ResponseEntity<>(null,HttpStatus.OK);
+			entity = new ResponseEntity<>(flag,HttpStatus.OK);
 		}catch(Exception e){
 			entity = new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
 		}

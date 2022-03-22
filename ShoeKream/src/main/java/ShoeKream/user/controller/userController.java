@@ -29,10 +29,15 @@ public class userController {
 	//회원가입 신청
 	@RequestMapping("/joinRequest")
 	public ModelAndView joinRequest(joinVO joinVo) throws Exception{
-			
-		userservice.insertUser(joinVo);
-		ModelAndView mv = new ModelAndView("/main/mainPage");
 		
+		if(!joinVo.getUserpass().equals(joinVo.getUserpass1())) {
+			ModelAndView mv = new ModelAndView("/main/joinPage");
+			mv.addObject("msg", "비밀번호와 비밀번호확인이 일치하지 않습니다. 다시입력해주세요.");
+			return  mv;
+		}
+		ModelAndView mv = new ModelAndView("/main/mainPage");
+		userservice.insertUser(joinVo);
+		mv.addObject("msg", "회원가입이 완료되었습니다.");
 		return mv;
 	}
 	

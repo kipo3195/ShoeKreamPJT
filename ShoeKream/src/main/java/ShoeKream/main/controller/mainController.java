@@ -1,37 +1,78 @@
 package ShoeKream.main.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
-
+import ShoeKream.admin.VO.luxBoardVO;
+import ShoeKream.admin.service.adminService;
 import ShoeKream.communityBoard.VO.communityBoardVO;
 import ShoeKream.communityBoard.paging.Criteria;
 import ShoeKream.communityBoard.paging.PageMaker;
 import ShoeKream.communityBoard.service.communityBoardService;
+import ShoeKream.main.service.mainService;
 
 @Controller
 public class mainController {
 	
-	
+	@Autowired
+	private mainService ms;
 	
 	//메인페이지
 	@GetMapping("/ShoeKream")
-	public String main() throws Exception{
-		return "main/mainPage";
+	public ModelAndView main() throws Exception{
+		ModelAndView mv = new ModelAndView("main/mainPage");
+		
+		List<luxBoardVO> list = ms.selectMain();
+
+		int pageFlage = 1;
+		mv.addObject("pageFlag",pageFlage);
+		mv.addObject("list", list);
+		return mv;
 	}
+	//메인 페이지에서 더보기 클릭시 페이지 추가
+	
+	@GetMapping("/ShoeKream/addLuxBoard")
+	public ResponseEntity<Object> addLuxBoard(@RequestParam("pageFlag")int pageFlag) throws Exception{
+		ResponseEntity<Object> entity;
+
+
+		System.out.println(pageFlag);
+		
+		List<luxBoardVO> list = ms.addLuxBoard(pageFlag);
+		
+		Map<String, Object> map = new HashMap<String, Object>();		
+		map.put("list", list);
+		map.put("pageFlag", ++pageFlag);
+		
+		try {
+		
+			entity = new ResponseEntity<>(map,HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+		
+	}
+	
 
 
 	//회원가입
@@ -49,16 +90,21 @@ public class mainController {
 		
 		Cookie[] allCookies = req.getCookies();
 		
-		for(int i = 0; i < allCookies.length; i++) {
+		if(allCookies != null) {
 			
-			if(allCookies[i].getName().equals("memberid")) {
-				memberCookieid = allCookies[i].getValue();
+			for(int i = 0; i < allCookies.length; i++) {
+				
+				if(allCookies[i].getName().equals("memberid")) {
+					memberCookieid = allCookies[i].getValue();
+				}
 			}
+			
+			if(!memberCookieid.equals("")) {
+				req.setAttribute("memberCookieid", memberCookieid);
+			}
+			
 		}
-		
-		if(!memberCookieid.equals("")) {
-			req.setAttribute("memberCookieid", memberCookieid);
-		}
+	
 		
 		return "main/loginPage";
 	}
@@ -104,6 +150,50 @@ public class mainController {
 		return mv;
 	
 	}
+	
+	//메인에있는 게시물 상세페이지로 이동
+	@GetMapping("ShoeKream/luxBoardDetail/{luxbNo}")
+	public ModelAndView luxBoardDetail(@PathVariable("luxbNo")int luxbNo)throws Exception{
+		ModelAndView mv= new ModelAndView("main/luxBoardDetail");
+		
+		luxBoardVO lbvo = ms.selectLuxBoard(luxbNo);
+		System.out.println(lbvo);
+		mv.addObject("lbvo", lbvo);		
+		return mv;
+	}
+	
+	//메인에있는 게시물 삭제 요청
+	@GetMapping("ShoeKream/deleteMainBoard/{luxbNo}")
+	public String deleteMainBoard(@PathVariable("luxbNo")int luxbNo, RedirectAttributes rttr)throws Exception{
+		
+		
+		String msg = ms.deleteBoard(luxbNo);
+		
+		rttr.addFlashAttribute("msg", msg);
+		return "redirect:/ShoeKream";
+	}
+	
+	//메인에있는 게시물 수정 페이지
+	@GetMapping("ShoeKream/updateMainBoard/{luxbNo}")
+	public ModelAndView updateMainBoard(@PathVariable("luxbNo")int luxbNo)throws Exception{
+		ModelAndView mv = new ModelAndView("main/updateMainBoard");
+		luxBoardVO lbvo = ms.selectLuxBoard(luxbNo);
+		
+		mv.addObject("lbvo", lbvo);
+		return mv;
+	}
+	
+	//메인 게시물 수정 페이지 수정요청
+	@PostMapping("/ShoeKream/updateMainBoardRequest")
+	public String updateMainBoardRequest(luxBoardVO lbvo, RedirectAttributes rttr)throws Exception{
+		
+		String msg = ms.updateBoard(lbvo);
+		
+		rttr.addFlashAttribute("msg", msg);
+		return "redirect:/ShoeKream";
+	}
+	
+
 	
 	
 }

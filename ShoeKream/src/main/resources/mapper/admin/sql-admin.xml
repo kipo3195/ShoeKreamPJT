@@ -45,6 +45,10 @@ FROM
 	sk_Product
 WHERE
 	p_no = #{pno}
+AND
+	on_sale = 'y'
+ORDER BY p_no DESC
+LIMIT 8;
 	
 ]]>
 
