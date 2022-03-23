@@ -1,10 +1,15 @@
 package ShoeKream.admin.controller;
 
+import java.util.List;
+
+import javax.xml.ws.Response;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -133,7 +138,71 @@ public class adminController {
 		return mv;
 	}
 	
+	@PostMapping("/ShoeKream/SearchProduct")
+	public ResponseEntity<Object> searchProduct(@RequestParam("searchAttr")String searchAttr,@RequestParam("searchWord")String searchWord) throws Exception{
+		ResponseEntity<Object> entity ;
+		
+		List<ProductVO> productList = as.selectProductList(searchAttr,searchWord);
+		
+		try {
+			entity = new ResponseEntity<>(productList,HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+		
+		
+	}
 	
+	@GetMapping("/ShoeKream/deleteProduct/{pno}")
+	public String deleteProduct(@PathVariable("pno")String pno,RedirectAttributes rttr) throws Exception {
+		
+		int result = as.deleteProduct(pno);
+		String msg;
+		if(result == 1) {
+			msg = "해당 제품을 삭제 하였습니다.";
+		}else {
+			msg ="삭제 요청이 정상적으로 작동하지 않았습니다.";
+		}
+		
+		rttr.addFlashAttribute("msg",msg);
+		return "redirect:/ShoeKream/adminMain";
+	}
+	
+	@PostMapping("/ShoeKream/updateProduct")
+	public ResponseEntity<Object> updateProduct(@RequestParam("pno")int pno)throws Exception{
+		ResponseEntity<Object> entity;
+		
+		ProductVO pvo = as.selectProduct(pno);
+		
+		
+		try {
+			entity = new ResponseEntity<>(pvo,HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+		
+		
+	}
+	
+	@PostMapping("/ShoeKream/updateProductRequest")
+	public String updateProductRequest(ProductVO pvo,RedirectAttributes rttr)throws Exception{
+		
+		
+		int result = as.updateProductRequest(pvo);
+		
+		String msg;
+		if(result == 1) {
+			msg = "해당 제품을 정상적으로 수정 하였습니다.";
+		}else {
+			msg ="수정 요청이 정상적으로 작동하지 않았습니다.";
+		}
+		rttr.addFlashAttribute("msg",msg);
+		return "redirect:/ShoeKream/adminMain";
+	}
 
 	
 }

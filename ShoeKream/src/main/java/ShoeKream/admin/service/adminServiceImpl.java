@@ -1,5 +1,6 @@
 package ShoeKream.admin.service;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -42,6 +43,60 @@ public class adminServiceImpl implements adminService{
 		int result = am.pBoardRegistRequest(lbvo);
 		
 		
+		return result;
+	}
+
+	@Override
+	public List<ProductVO> selectProductList(String searchAttr, String searchWord) throws Exception {
+		
+		List<ProductVO> selectProductList = new ArrayList<ProductVO>();
+		
+		if(searchAttr.equals("productName")) {
+			//productName 5개까지 조회 가능
+			for(int i = 0; i < 5; i++) {
+				ProductVO pvo = am.selectProductName(searchWord,i);
+				selectProductList.add(pvo);
+			}
+			
+			
+		}else if(searchAttr.equals("productNo")) {
+		
+		int searchNo = Integer.parseInt(searchWord);
+		ProductVO pvo = am.selectProductNo(searchNo);
+		selectProductList.add(pvo);
+			
+			
+		}else {
+			//product Brand 5개까지 조회 가능
+			for(int i = 0; i < 5; i++) {
+				ProductVO pvo = am.selectProductBrand(searchWord,i);
+				selectProductList.add(pvo);
+			}
+			
+		}
+		
+		return selectProductList;
+	}
+
+	@Override
+	public int deleteProduct(String pno) throws Exception {
+		
+		 int pNo = Integer.parseInt(pno);
+		 int result = am.deleteProduct(pNo);
+		return result;
+	}
+
+	@Override
+	public ProductVO selectProduct(int pno) throws Exception {
+		
+		ProductVO pvo = am.selectProduct(pno);
+		return pvo;
+	}
+
+	@Override
+	public int updateProductRequest(ProductVO pvo) throws Exception {
+		
+		int result = am.updateProductRequest(pvo);
 		return result;
 	}
 	

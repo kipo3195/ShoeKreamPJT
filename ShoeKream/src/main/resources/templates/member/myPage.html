@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+  
+    <head th:replace="layout/header::html-head"> <!--thymeleaf를 이용한 html head 삽입 -->
+    </head>
+    
+    <body>
+    		  <div th:replace="layout/header::header-nav-user"></div>  <!-- thymeleaf를 이용한 header-nav-user 삽입 -->
+     		  <div th:replace="layout/header::header-nav-common"></div>  
+	<section>
+	
+	
+	<!-- 제품 등록 완료 메시지 출력 -->
+	<script th:inline="javascript">
+    /*<![CDATA[*/
+    var msg = /*[[${msg}]]*/  "default";
+    if(msg != null){  	
+    alert(msg);
+    }
+    /*]]>*/
+	</script>
+	
+	<div class="container" style="border: 1px solid black;height: 700px;">
+		<header style="height: 100px;">
+			<h1 style="padding-top: 25px;">회원 메인 페이지</h1>
+		<input type="hidden" id="userId" name="userid" th:value="${session.member.userid}"></input>
+		<input type="hidden" id="username" name="username" th:value="${session.member.username}"></input>
+			<hr width="25%" >
+			
+		</header>
+		<nav style="border: 1px solid black;height:  600px;width: 220px;float: left;">
+		<ul style="padding-left: 0;padding-top:5px;margin-left: 10px;">
+			<li style="list-style-type: none;text-decoration: none">- 내 정보</li>
+			<li style="list-style-type: none;">
+				<a href="#" onclick="myInfo()" style="text-decoration: none">내 정보 보기</a>
+			</li>
+			<li style="list-style-type: none;">
+				<a href="#" style="text-decoration: none" onclick="changePass()">비밀번호 변경하기</a>
+			</li>
+			<li style="list-style-type: none;">- 게시물 관리</li>
+			<li style="list-style-type: none;">
+				<a href="#" onclick="" style="text-decoration: none">내가 쓴 자유게시글</a>
+			</li>
+			<li style="list-style-type: none;">
+				<a href="#" onclick="" style="text-decoration: none">내가 쓴 댓글</a>
+			</li>
+			<li style="list-style-type: none;">- 구매관련</li>
+			<li style="list-style-type: none;">
+					<a href="#" onclick="myCart()" style="text-decoration: none">장바구니</a>
+			</li>
+			<li style="list-style-type: none;"><a href="#" onclick="memberWithdraw()" style="text-decoration: none;color: red">회원탈퇴</a></li>
+		</ul>
+		
+		</nav>	
+		<article style="border: 1px solid black; height:600px;width: 1050px;float: left;">
+			
+			<div id="article">
+						<table style="width: 60%;float: none;margin-left: 250px;">
+							<tr >
+								<td><h2 th:text="${session.member.username}"></h2></td>
+								<td><h4>님 메인 페이지에 오신것을 환영합니다.</h4></td>
+							</tr>
+						</table>
+			</div>
+		</article>
+		
+	</div>
+	
+	<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+	
+	<script>
+	
+	function myInfo(){
+
+		var userId = $('#userId').attr('value');
+
+		str = "";
+		
+		$.ajax({
+			url:'/ShoeKream/myInfo',
+			datatype:'json',
+			type:'post',
+			data:{
+				userId:userId
+			},
+			success: function(data){
+			str +=' <table style="width: 60%;float: none;margin-left: 250px;">';
+			str +='<tr >';
+			str +='<td height="100"><h1>내 정보</h1></td>';
+			str +='</tr>';
+			str +='		<tr>';
+			str +='	<td width="250" height="100">';
+			str +='	<h5>계정 명</h5>';
+			str +='		<input type="email" id="myId" style="width:250px; readonly="readonly">';
+			str +='	</td>';
+			str +='			</tr>';
+			str +='	<tr>';
+			str +='		<td height="100">';
+			str +='		<h5>이 름</h5>';
+			str +='		<input type="text"  style="width:250px;"  id="myName" readonly="readonly" >';
+			str +='	</td>';
+			str +='	</tr>';
+			str +='	<tr>';
+			str +='		<td height="100">';
+			str +='			<h5>전화번호</h5>';
+			str +='		<input type="text"  style="width:250px;" autocomplete="off" id="myPhone" readonly="readonly">';
+			str +='	</td>';
+			str +='	</tr>';
+			str +='	</table>';
+			
+			var myId = data.userid;
+			var myName =data.username;
+			var myPhone =data.userphone;
+			
+			$('#article').html(str)
+			
+			document.getElementById('myId').setAttribute('value',myId);
+			document.getElementById('myName').setAttribute('value',myName);
+			document.getElementById('myPhone').setAttribute('value',myPhone);
+			}
+			
+		});
+	}
+	
+	function changePass(){
+	
+			
+		str = "";
+		
+		$.ajax({
+			url:'/ShoeKream/changePass',
+			datatype:'json',
+			type:'post',
+			success: function(){
+			str +=' <table style="width: 60%;float: none;margin-left: 250px;">';
+			str +='		<tr >';
+			str +='				<td height="100"><h2>현재 비밀번호를 입력하세요</h2></td>';
+			str +='		</tr>';
+			str +='		<tr>';
+			str +='				<td width="250" height="100">';
+			str +='						<h5>비밀번호</h5>';
+			str +='						<input type="password" id="myPass" name="myPass" style="width:250px;" required="required">';
+			str +='						<input type="submit" value="변경 요청" onclick="insertPass()">';
+			str +='				</td>';
+			str +='		</tr>';
+			str +='	</table>';
+			
+			$('#article').html(str);
+			}
+		});
+		}
+	
+	function insertPass(){
+		
+		var userId = $('#userId').attr('value');
+			
+		str = "";
+		
+		$.ajax({
+			url:'/ShoeKream/insertPass',
+			datatype:'json',
+			type:'post',
+			data:{
+				userId:userId
+			},
+			success: function(data){
+			
+				var insertPass = document.getElementById('myPass').value;
+				var userId = $('#userId').attr('value');
+				
+				if(data == insertPass){
+						str +='<form action="/ShoeKream/ChangePassRequest" method="post">';
+						str +=' <table style="width: 60%;float: none;margin-left: 250px;">';
+						str +='		<tr >';
+						str +='				<td height="100" colspan="2"><h2>변경하실 비밀번호를 입력하세요</h2></td>';
+						str +='		</tr>';
+						str +='		<tr>';
+						str +='				<td width="30%" height="100">';
+						str +='						<h5>비밀번호</h5>';
+						str +='				</td>';
+						str +='				<td width="70%" height="100">';
+						str +='					<input type="password" id="userpass" name="userpass" style="width:250px;" required="required">';
+						str +='				</td>';
+						str +='		</tr>';
+						str +='		<tr>';
+						str +='				<td width="250" height="100">';
+						str +='						<h5>비밀번호 확인</h5>';
+						str +='				</td>';
+						str +='				<td width="70%" height="100">';
+						str +='						<input type="password" style="width:250px;" id="userpass1" name="userpass1" required="required">';
+						str +='						<input type="submit" value="변경하기">';
+						str +='				</td>';
+						str +='		</tr>';
+						str +='<tr>';
+						str +='<td><input type="hidden" id="userid" name="userid" value="'+userId+'"></input></td>';
+						str +='</tr>';
+						str +='	</table>';
+						str +='	</form>';
+						
+						$('#article').html(str);
+						
+				}else{
+					alert("패스워드가 일치하지 않습니다.");
+					return;
+				}
+			
+			}
+		});
+		
+	}
+
+	
+	function myCart(){
+		
+		str ="";
+		var username = $('#username').attr('value');
+		var userId = $('#userId').attr('value');
+		str = "";
+		$.ajax({
+		url:'/ShoeKream/myCart',
+		type:'post',
+		data:{
+			userId:userId
+		},
+		success:function(data){
+			console.log(data);
+			if(data.length === 0){
+				str +='	<table style="width: 60%;float: none;margin-left: 250px;">';
+				str +=	'	<tr>';
+				str +=		'	<td><h3>현재 장바구니에 담긴 제품이 없습니다.</h3></td>';
+				str +=	'	</tr>;'
+				str +='	</table>';
+			$('#article').html(str);
+			
+			}else{
+				str +='<table class="container"  style="width: 100%;height: 80%;text-align: center;" >';
+				str +='<colgroup>';
+				str +='			<col width="0px"/>';
+				str +='	<col width="50px"/>';
+				str +='	<col width="100px"/>';
+				str +='	<col width="300px"/>			';
+				str +='	<col width="50px"/>			';
+				str +='	<col width="100px"/>			';
+				str +='	</colgroup>';
+				str +='<tr><td><p><p></td></tr>';
+				str +='		<tr>';
+				str +='			<td colspan="5" ><h2>현재 '+username+'님의 장바구니에 담긴 물품입니다.</h2></td>';
+				str +='		</tr>';
+				str +='<tr><td><p><p></td></tr>';
+				str +='		<tr style="border-bottom: 2px solid black">';
+				str +='<td scope="col"></td>';
+				str +='	<td scope="col"><h4>브랜드</h4></td>';
+				str +='	<td scope="col"><h4>제품 이름</h4></td>';
+				str +='		<td scope="col"><h4>제품 설명</h4></td>';
+				str +='	<td scope="col"><h4>가격</h4></td>';
+				str +='	<td scope="col"><h4>구매/삭제</h4></td>';
+				str +='	</tr>';
+				str +='<tr>';
+				str +='<td>';
+				str +='</td>';
+				str +='</tr>';
+				for(var i =0;i<data.length;i++){
+				str +='	<tr style="border-bottom: 1px solid black">';
+				str +='	<td><img src="/'+data[i].luxbThumbnailImg+'" width="75px" height="75px"></td>';
+				str +='	<td><h5 style="font-size: 11pt;text-decoration: underline;margin-top:10px">'+data[i].luxbBrand+'</h5></td>';
+				str +='	<td><h5 style="font-size: 12pt;margin-top:10px;font-weight:bold;">'+data[i].luxbProduct+'</h5></td>';
+				str +='	<td><h5 style="font-size: 11pt;margin-top:10px;text-align:left">'+data[i].luxbIntro+'</h5></td>';
+				str +='	<td><h5 style="font-size: 11pt;margin-top:10px;">'+data[i].luxbPrice+'</h5></td>';
+				str +='	<td><input type="button" value="구매" style="color:navy">&nbsp;&nbsp;&nbsp;<input type="button" value="삭제" style="color:red;" onclick=deleteMyCart('+data[i].luxbNo+')></td>';
+				str +='	</tr>';
+				}
+				str +='</table>';
+
+				$('#article').html(str);
+			
+			}
+			
+		}
+			
+		});
+		
+		
+	} 
+	// 내 카트에서 삭제
+	function deleteMyCart(luxbNo){
+		alert(luxbNo);
+		var userId = $('#userId').attr('value');
+		
+		
+		$.ajax({
+			url:'/ShoeKream/deleteMyCart',
+			type:'post',
+			datatype:'json',
+			data:{
+				luxbNo:luxbNo,
+				userId:userId
+			},success:function(data){
+				
+				if(data ===1){
+					alert("장바구니에서 삭제가 완료 되었습니다.");
+					history.go(0);
+					
+				}else{
+					alert("삭제 실패");
+					return;
+				}
+				
+			}
+			
+		});
+		
+	}
+	
+	function memberWithdraw(){
+		
+		str = "";
+		
+		$.ajax({
+			url:'/ShoeKream/withdraw',
+			datatype:'json',
+			type:'post',
+			success: function(){
+			str +=' <table style="width: 60%;float: none;margin-left: 250px;">';
+			str +='		<tr colspan="2">';
+			str +='				<td height="100"><h2>현재 계정명을 입력하세요</h2></td>';
+			str +='		</tr>';
+			str +='		<tr>';
+			str +='				<td width="250" height="100">';
+			str +='						<h5>계정 명</h5>';
+			str +='						<input type="email" id="myId" name="myId" style="width:250px;" required="required">';
+			str +='				</td>';
+			str +='		</tr>';
+			str +='		<tr >';
+			str +='				<td height="100"><h2>현재 비밀번호를 입력하세요</h2></td>';
+			str +='		</tr>';
+			str +='		<tr>';
+			str +='				<td width="250" height="100">';
+			str +='						<h5>비밀번호</h5>';
+			str +='						<input type="password" id="myPass" name="myPass" style="width:250px;" required="required">';
+			str +='				</td>';
+			str +='		</tr>';
+			str +='		<tr >';
+			str +='				<td height="100"><h2>아래의 메시지를 그대로 입력해주세요</h2></td>';
+			str +='		</tr>';
+			str +='		<tr>';
+			str +='				<td width="250">';
+			str +='						<h3 style="color:red;">회원 탈퇴 요청합니다. </h3>';
+			str +='						<input type="text" id="checkWithDraw" name="checkWithDraw" style="width:250px;" required="required" placeholder="회원 탈퇴 요청합니다.">';
+			str +='						<input type="button" style="width:250px;" value="탈퇴 요청" onclick="withDrawRequest()">';
+			str +='				</td>';
+			str +='		</tr>';
+			str +='	</table>';
+			$('#article').html(str);
+			}
+		});
+		
+	
+	} 
+
+	function withDrawRequest(){
+		var myId = document.getElementById('myId').value;
+		var myPass = document.getElementById('myPass').value;
+		var checkWithDraw = document.getElementById('checkWithDraw').value;
+		var userId = document.getElementById('userId').value;
+		alert(checkWithDraw);
+		
+		if((checkWithDraw == "회원 탈퇴 요청합니다.") && (userId==myId)){
+		
+			$.ajax({
+			url:'/ShoeKream/withDrawRequest',
+			datatype:'json',
+			type:'post',
+			data:{
+				myId:myId,
+				myPass:myPass
+					
+			},
+			success: function(data){
+				
+				if(data == 1){
+					alert("회원 탈퇴 처리 완료");
+					location.href="/logoutRequest";
+				}else{
+					alert("알수 없는 이유로 요청 처리가 실패 하였습니다.");
+					return;
+				}
+			}
+				
+			});
+			
+		}else{
+			alert("일치 하지 않습니다.");
+			return;
+		}
+	}
+	</script>
+	
+	
+	</section>
+</body>
+
+</html>

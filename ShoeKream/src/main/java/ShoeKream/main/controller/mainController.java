@@ -28,6 +28,7 @@ import ShoeKream.communityBoard.paging.Criteria;
 import ShoeKream.communityBoard.paging.PageMaker;
 import ShoeKream.communityBoard.service.communityBoardService;
 import ShoeKream.main.service.mainService;
+import ShoeKream.user.VO.joinVO;
 
 @Controller
 public class mainController {
@@ -191,6 +192,14 @@ public class mainController {
 		
 		rttr.addFlashAttribute("msg", msg);
 		return "redirect:/ShoeKream";
+	}
+	
+	//0323 추가
+	@GetMapping("/ShoeKream/myPage")
+	public String myPage()throws Exception {
+		
+		
+		return "member/myPage";
 	}
 	
 

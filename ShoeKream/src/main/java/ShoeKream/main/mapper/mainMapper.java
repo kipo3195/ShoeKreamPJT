@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import ShoeKream.admin.VO.luxBoardVO;
+import ShoeKream.user.VO.joinVO;
 
 @Mapper
 public interface mainMapper {
@@ -21,6 +22,8 @@ public interface mainMapper {
 	int totalBoardCount()throws Exception;
 
 	List<luxBoardVO> addLuxBoard(@Param("i")int i)throws Exception;
+
+
 
 
 }

@@ -34,7 +34,7 @@
 				<a href="#" onclick="productRegist()">제품 등록</a>
 			</li>
 			<li style="list-style-type: none;">
-				<a href="#">제품 조회/삭제</a>
+				<a href="#" onclick="productSearch()">제품 조회/삭제</a>
 			</li>
 			<li style="list-style-type: none;">- 게시물 관리</li>
 			<li style="list-style-type: none;">
@@ -52,7 +52,9 @@
 		</nav>	
 		<article style="border: 1px solid black; height:600px;width: 1050px;float: left;">
 			<div id="article">
-					<span style="margin-left: 50px;padding-top: 50px;font-size: 20pt">관리자 메인 페이지에오신것을 환영합니다</span>
+					 <span style="margin-left: 50px;padding-top: 50px;font-size: 20pt">관리자 메인 페이지에오신것을 환영합니다</span> 
+					
+					
 			</div>
 		
 		</article>
@@ -182,11 +184,241 @@
 		alert("서비스 준비중 입니다.");
 	}
 	
-	</script>
+	//제품 조회
+	function productSearch(){
+			str ="";
+			
+			str +=' <table	style="width: 100%;height: 90%;text-align: center;border: 1px solid black">';
+			str +=' <tr style="width: 100%;height: 2%">';
+			str +='<td>	';
+			str +='<p></p>';
+			str +='</td>';
+			str +='</tr>';
+			str +='<tr>';
+			str +='	<td>';
+			str +='<h2>제품 조회 및 삭제</h2>';
+			str +='</td>';
+			str +='</tr>';
+			str +='<tr style="width: 100%;height: 2%">';
+			str +='<td>';
+			str +='<p></p>';
+			str +='</td>';
+			str +='	</tr>';
+			str +='<tr style="float: left;border-top: 1px solid black;width: 100%;padding-top:6px; "height="50px;">';
+			str +='<td style="width: 250px;text-align: right;">';
+			str +='<h4>검색 속성  &nbsp;&nbsp;:</h4>';
+			str +='</td>';
+			str +='<td style="width: 150px;">';
+			str +='<select style="height: 32px;" id="searchAttr">';
+			str +='<option id="productName" value="productName">제품 명</option>';
+			str +='<option id="productNo" value="productNo">제품 번호</option>';
+			str +='<option id="productBrand" value="productBrand">브랜드</option>';
+			str +='</select>';
+			str +='</td>';
+			str +='<td style="width: 380px">';
+			str +='<input type="text" placeholder="검색할 데이터를 입력하세요." style="width: 350px;float: left; height: 32px;" name="searchWord" id="searchWord">';
+			str +='</td>';
+			str +='<td>';
+			str +='<input type="button" value="검색하기" onclick="SearchBtn()">';
+			str +='</td>';
+			str +='</tr>';
+			str +='</table>';
+			str +='<div id="productList">';
+			
+			str +='</div>'
 
+			$("#article").html(str);
+		
+	}
 	
+	function SearchBtn(){
+		
+		var searchAttr = document.getElementById('searchAttr').value;
+		var searchWord = document.getElementById('searchWord').value;
+		 str= "";
+		$.ajax({
+			url:'/ShoeKream/SearchProduct',
+			datatype:'json',
+			type:'post',
+			data:{
+				searchAttr:searchAttr,
+				searchWord:searchWord
+			},
+			success:function(data){
+				console.log(data);
+				if(data[0] === null){
+				
+					alert("검색 결과 존재하지 않습니다.");
+					return;
+					
+				}else{
+				str +='<table class="container"  style="width: 100%;height: 80%;text-align: center;" >';
+				str +='<colgroup>';
+				str +='	<col width="0px"/>';
+				str +='	<col width="20px"/>';
+				str +='	<col width="40px"/>';
+				str +='	<col width="60px"/>';
+				str +='	<col width="50px"/>			';
+				str +='	<col width="50px"/>			';
+				str +='	<col width="20px"/>			';
+				str +='	<col width="20px"/>			';
+				str +='	<col width="0px"/>			';
+				str +='	</colgroup>';
+				str +='<tr><td><p><p></td></tr>';
+				str +='		<tr style="border-bottom: 2px solid black">';
+				str +='	<td scope="col"><h5>번호</h5></td>';
+				str +='	<td scope="col"><h5>제품 코드</h5></td>';
+				str +='	<td scope="col"><h5> 브랜드</h5></td>';
+				str +='		<td scope="col"><h5>제품 이름</h5></td>';
+				str +='		<td scope="col"><h5 style="text-align:right">제품 가격</h5></td>';
+				str +='		<td scope="col"><h5>제품 등록/수정 일</h5></td>';
+				str +='		<td scope="col"><h5>판매</h5></td>';
+				str +='	<td scope="col"><h5>삭제 / 수정</h5></td>';
+				str +='	</tr>';
+				str +='<tr>';
+				str +='<td>';
+				str +='</td>';
+				str +='</tr>';
+				for(var i =0;i<data.length;i++){
+					if(data[i] === null){
+				 		$('#productList').html(str);
+				 		break;
+				 	}else{
+				 		
+				str +='	<tr style="border-bottom: 1px solid black">';
+				str +='	<td><h5 style="font-size: 11pt;margin-top:10px">'+data[i].pno+'</h5></td>';
+				str +='	<td><h5 style="font-size: 11pt;margin-top:10px">'+data[i].pclassCode+'</h5></td>';
+				str +='	<td><h5 style="font-size: 11pt;text-decoration: underline;margin-top:10px;">'+data[i].pbrand+'</h5></td>';
+				str +='	<td><h5 style="font-size: 10pt;margin-top:10px;margin-left:10px;text-align:left;font-weight:bold;">'+data[i].pproduct+'</h5></td>';
+				str +='	<td><h5 style="font-size: 11pt;margin-top:10px;text-align:right">'+data[i].pprice+'</h5></td>';
+				str +='	<td><h6 style="font-size: 11pt;margin-top:10px;">'+data[i].createdDatetime+'</h6></td>';
+				str +='	<td><h6 style="font-size: 10pt;margin-top:10px;">'+data[i].onSale+'</h6></td>';
+				str +='	<td><input type="button" value="수정" style="color:green;" onclick="updateBtn('+data[i].pno+')">&nbsp;&nbsp;&nbsp;<input type="button" value="삭제" style="color:red;" onclick="deleteBtn('+data[i].pno+')"></td>';
+				str +='	</tr>';
+				 	}
+				}
+				str +='</table>';
+				 $('#productList').html(str);
+				
+				
+				
+				
+				}
+			
+			}
+			
+		});
+	}
 	
+	function updateBtn(pno){
+		str = "";
+		if(confirm("제품 수정 페이지로 이동 하시겠습니까?")){
+			
+		 	$.ajax({
+		 		url:'/ShoeKream/updateProduct',
+		 		datatype:'json',
+		 		type:'post',
+		 		data:{
+		 			pno:pno
+		 		},success:function(data){
+		 			console.log(data.pprice);
+		 		
+		 			str += '<div class="container" style="padding-top:30px; width:95%;" >';
+					str += '<h2 style="margin:20;">제품 수정 페이지</h2>';
+					str += '<hr style="height:3px;background-color: #333;"/>';
+					str += '<form action="/ShoeKream/updateProductRequest" method="post">';
+					str +=	'<table style="border-collapse: separate;border-spacing: 0 15px;">';
+					str += '<thead>';
+					str += '</thead>';
+					str += '<tbody>';
+					str += '  <tr>';
+					str += '  <td>카테고리 선택 : </td>';
+					str += '					    <td>';
+					str += '						    <select id="pCategory" name="pCategory">';
+					str += '							    <option >상의</option>';
+					str += '							    <option>하의</option>';
+					str += '							    <option>가방</option>';
+					str += '							    <option>신발</option>';
+					str += '							    <option selected="selected">'+data.pcategory+'</option>';
+					str += '						    </select>';
+					str += '					    </td>';
+					str += '				  </tr>';
+					str += '				  	  <tr>';
+					str += '				    <td>분류코드 선택 : </td>';
+					str += '					    <td>';
+					str += '						    <select id="pClassCode" name="pClassCode">';
+					str += '						    <option>[001]lux</option>';
+					str += '							    <option>[002]shoes</option>';
+					str += '							    <option selected="selected">'+data.pclassCode+'</option>';
+					str += '			    </select>';
+					str += '		    </td>';
+					str += '	  </tr>';
+					str += '	  <tr>';
+					str += '			<td>제품 브랜드: </td>';
+					str += '			<td> <input type="text" style="width: 350px;" placeholder="제품 브랜드를 입력하세요." required="required" autocomplete="off" id="pBrand" name="pBrand"></td>';
+					str += '			  </tr>		';
+					str += '			    <tr>';
+					str += '					<td>제품 명: </td>';
+					str += '					<td> <input type="text" style="width: 350px;" placeholder="제품 명을 입력하세요." required="required" autocomplete="off" id="pProduct" name="pProduct"></td>';
+					str += '		  </tr>';			
+					str += '		   	   <tr>	';
+					str += '					<td> 제품 설명: </td>	';				
+					str += '					<td> <textarea rows="5" cols="60" placeholder="제품 설명을 입력하세요" style="overflow:visible;" required="required" autocomplete="off" id="pIntro" name="pIntro"></textarea></td>';
+					str += '		       </tr>';
+					str += '		       <tr>';
+					str += '					<td>판매 가액: </td>';
+					str += '					<td> <input type="text" style="width: 200px;" placeholder="               000.000.000 원" required="required" autocomplete="off" id="pPrice" name="pPrice" ></td>';
+					str += '			  </tr>	';
+					str += '</tbody>';
+					str += '	<tfoot>';
+					str += '			<tr>';
+					str += '				<td>';
+					str += '				</td>';
+					str += '			<td>';
+					str += '				<input type="hidden" value="'+data.pno+'" id="pNo" name="pNo">';
+					str += '				<input type="submit" value="수정완료" style="width:200px">';
+					str += '			</td>';
+					str += '			</tr>';
+					str += '	</tfoot>';
+					str += '	</table>';
+					str += '</form>';
+					str += '</div>';
+					
+					 $('#article').html(str);
+						console.log(data);
+					 
+					 document.getElementById('pBrand').setAttribute('value',data.pbrand);
+					 document.getElementById('pProduct').setAttribute('value',data.pproduct);
+					 document.getElementById('pPrice').setAttribute('value',data.pprice);
+						$("#pIntro").val(data.pintro);
+					 
+					 
+					 
+		 		
+		 		}
+		 		
+		 		
+		 		
+		 	});
+			
+		
+			
+		}else{
+			return;
+		}
+	}
 	
+	function deleteBtn(pno){
+		if(confirm("정말로 해당 제품을 삭제 하시겠습니까?")){
+			location.href='/ShoeKream/deleteProduct/'+pno;
+			
+		}else{
+			return;
+		}
+		
+	}
+	
+	</script>
 	
 	</section>
 </body>

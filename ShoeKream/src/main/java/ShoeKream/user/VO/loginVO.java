@@ -8,5 +8,6 @@ public class loginVO {
 	private String userid;
 	private String userpass;
 	private String idcookie;
+	private String deleteyn;
 
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import ShoeKream.admin.VO.luxBoardVO;
 import ShoeKream.main.mapper.mainMapper;
+import ShoeKream.user.VO.joinVO;
 
 @Service
 public class mainServiceImpl implements mainService{
@@ -91,7 +92,8 @@ public class mainServiceImpl implements mainService{
 		
 		return lbvo;
 	}
-	
+
+
 	
 	
 	

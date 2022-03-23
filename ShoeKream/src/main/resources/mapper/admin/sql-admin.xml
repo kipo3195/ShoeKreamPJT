@@ -86,11 +86,142 @@ INSERT INTO sk_lux_board(
 	 #{pNo}
 )
 
-
-
-
-
 </insert>
 
+<select id="selectProductName" resultType="ShoeKream.admin.VO.ProductVO" >
+
+<![CDATA[
+SELECT 
+	p_no,
+	p_brand,
+	p_product,
+	p_intro,
+	p_price,
+	p_category,
+	p_classcode,
+	on_sale,
+	created_datetime
+FROM	
+	sk_Product
+WHERE
+	on_sale = 'y'
+AND
+	p_product LIKE CONCAT('%',#{searchWord},'%')
+order by p_no desc
+limit #{flag},1
+	
+]]>
+
+</select>
+
+<select id="selectProductNo" resultType="ShoeKream.admin.VO.ProductVO">
+
+<![CDATA[
+SELECT 
+	p_no,
+	p_brand,
+	p_product,
+	p_intro,
+	p_price,
+	p_category,
+	p_classcode,
+	on_sale,
+	created_datetime
+FROM	
+	sk_Product
+WHERE
+	p_no = #{searchNo}
+AND
+	on_sale = 'y'
+]]>
+
+</select>
+
+
+<select id="selectProductBrand" resultType="ShoeKream.admin.VO.ProductVO" >
+
+<![CDATA[
+SELECT 
+	p_no,
+	p_brand,
+	p_product,
+	p_intro,
+	p_price,
+	p_category,
+	p_classcode,
+	on_sale,
+	created_datetime
+FROM	
+	sk_Product
+WHERE
+	on_sale = 'y'
+AND
+	p_brand LIKE CONCAT('%',#{searchWord},'%')
+order by p_no desc
+limit #{flag},1
+	
+]]>
+
+</select>
+
+<update id="deleteProduct" parameterType="int">
+
+<![CDATA[
+UPDATE sk_Product
+SET on_sale = 'n'
+WHERE
+p_no =#{pNo}
+]]>
+
+</update>
+
+
+<select id="selectProduct" resultType="ShoeKream.admin.VO.ProductVO">
+
+<![CDATA[
+SELECT 
+	p_no,
+	p_brand,
+	p_product,
+	p_intro,
+	p_price,
+	p_category,
+	p_classcode,
+	created_datetime
+FROM 
+	sk_Product
+WHERE
+p_no = #{pno}
+
+]]>
+
+
+
+</select>
+
+<update id="updateProductRequest" parameterType="ShoeKream.admin.VO.ProductVO">
+
+
+<![CDATA[
+
+UPDATE sk_Product
+SET
+p_brand = #{pBrand},
+p_product = #{pProduct},
+p_intro = #{pIntro},
+p_price = #{pPrice},
+p_category = #{pCategory},
+p_classcode = #{pClassCode}
+WHERE
+p_no = #{pNo}
+
+
+
+]]>
+
+
+
+
+</update>
 
 </mapper>

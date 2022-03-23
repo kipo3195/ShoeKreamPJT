@@ -1,19 +1,25 @@
 package ShoeKream.user.controller;
 
+import java.util.List;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ShoeKream.admin.VO.luxBoardVO;
 import ShoeKream.user.VO.joinVO;
 import ShoeKream.user.VO.loginVO;
 import ShoeKream.user.VO.memberVO;
@@ -47,16 +53,22 @@ public class userController {
 		
 		HttpSession session = req.getSession();
 		
+		
 		memberVO member = userservice.selectUser(loginvo);
+		
 		
 		//세션 삽입 코드
 		if(member == null) {// 로그인 계정 불일치
 			
 			session.setAttribute("member", null);
-			//rttr.addFlashAttribute("msg",false); 나중에 자바스크립트 활용해서 alert문구 만들때 활용하기
-			
+			rttr.addFlashAttribute("msg","일치하는 회원이 존재하지 않습니다. 아이디와 비밀번호를 확인하세요."); 
 			return "redirect:/ShoeKream/login";
-		}else {
+			}else if(member.getDeleteyn().equals("y")) {
+			session.setAttribute("member", null);
+			rttr.addFlashAttribute("msg", "탈퇴한 회원 입니다.");
+			return "redirect:/ShoeKream/login";
+			}
+			else {
 			
 			// 쿠키 등록
 			if(loginvo.getIdcookie() != null) { // 문자열 비교는 equals...
@@ -138,7 +150,165 @@ public class userController {
 		return mv;
 	}
 	
+    //0323 추가
+	
+	@PostMapping("/ShoeKream/myInfo")
+	public ResponseEntity<Object> myInfo(@RequestParam("userId")String userId)throws Exception{
+		
+		ResponseEntity<Object> entity;
+		
+		joinVO myInfo = userservice.findMyInfo(userId);
+		System.out.println(myInfo);
+		
+		try {
+			entity = new ResponseEntity<>(myInfo,HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	
+	
+	@PostMapping("/ShoeKream/changePass")
+	public ResponseEntity<Object> changePass()throws Exception{
+		
+		ResponseEntity<Object> entity;
+		
+		
+		try {
+			entity = new ResponseEntity<>(null,HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	
+	
+	@PostMapping("/ShoeKream/insertPass")
+	public ResponseEntity<Object> insertPass(@RequestParam("userId")String userId)throws Exception{
+		
+		ResponseEntity<Object> entity;
+		
+		loginVO myPass = userservice.findMyPass(userId);
+		System.out.println(myPass);
+		
+		try {
+			entity = new ResponseEntity<>(myPass.getUserpass(),HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	
+	@RequestMapping("/ShoeKream/ChangePassRequest")
+	public String changePassRequest(joinVO joinvo,RedirectAttributes rttr,HttpServletRequest req)throws Exception{
+		
+		if(joinvo.getUserpass().equals(joinvo.getUserpass1())) {
+			//비밀 번호변경
+			int result = userservice.changePassRequest(joinvo);
+			
+				if(result == 1) {
+					rttr.addFlashAttribute("msg", "비밀번호가 성공적으로 변경 되었습니다. 변경된 비밀번호로 다시 로그인 하세요.");
+					HttpSession session = req.getSession();
+					session.removeAttribute("member");
+					return "redirect:/ShoeKream";
+				}
+			
+		}else {
+			rttr.addFlashAttribute("msg", "입력하신 비밀번호가 서로 일치하지 않습니다. 다시 시도해주세요.");
+		}
+		return "redirect:/ShoeKream/myPage";
+		
+	}
+	
+	@PostMapping("/ShoeKream/withdraw")
+	public ResponseEntity<Object> withdraw()throws Exception{
+		
+		ResponseEntity<Object> entity;
+	
+		
+		try {
+			entity = new ResponseEntity<>(null,HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	
+	
+	@PostMapping("/ShoeKream/withDrawRequest")
+	public ResponseEntity<Object> withDrawRequest(@RequestParam("myId")String myId,@RequestParam("myPass")String myPass)throws Exception{
+		
+		ResponseEntity<Object> entity;
+		
+		int result = userservice.withDrawRequest(myId,myPass);
 
+		
+		try {
+			entity = new ResponseEntity<>(result,HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	
+	@PostMapping("/ShoeKream/addMyCart")
+	public ResponseEntity<Object> addMyCart(@RequestParam("userId")String userId,@RequestParam("luxbNo")String luxbNo)throws Exception{
+		
+		ResponseEntity<Object> entity;
+		
+		int result = userservice.addMyCart(userId, luxbNo);
+		
+		try {
+			entity = new ResponseEntity<>(result,HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	
+	@PostMapping("/ShoeKream/myCart")
+	public ResponseEntity<Object> myCart(@RequestParam("userId")String userId)throws Exception{
+		
+		ResponseEntity<Object> entity;
+		
+		 List<luxBoardVO> luxblist = userservice.selectLuxList(userId);
+		
+		
+		try {
+			entity = new ResponseEntity<>(luxblist,HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	
+	
+	@PostMapping("/ShoeKream/deleteMyCart")
+	public ResponseEntity<Object> deleteMyCart(@RequestParam("userId")String userId,@RequestParam("luxbNo")String luxbNo)throws Exception{
+		
+		ResponseEntity<Object> entity;
+		
+
+		int result  = userservice.deleteMyCart(userId,luxbNo);
+		
+		
+		try {
+			entity = new ResponseEntity<>(result,HttpStatus.OK);
+		}catch(Exception e){
+			entity = new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	
 	
 	
 	

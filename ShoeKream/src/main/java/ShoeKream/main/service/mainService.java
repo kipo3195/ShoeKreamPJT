@@ -3,6 +3,7 @@ package ShoeKream.main.service;
 import java.util.List;
 
 import ShoeKream.admin.VO.luxBoardVO;
+import ShoeKream.user.VO.joinVO;
 
 public interface mainService {
 
@@ -17,6 +18,8 @@ public interface mainService {
 	int totalCountBoard()throws Exception;
 
 	List<luxBoardVO> addLuxBoard(int pageFlag)throws Exception;
+
+	
 	
 
 }

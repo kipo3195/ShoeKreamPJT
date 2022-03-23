@@ -31,7 +31,8 @@
 	<![CDATA[
 	SELECT 
 		userid,
-		username
+		username,
+		deleteyn
 	FROM
 		sk_user
 	WHERE
@@ -81,5 +82,137 @@
 	]]>
 	
 	</update>
+	<select id="selectMyInfo" resultType="ShoeKream.user.VO.joinVO">
+		<![CDATA[
+	Select
+		userid,username,userphone
+	FROM
+		sk_user
+	WHERE
+		userid = #{userId}
+	]]>
+	
+	</select>
+	<select id="selectMyPass" resultType="ShoeKream.user.VO.loginVO">
+		<![CDATA[
+	Select
+		userpass
+	FROM
+		sk_user
+	WHERE
+		userid = #{userId}
+	]]>
+	
+	</select>
+	
+	<update id="changePassRequets" parameterType="ShoeKream.user.VO.joinVO">
+	<![CDATA[
+	UPDATE
+		sk_user
+	SET
+		userpass = #{userpass},
+		userpass1 =#{userpass1}
+	WHERE
+		userid = #{userid}
+	]]>
+	
+	</update>
+	
+		<update id="withDrawRequest">
+	<![CDATA[
+	UPDATE
+		sk_user
+	SET
+		deleteyn = 'y'
+	WHERE
+		userid = #{myId}
+	AND
+		userpass= #{myPass}
+	]]>
+	
+	</update>
+	
+	<insert id="addMyCart">
+	
+	<![CDATA[
+	INSERT INTO sk_add_cart(
+	user_id,
+	luxb_no,
+	created_time
+	)VALUES(
+	#{userId},
+	#{luxbNo},
+	NOW()
+	)
+	]]>
+	
+	</insert>
+	
+	<select id="selectMyCart" resultType="int">
+	<![CDATA[
+	SELECT  count(*)
+	FROM sk_add_cart
+	WHERE
+		user_id = #{userId}
+	AND
+		luxb_no = #{luxbNo}
+	]]>
+	
+	</select>
+	
+	<select id="selectUserCart" resultType="String">
+	<![CDATA[
+	SELECT  
+		luxb_no
+	FROM sk_add_cart
+	WHERE
+		user_id = #{userId}
+	]]>
+	
+	</select>
+	<select id="selectUserCartList" resultType="ShoeKream.admin.VO.luxBoardVO">
+<![CDATA[
+SELECT 
+		luxb_no,
+		luxb_brand,
+		luxb_product,
+		luxb_intro,
+		luxb_price,
+		luxb_category,
+		luxb_classcode,
+		created_datetime,
+		updated_datetime,
+		luxb_thumbnailimg,
+		luxb_img1,
+		luxb_img2,
+		deleteyn,
+		p_no,
+		on_sale
+FROM 
+		sk_lux_board
+WHERE
+		deleteyn = 'n'
+AND
+		luxb_no = #{luxbNo}
+]]>
+	
+	
+	</select>
+	
+	<delete id="deleteMyCart">
+	
+	<![CDATA[
+	DELETE 
+	 FROM sk_add_cart
+	WHERE
+		user_id = #{userId}
+	AND
+		luxb_no = #{luxbNo}
+	
+	]]>
+	
+	
+	</delete>
+	
 
 </mapper>

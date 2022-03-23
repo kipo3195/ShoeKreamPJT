@@ -7,4 +7,5 @@ public class memberVO {
 
 	private String userid;
 	private String username;
+	private String deleteyn;
 }

@@ -7,6 +7,15 @@
 <div th:replace="layout/header::header-nav-user"></div>
 <div th:replace="layout/header::header-nav-common"></div>
 
+	<script th:inline="javascript">
+    /*<![CDATA[*/
+    var msg = /*[[${msg}]]*/  "default";
+    if(msg != null){  	
+    alert(msg);
+    }
+    /*]]>*/
+	</script>
+
 <div style="text-align: center;">
 <form action="/loginRequest" method="post">
 	<table class="container" style="border-collapse: separate;border-spacing: 0 15px;">

@@ -10,13 +10,31 @@
 	<section>
 	
 	<div class="container" style="height: 830px;">
+	   		<div th:if ="${session.member != null}">
+	   				<table>
+	   					<tr>
+	   						<td>
+				   				<input type="hidden" name="sessionId" id="sessionId" th:value="${session.member.userid}">  <!-- 장바구니 용도로 사용 -->
+	   						</td>
+	   					</tr>
+	   				</table>
+	   		</div>
+	   		<div th:if="${session.member == null}">
+	   					<table>
+	   					<tr>
+	   						<td>
+				   				<input type="hidden" name="sessionId" id="sessionId" value="null">  <!-- 장바구니 용도로 사용 -->
+	   						</td>
+	   					</tr>
+	   				</table>
+	   		</div>
 		<header style="height: 100px;">
 			<h1 style="padding-top: 25px;">제품 상세 페이지</h1>
 			<hr width="25%" >
 			
 		</header>
 		<article style="border: 1px solid black; height:700px;width: 50%;float: left;">
-			<img alt="...." th:src="@{/}+${lbvo.luxbThumbnailImg}"><!-- 이미지 경로 처리해야함 -->
+			<img alt="...." width="100%" height="100%" th:src="@{/}+${lbvo.luxbThumbnailImg}"><!-- 이미지 경로 처리해야함 -->
 		</article>
 		<article style="height:700px;width: 50%;float: left;">
 			<div style="width:95%;height: 20%;margin-left: 20px;margin-top: 5px;">
@@ -40,8 +58,8 @@
 							<input type="button" style="width: 97%;height: 60%;color:white;background-color: #ef6d66;font-size: 19pt;border-radius: 10px 10px 10px 10px" value="구입하기">
 						</td>
 						<td style="width: 50%" align="center">
-							<input type="button" style="width: 97%;height: 60%;color:white;background-color: #09dc7d;font-size: 19pt;border-radius: 10px 10px 10px 10px" value="장바구니 담기">
-						</td>
+							<input type="button" style="width: 97%;height: 60%;color:white;background-color: #09dc7d;font-size: 19pt;border-radius: 10px 10px 10px 10px" value="장바구니 담기" th:onclick="'addMyCart('+${lbvo.luxbNo}+')'">
+						</td>							
 					</tr>
 				</table>
 			</div>
@@ -101,6 +119,45 @@
 		// 게시판 수정
 		function updateBoard(luxbNo){
 			location.href="/ShoeKream/updateMainBoard/"+luxbNo;
+		}
+		
+		function addMyCart(luxbNo){
+			var userId = document.getElementById('sessionId').value;
+			if(userId == "null"){
+				alert("로그인 후 이용해 주시기 바랍니다.");
+			}else{
+				
+				if(confirm("장바구니에 등록 하시겠습니까?")){
+					
+					$.ajax({
+						url:'/ShoeKream/addMyCart',
+						datatype:'json',
+						type:'post',
+						data:{
+							userId:userId,
+							luxbNo:luxbNo
+							
+						},
+						success : function(data){
+							
+							if(data=="1"){
+								alert("장바구니에 추가 되었습니다.");
+							}else{
+								alert("이미 장바구니에 있습니다.")
+							}
+						}
+						
+					});
+					
+				}else{
+					
+				}
+				
+				
+			}
+			
+			
+			
 		}
 
 </script>
