@@ -147,7 +147,7 @@ public class userController {
 			ModelAndView mv = new ModelAndView("member/insertpasscode");
 			userservice.SendaPasswordCode(joinvo);
 			
-			//성공적으로 보냈다는 메시지 출력과 함께 로그인 페이지로 이동하
+			//성공적으로 보냈다는 메시지 출력과 함께 로그인 페이지로 이동하 	
 		return mv;
 	}
 	
