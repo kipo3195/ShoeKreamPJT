@@ -155,7 +155,8 @@ SELECT
 		bb_likecnt,
 		creator_id,
 		creator_name,
-		created_datetime
+		created_datetime,
+		deleted_yn
 	FROM 
 		sk_bb
 	WHERE 
@@ -380,6 +381,8 @@ AND
 </select>
 
 <update id="changeYtoN">
+<![CDATA[
+
 
 UPDATE sk_likecnt
 SET stateFlag ='n'
@@ -388,10 +391,12 @@ WHERE
 AND
 	likeBoardNo = #{bbNo}
 
-
+]]>
 </update>
 
 <update id="changeNtoY">
+<![CDATA[
+
 
 UPDATE sk_likecnt
 SET stateFlag ='y'
@@ -400,31 +405,68 @@ WHERE
 AND
 	likeBoardNo = #{bbNo}
 
+]]>
 </update>
 
 <update id="addlikecount" parameterType="int">
+<![CDATA[
 
 UPDATE sk_bb
 SET 
 	bb_likecnt = bb_likecnt+1
 WHERE
 	bb_no = #{bbNo}
+]]>
 
 </update>
 
 
 <update id="minuslikecount" parameterType="int">
+<![CDATA[
 
 UPDATE sk_bb
 SET 
 	bb_likecnt = bb_likecnt-1
 WHERE
 	bb_no = #{bbNo}
+]]>
 
 </update>
 
 
+<select id="checkLikeCount" resultType="int">
 
+<![CDATA[
+
+SELECT count(*)
+FROM 
+	sk_likecnt
+WHERE
+	userid = #{userId}
+AND
+	stateFlag = 'y'
+
+]]>
+
+</select>
+
+<select id="checkLike" resultType="int">
+<![CDATA[
+
+SELECT likeBoardNo
+FROM
+	sk_likecnt
+WHERE
+	 stateFlag = 'y'
+AND
+	userid = #{userId}
+order By likeBoardNo desc
+limit #{i},1
+
+
+]]>
+
+</select>
 
 
 

@@ -68,6 +68,10 @@ public interface communityBoardMapper {
 
 	void minuslikecount(@Param("bbNo")int bbNo)throws Exception;
 
+	int checkLikeCount(@Param("userId")String userId);
+
+	Integer checkLike(@Param("userId")String userId,@Param("i")int i);
+
 	
 
 }

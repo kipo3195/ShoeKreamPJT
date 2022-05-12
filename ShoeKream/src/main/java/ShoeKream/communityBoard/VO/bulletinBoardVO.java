@@ -15,8 +15,8 @@ public class bulletinBoardVO {
 	private String creatorname;
 	private LocalDateTime createdDatetime;
 	private LocalDateTime updatedDatetime;
-	private int bbhitCnt;
-	private int likeCnt;
+	private int bbHitcnt;
+	private int bbLikecnt;
 	private Boolean cbdeletedyn;
 	
 

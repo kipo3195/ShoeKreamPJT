@@ -36,12 +36,12 @@ public class userController {
 	@RequestMapping("/joinRequest")
 	public ModelAndView joinRequest(joinVO joinVo) throws Exception{
 		
-		if(!joinVo.getUserpass().equals(joinVo.getUserpass1())) {
+		if(!joinVo.getUserpass().equals(joinVo.getUserpass1())) { 
 			ModelAndView mv = new ModelAndView("/main/joinPage");
 			mv.addObject("msg", "비밀번호와 비밀번호확인이 일치하지 않습니다. 다시입력해주세요.");
 			return  mv;
 		}
-		ModelAndView mv = new ModelAndView("/main/mainPage");
+		ModelAndView mv = new ModelAndView("/main/loginPage");
 		userservice.insertUser(joinVo);
 		mv.addObject("msg", "회원가입이 완료되었습니다.");
 		return mv;
@@ -147,6 +147,7 @@ public class userController {
 			ModelAndView mv = new ModelAndView("member/insertpasscode");
 			userservice.SendaPasswordCode(joinvo);
 			
+			//성공적으로 보냈다는 메시지 출력과 함께 로그인 페이지로 이동하
 		return mv;
 	}
 	

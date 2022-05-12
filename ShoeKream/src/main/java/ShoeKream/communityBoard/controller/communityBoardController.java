@@ -4,12 +4,15 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.server.Session;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.HttpRequestHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +26,7 @@ import ShoeKream.communityBoard.VO.communityBoardVO;
 import ShoeKream.communityBoard.paging.Criteria;
 import ShoeKream.communityBoard.paging.PageMaker;
 import ShoeKream.communityBoard.service.communityBoardService;
+import ShoeKream.user.VO.memberVO;
 import antlr.debug.NewLineEvent;
 
 @Controller
@@ -34,7 +38,7 @@ public class communityBoardController {
 	
 	// 자유 게시판
 	@GetMapping("/ShoeKream/bulletinBoardPage")
-	public ModelAndView bulletinBoardPage(@RequestParam(value="page",required = false)String page) throws Exception{
+	public ModelAndView bulletinBoardPage(@RequestParam(value="page",required = false)String page,HttpServletRequest req) throws Exception{
 		ModelAndView mv = new ModelAndView("community/bulletinBoardPage");
 		
 		String string = "bulletin";
@@ -54,12 +58,17 @@ public class communityBoardController {
 		PageMaker pm = new PageMaker(cri, totalCnt);
 
 		List<bulletinBoardVO> list = cbs.selectBulletinList(cri.getPageStart());
+		System.out.println(list);
 		
 		mv.addObject("list", list);
-		
 		mv.addObject("pm", pm);
+	
+		System.out.println(req.getSession().getAttribute("member"));
+		memberVO mvo = (memberVO) req.getSession().getAttribute("member");
+		String userId = mvo.getUserid();
+		List<Integer> resultList = cbs.checkLike(userId); 
 		
-		
+		mv.addObject("resultList",resultList);
 		return mv;
 	}
 	//  자유 게시판 글쓰기 페이지 
@@ -177,15 +186,12 @@ public class communityBoardController {
 		
 		ResponseEntity<Object> entity;
 		
-		System.out.println("컨트롤러 bbno : "+bbno);
-		System.out.println("컨트롤러 userid : "+userid);
 		
 		int bbNo = Integer.parseInt(bbno);
 		
 		String flag= cbs.clickLikeimg(bbNo,userid);
 		
 		
-		System.out.println("현재 확인중인 flag : "+flag);
 		
 		try {
 			entity = new ResponseEntity<>(flag,HttpStatus.OK);

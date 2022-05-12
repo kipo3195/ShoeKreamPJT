@@ -52,6 +52,8 @@ public interface communityBoardService {
 	int totalBboardReplyCount(int bbNo)throws Exception;
 
 	String clickLikeimg(int bbNo, String userid) throws Exception;
+
+	List<Integer> checkLike(String userId)throws Exception;
 	
 
 }

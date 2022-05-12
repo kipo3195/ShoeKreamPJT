@@ -1,5 +1,6 @@
 package ShoeKream.communityBoard.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -208,6 +209,25 @@ public class communityBoardServiceImpl implements communityBoardService {
 	public int totalBboardReplyCount(int bbNo) throws Exception {
 		
 		return cbm.totalBboardReplyCount(bbNo);
+	}
+
+
+	@Override
+	public List<Integer> checkLike(String userId) throws Exception {
+		
+		int count = cbm.checkLikeCount(userId);
+		
+		List<Integer> likeBoardList = new ArrayList<Integer>();
+		for (int i=0; i<count;i++) {
+			likeBoardList.add(cbm.checkLike(userId,i));
+		}
+		
+		System.out.println(likeBoardList);
+		
+		
+		
+		
+		return likeBoardList;
 	}
 	
 	

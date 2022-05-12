@@ -17,6 +17,9 @@
     if(msg != null){  	
     alert(msg);
     }
+    
+    
+    
     /*]]>*/
 	
 	</script>
@@ -52,15 +55,15 @@
 									style="text-decoration: none;color: gray;margin-left:20px">
 									</a>
 								</td>
-								<td th:text="${list.bbhitCnt}" style="text-align: center;"></td>
+								<td th:text="${list.bbHitcnt}" style="text-align: center;"></td>
 								<td th:text="${list.creatorname}"  style="text-align: center;"></td>
 								<!-- TODO 오늘 날짜가 지난 게시물이라면 날짜만 표기, 당일 게시글은 시간까지 표기해보기 -->
 								<td th:text="${#strings.replace(list.createdDatetime,'T',' ')}"></td> 
-								<td th:text="${list.likeCnt}" style="text-align: center" th:id="'likecount'+${list.bbNo}"></td>
+								<td th:value="${list.bbLikecnt}" th:text="${list.bbLikecnt}" style="text-align: center" th:id="'likecount'+${list.bbNo}"></td>
 								<td th:if="${session.member != null}"  >
-										<div class="here"  >
-											<img th:src="@{/images/common/emptyHeart.png}" style="width: 25px;height:25px;cursor:pointer" 	th:value="${list.bbNo}" th:id="'likeCnt'+${list.bbNo}"  class="clickevent">
-										</div>
+											<div class="here">
+												<img th:src="@{/images/common/emptyHeart.png}" style="width: 25px;height:25px;cursor:pointer" 	th:value="${list.bbNo}" th:id="'likeCnt'+${list.bbNo}"  class="clickevent">
+											</div>
 											<input type="hidden" th:value="${session.member.userid}" id="userid">
 								</td>
 						</tr>
@@ -78,6 +81,7 @@
 					var userid = $('#userid').attr('value');		// 현재 로그인된 세션의  id를 가져온다.
 					var c = $(this).attr('id');								// 좋아요 버튼을 올리고 db에 반영을 한뒤, 모든 td의 클래스나 id에 적용하는 것이 아닌, 현재 내가 접근한 td의 이미지만 변경하기 위해서 가져온 값이다.
 					var b = "likecount"+bbno;
+					var d = document.getElementById(b).value;
 					
 					// 숫자 업데이트 해주기;
 					
@@ -94,8 +98,11 @@
 						
 						if(data == 'y'){
 							document.getElementById(c).setAttribute('src','/images/common/fullHeart.png');
+							location.reload();
+							
 						}else{
 							document.getElementById(c).setAttribute('src','/images/common/emptyHeart.png');
+							location.reload();
 						}
 							
 						},error: function(data){
