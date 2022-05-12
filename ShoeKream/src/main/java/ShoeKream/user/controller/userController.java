@@ -139,7 +139,7 @@ public class userController {
 		if(member == null) {
 			ModelAndView mv = new ModelAndView("redirect:/finduserpass");
 			
-			//경고창에 출력할 메시지 추가해야함.
+			//경고창에 출력할 메시지 추가해야함.!
 			
 			return mv;
 		}
