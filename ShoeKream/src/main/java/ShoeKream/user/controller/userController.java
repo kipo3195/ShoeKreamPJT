@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ShoeKream.admin.VO.luxBoardVO;
+import ShoeKream.main.service.mainService;
 import ShoeKream.user.VO.joinVO;
 import ShoeKream.user.VO.loginVO;
 import ShoeKream.user.VO.memberVO;
@@ -31,6 +32,8 @@ public class userController {
 
 	@Autowired
 	private userService userservice;
+	@Autowired
+	private mainService ms;
 	
 	//회원가입 신청
 	@RequestMapping("/joinRequest")
@@ -130,7 +133,7 @@ public class userController {
 	
 	//비밀번호 찾기 요청
 	@RequestMapping("/finduserpassRequest")
-	public ModelAndView finduserpassRequest(joinVO joinvo) throws Exception{
+	public ModelAndView finduserpassRequest(joinVO joinvo,HttpServletRequest request) throws Exception{
 		
 		memberVO member = userservice.findUserpass(joinvo);
 		
@@ -145,11 +148,81 @@ public class userController {
 		}
 			//일치하는 계정이 존재하면 view등록 및 비밀 번호 코드 전송
 			ModelAndView mv = new ModelAndView("member/insertpasscode");
-			userservice.SendaPasswordCode(joinvo);
+			int rst = userservice.SendaPasswordCode(joinvo,request);
 			
-			//성공적으로 보냈다는 메시지 출력과 함께 로그인 페이지로 이동하 	
+			if(rst == 0) {
+				//성공적으로 전송한거임 Userid 보내줘야함.
+				mv.addObject("userId", member.getUserid());			
+				
+			}
+			else {
+				// 전송 실패 이기 때문에 메시지 보내줘야함.
+			}
+			
+	
+			
 		return mv;
 	}
+	
+	//패스 코드 입력 후 확인
+	@RequestMapping("/changeMyPassword")
+	public ModelAndView changeMyPassword(@RequestParam("userId") String userId,@RequestParam("passCode") String passCode) throws Exception {
+	
+		ModelAndView mv;
+		
+		System.out.println(userId+" : "+passCode);
+		
+		int rst = userservice.checkPassCode(userId,passCode);
+		//rst가 1이면 패스코드가 정상적으로 확인된것
+		System.out.println("패스코드 확인 작업 count : "+rst);
+		
+		if(rst == 1) {
+			mv = new ModelAndView("member/changeMyPass");
+			//성공적으로 비밀번호 변경
+			System.out.println("변경창 이동");
+			mv.addObject("userId", userId);			
+			
+			return mv;
+		}else {
+			
+			mv = new ModelAndView("member/finduserpass");
+			System.out.println("오류발생");
+			//메시지 추가해주기
+			return mv;
+			
+		}
+		
+	}
+	
+	@RequestMapping("/updateMyPass")
+	public ModelAndView updateMyPass(joinVO joinvo) throws Exception{
+		
+		ModelAndView mv;
+		System.out.println("변경 정보 확인!"+joinvo);
+		
+		int rst = userservice.updatePass(joinvo);
+		
+		if(rst == 1) {
+			//성공
+			mv = new ModelAndView("/main/loginPage");
+			mv.addObject("msg","변경된 비밀번호로 로그인 해주세요");
+			
+			//패스 코드를 삭제하고 result 1을 받으면 삭제성공 = 비밀번호 변경완료 
+		     int result = userservice.deletePassCode(joinvo);
+		     System.out.println("임시 패스코드 삭제 확인 :"+result);
+		     
+			return mv;
+			
+		}else {
+			//실패
+			mv = new ModelAndView("redirect:/finduserpass");
+			System.out.println("실패!");
+			return mv;
+			
+		}
+		
+	}
+	
 	
     //0323 추가
 	

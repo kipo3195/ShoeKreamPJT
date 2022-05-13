@@ -40,5 +40,15 @@ public interface userMapper {
 	luxBoardVO selectUserCartList(@Param("luxbNo")String luxbNo)throws Exception;
 
 	int deleteMyCart(@Param("userId")String userId, @Param("luxbNo")String luxbNo)throws Exception;
+
+	void PassCodeInsert(@Param("userId")String userId,@Param("passCode") String passwordCode)throws Exception;
+
+	int PassCodeDelete(@Param("userId")String userId,@Param("passCode") String passwordCode)throws Exception;
+
+	String selectPassCode(@Param("userId")String userid)throws Exception;
+
+	int checkPassCode(@Param("userId") String userId,@Param("passCode") String passCode)throws Exception;
+
+	int updatePass(@Param("userId")String userId,@Param("userPass")String userPass,@Param("userPass1")String userPass1 )throws Exception;
 	
 }

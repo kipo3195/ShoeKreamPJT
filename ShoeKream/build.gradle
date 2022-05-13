@@ -33,6 +33,10 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation group: 'commons-io', name: 'commons-io', version: '2.4'
 	implementation 'commons-fileupload:commons-fileupload:1.4'
+	implementation group: 'net.nurigo', name: 'javaSDK', version: '2.2'
+	implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.9.3'
+	
+	
 	
 }
 

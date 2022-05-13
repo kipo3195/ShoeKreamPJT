@@ -214,5 +214,75 @@ AND
 	
 	</delete>
 	
+	<insert id="PassCodeInsert">
+		<![CDATA[
+		INSERT INTO sk_temp_pass
+		(
+		userid,
+		randomPassCode
+		)VALUES(
+		#{userId},
+		#{passCode}
+		)
+		
+		]]>
+	
+	</insert>
+	
+	<delete id="PassCodeDelete">
+	<![CDATA[
+		DELETE 
+		FROM sk_temp_pass
+		WHERE 
+			userid = #{userId}
+		AND
+			randomPassCode =#{passCode}
+	]]>
+	</delete>	
+	
+	<select id="selectPassCode" resultType="String">
+	<![CDATA[
+		SELECT randomPassCode 
+		FROM sk_temp_pass
+		WHERE 
+		userid = #{userId}
+	
+	]]>
+	
+	
+	</select>
+	
+	<select id="checkPassCode" resultType="Integer">
+	<![CDATA[
+	SELECT count(*)
+	FROM sk_temp_pass
+	WHERE
+		userid = #{userId}
+	AND
+		randomPassCode = #{passCode}
+	
+	]]>
+	
+	</select>
+	
+	<update id="updatePass">
+	
+	<![CDATA[
+	UPDATE
+		sk_user
+	SET
+		userpass = #{userPass},
+		userpass1 = #{userPass1},
+		update_datetime = 	NOW()
+	WHERE
+		userid = #{userId}
+	]]>
+
+	
+	</update>
+	
+	
+	
+		
 
 </mapper>

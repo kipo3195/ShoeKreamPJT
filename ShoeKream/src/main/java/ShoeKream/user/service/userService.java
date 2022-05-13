@@ -4,6 +4,8 @@ package ShoeKream.user.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import ShoeKream.admin.VO.luxBoardVO;
 import ShoeKream.user.VO.joinVO;
 import ShoeKream.user.VO.loginVO;
@@ -25,7 +27,7 @@ public interface userService {
 	memberVO findUserpass(joinVO joinvo) throws Exception;
 
 	// 임시 코드 생성 -> 비밀번호로 변경, 이메일로 임시 코드 전송.
-	void SendaPasswordCode(joinVO joinvo) throws Exception;
+	int SendaPasswordCode(joinVO joinvo, HttpServletRequest request) throws Exception;
 
 	joinVO findMyInfo(String userId)throws Exception;
 
@@ -40,6 +42,12 @@ public interface userService {
 	List<luxBoardVO> selectLuxList(String userId)throws Exception;
 
 	int deleteMyCart(String userId, String luxbNo)throws Exception;
+
+	int deletePassCode(joinVO joinvo)throws Exception;
+
+	int checkPassCode(String userId, String passCode)throws Exception;
+
+	int updatePass(joinVO joinvo)throws Exception;
 
 	
 	
